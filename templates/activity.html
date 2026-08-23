@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - Activity</title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family: "DM Sans", sans-serif;
+
+            min-height: 100vh;
+
+            color: #30283a;
+
+            background:
+                radial-gradient(
+                    circle at 10% 0%,
+                    #f3e9ff 0%,
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 95% 5%,
+                    #ffeaf3 0%,
+                    transparent 28%
+                ),
+                #faf8fc;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        .page {
+
+            width: min(100% - 32px, 1050px);
+
+            margin: auto;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            padding: 18px 0;
+        }
+
+
+        .nav-inner {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            color: #7046b8;
+
+            font-size: 20px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eadcff,
+                    #f9dce9
+                );
+
+            font-size: 18px;
+        }
+
+
+        .nav-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+        }
+
+
+        .nav-link {
+
+            color: #756d85;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            padding: 8px 12px;
+
+            border-radius: 15px;
+        }
+
+
+        .nav-link:hover {
+
+            background: #f1eafa;
+
+            color: #7046b8;
+        }
+
+
+        .logout {
+
+            color: #c4547c;
+
+            background: #ffffff;
+
+            padding: 8px 14px;
+
+            border-radius: 18px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            box-shadow:
+                0 4px 15px rgba(80, 60, 100, 0.06);
+        }
+
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            padding: 24px 0 18px;
+        }
+
+
+        .small-heading {
+
+            color: #958a9d;
+
+            font-size: 12px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .title {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: clamp(
+                28px,
+                5vw,
+                39px
+            );
+
+            color: #30243b;
+        }
+
+
+        .title span {
+
+            color: #9560c8;
+        }
+
+
+        .subtitle {
+
+            margin-top: 7px;
+
+            color: #83798e;
+
+            font-size: 13px;
+        }
+
+
+
+        /* =========================
+           OVERVIEW
+        ========================= */
+
+        .overview {
+
+            display: grid;
+
+            grid-template-columns:
+                1.35fr
+                0.65fr;
+
+            gap: 14px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .progress-card {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f2e7ff,
+                    #fff0f6
+                );
+
+            border-radius: 22px;
+
+            padding: 22px;
+
+            border: 1px solid
+                rgba(255,255,255,0.8);
+
+            box-shadow:
+                0 9px 30px
+                rgba(91, 61, 120, 0.08);
+        }
+
+
+        .progress-label {
+
+            color: #806d91;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .progress-row {
+
+            display: flex;
+
+            align-items: end;
+
+            justify-content: space-between;
+
+            margin-top: 3px;
+        }
+
+
+        .progress-number {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 40px;
+
+            color: #654098;
+        }
+
+
+        .progress-detail {
+
+            color: #80758b;
+
+            font-size: 12px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .progress-track {
+
+            height: 8px;
+
+            background:
+                rgba(255,255,255,0.85);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-top: 10px;
+        }
+
+
+        .progress-fill {
+
+            height: 100%;
+
+            width: 0%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #9562d1,
+                    #dc86aa
+                );
+
+            border-radius: 20px;
+
+            transition:
+                width 0.4s ease;
+        }
+
+
+        .water-total {
+
+            margin-top: 9px;
+
+            color: #8b7f94;
+
+            font-size: 11px;
+        }
+
+
+        .motivation {
+
+            background: #ffffff;
+
+            border: 1px solid #eee7f3;
+
+            border-radius: 22px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 8px 26px
+                rgba(80, 60, 100, 0.05);
+        }
+
+
+        .motivation-icon {
+
+            font-size: 25px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .motivation h3 {
+
+            font-size: 15px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .motivation p {
+
+            color: #887d91;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .section {
+
+            margin-top: 20px;
+        }
+
+
+        .section-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 10px;
+        }
+
+
+        .section-title {
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            color: #352b42;
+        }
+
+
+        .section-subtitle {
+
+            color: #988d9e;
+
+            font-size: 11px;
+        }
+
+
+
+        /* =========================
+           WATER
+        ========================= */
+
+        .water-card {
+
+            background: #ffffff;
+
+            border: 1px solid #eee8f3;
+
+            border-radius: 19px;
+
+            padding: 17px 19px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            box-shadow:
+                0 6px 20px
+                rgba(80, 60, 100, 0.045);
+        }
+
+
+        .water-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .water-icon {
+
+            width: 43px;
+
+            height: 43px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background: #eaf8fd;
+
+            font-size: 21px;
+        }
+
+
+        .water-name {
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .water-amount {
+
+            color: #8e8395;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+        }
+
+
+        .water-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+        }
+
+
+        .water-button {
+
+            width: 35px;
+
+            height: 35px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            background: #f0e9fa;
+
+            color: #7650a5;
+
+            transition: 0.2s;
+        }
+
+
+        .water-button:hover {
+
+            transform: translateY(-1px);
+
+            background: #e7dcf5;
+        }
+
+
+        .water-count {
+
+            min-width: 45px;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #4c4056;
+        }
+
+
+
+        /* =========================
+           STEPS
+        ========================= */
+
+        .steps-card {
+
+            background: #ffffff;
+
+            border: 1px solid #eee8f3;
+
+            border-radius: 19px;
+
+            padding: 18px 19px;
+
+            box-shadow:
+                0 6px 20px
+                rgba(80, 60, 100, 0.045);
+        }
+
+
+        .steps-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .steps-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .steps-icon {
+
+            width: 43px;
+
+            height: 43px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background: #f1ecfb;
+
+            font-size: 21px;
+        }
+
+
+        .steps-name {
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .steps-goal {
+
+            color: #918698;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+        }
+
+
+        .steps-percent {
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #8054ad;
+        }
+
+
+        .steps-input-row {
+
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 15px;
+        }
+
+
+        .steps-input {
+
+            flex: 1;
+
+            border: 1px solid #e8e0ee;
+
+            border-radius: 13px;
+
+            padding: 10px 12px;
+
+            outline: none;
+
+            font-family: inherit;
+
+            font-size: 12px;
+
+            color: #403649;
+
+            background: #fcfbfd;
+        }
+
+
+        .steps-input:focus {
+
+            border-color: #c7a9dd;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(157, 101, 200, 0.08);
+        }
+
+
+        .save-button {
+
+            border: none;
+
+            border-radius: 13px;
+
+            padding: 10px 17px;
+
+            background: #7c50b6;
+
+            color: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .save-button:hover {
+
+            background: #6940a3;
+        }
+
+
+        .step-track {
+
+            height: 6px;
+
+            margin-top: 12px;
+
+            background: #eeeaf1;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .step-fill {
+
+            height: 100%;
+
+            width: 0%;
+
+            background: #8d6bdd;
+
+            border-radius: 20px;
+        }
+
+
+
+        /* =========================
+           ACTIVITIES
+        ========================= */
+
+        .activity-list {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+
+        .activity-item {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 12px;
+
+            background: #ffffff;
+
+            border: 1px solid #eee8f3;
+
+            border-radius: 17px;
+
+            padding: 14px 15px;
+
+            box-shadow:
+                0 5px 17px
+                rgba(80, 60, 100, 0.035);
+
+            transition: 0.2s;
+        }
+
+
+        .activity-item:hover {
+
+            border-color: #dfc9ee;
+
+            transform: translateY(-1px);
+        }
+
+
+        .activity-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .activity-icon {
+
+            width: 37px;
+
+            height: 37px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #f6effa;
+
+            font-size: 17px;
+        }
+
+
+        .activity-name {
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #393040;
+        }
+
+
+        .activity-description {
+
+            font-size: 9px;
+
+            color: #978c9e;
+
+            margin-top: 2px;
+        }
+
+
+        .check-form {
+
+            margin: 0;
+        }
+
+
+        .check-button {
+
+            width: 34px;
+
+            height: 34px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            transition: 0.2s;
+        }
+
+
+        .check-button.completed {
+
+            background: #e4f6ed;
+
+            color: #3c966b;
+        }
+
+
+        .check-button.incomplete {
+
+            background: #f2edf5;
+
+            color: #9b8da3;
+        }
+
+
+        .check-button:hover {
+
+            transform: scale(1.05);
+        }
+
+
+
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
+
+        .bottom-navigation {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            flex-wrap: wrap;
+
+            margin: 25px 0 35px;
+        }
+
+
+        .bottom-link {
+
+            padding: 9px 15px;
+
+            border-radius: 18px;
+
+            background: #ffffff;
+
+            border: 1px solid #e9e1ef;
+
+            color: #756a81;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        .bottom-link:hover {
+
+            color: #7046b8;
+
+            border-color: #d8c4e7;
+
+            background: #faf7fd;
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 760px) {
+
+            .overview {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .activity-list {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .nav-link {
+
+                display: none;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .page {
+
+                width: calc(100% - 22px);
+            }
+
+
+            .water-card {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .water-actions {
+
+                width: 100%;
+
+                justify-content: space-between;
+            }
+
+
+            .water-count {
+
+                flex: 1;
+            }
+
+
+            .steps-input-row {
+
+                flex-direction: column;
+            }
+
+
+            .save-button {
+
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="page nav-inner">
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                🌸
+            </span>
+
+            FemCare AI
+
+        </a>
+
+
+        <div class="nav-right">
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link"
+            >
+                Dashboard
+            </a>
+
+
+            <a
+                href="{{ url_for('profile') }}"
+                class="nav-link"
+            >
+                Profile
+            </a>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout"
+            >
+                Logout
+            </a>
+
+        </div>
+
+
+    </div>
+
+</nav>
+
+
+
+<main class="page">
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<section class="header">
+
+    <div class="small-heading">
+        Your daily movement & wellness
+    </div>
+
+
+    <h1 class="title">
+
+        Move gently,
+        <span>feel better.</span> 🌿
+
+    </h1>
+
+
+    <p class="subtitle">
+
+        Track your water, steps and daily activities
+        in one peaceful space.
+
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     OVERVIEW
+========================= -->
+
+<section class="overview">
+
+
+    <div class="progress-card">
+
+
+        <div class="progress-label">
+            Today's activity progress
+        </div>
+
+
+        <div class="progress-row">
+
+
+            <div class="progress-number">
+                {{ progress }}%
+            </div>
+
+
+            <div class="progress-detail">
+                Water goal
+            </div>
+
+
+        </div>
+
+
+        <div class="progress-track">
+
+            <div
+                class="progress-fill"
+                data-progress="{{ progress }}"
+            ></div>
+
+        </div>
+
+
+        <div class="water-total">
+
+            💧
+            {{ glasses }} of 8 glasses
+            ·
+            {{ total_ml }} ml
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="motivation">
+
+
+        <div class="motivation-icon">
+            🌱
+        </div>
+
+
+        <h3>
+            Small steps count
+        </h3>
+
+
+        <p>
+
+            You don't need a perfect day.
+            A little movement, enough water and
+            healthy habits are already progress.
+
+        </p>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     WATER
+========================= -->
+
+<section class="section">
+
+
+    <div class="section-header">
+
+
+        <div class="section-title">
+            💧 Water
+        </div>
+
+
+        <div class="section-subtitle">
+            250 ml per glass
+        </div>
+
+
+    </div>
+
+
+
+    <div class="water-card">
+
+
+        <div class="water-left">
+
+
+            <div class="water-icon">
+                💧
+            </div>
+
+
+            <div>
+
+
+                <div class="water-name">
+                    Daily hydration
+                </div>
+
+
+                <div class="water-amount">
+
+                    {{ total_ml }} ml
+                    · Goal 2000 ml
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="water-actions">
+
+
+            <form
+                method="POST"
+                action="{{ url_for('activity') }}"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="remove"
+                >
+
+
+                <button
+                    type="submit"
+                    class="water-button"
+                >
+                    −
+                </button>
+
+            </form>
+
+
+            <div class="water-count">
+
+                {{ glasses }} / 8
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('activity') }}"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="add"
+                >
+
+
+                <button
+                    type="submit"
+                    class="water-button"
+                >
+                    +
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     STEPS
+========================= -->
+
+<section class="section">
+
+
+    <div class="section-header">
+
+
+        <div class="section-title">
+            👣 Steps
+        </div>
+
+
+        <div class="section-subtitle">
+
+            Goal {{ step_goal }} steps
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="steps-card">
+
+
+        <div class="steps-top">
+
+
+            <div class="steps-left">
+
+
+                <div class="steps-icon">
+                    👣
+                </div>
+
+
+                <div>
+
+
+                    <div class="steps-name">
+                        Today's movement
+                    </div>
+
+
+                    <div class="steps-goal">
+
+                        {{ steps }}
+                        /
+                        {{ step_goal }}
+                        steps
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="steps-percent">
+
+                {{ step_progress }}%
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="step-track">
+
+            <div
+                class="step-fill"
+                data-progress="{{ step_progress }}"
+            ></div>
+
+        </div>
+
+
+
+        <form
+            method="POST"
+            action="{{ url_for('activity') }}"
+            class="steps-input-row"
+        >
+
+            <input
+                type="hidden"
+                name="action"
+                value="save_steps"
+            >
+
+
+            <input
+                type="number"
+                name="steps"
+                class="steps-input"
+                min="0"
+                max="100000"
+                value="{{ steps }}"
+                placeholder="Enter today's steps"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="save-button"
+            >
+                Save steps
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     DAILY ACTIVITIES
+========================= -->
+
+<section class="section">
+
+
+    <div class="section-header">
+
+
+        <div class="section-title">
+            🌸 Daily activities
+        </div>
+
+
+        <div class="section-subtitle">
+            Tap when completed
+        </div>
+
+
+    </div>
+
+
+
+    <div class="activity-list">
+
+
+        <!-- WALKING -->
+
+        <div class="activity-item">
+
+
+            <div class="activity-left">
+
+                <div class="activity-icon">
+                    🚶‍♀️
+                </div>
+
+
+                <div>
+
+                    <div class="activity-name">
+                        Walking
+                    </div>
+
+
+                    <div class="activity-description">
+                        Gentle daily movement
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('activity') }}"
+                class="check-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="save_activity"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="activity_name"
+                    value="walking"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="completed"
+                    value="{% if activities.get('walking', 0) %}0{% else %}1{% endif %}"
+                >
+
+
+                <button
+                    type="submit"
+                    class="check-button {% if activities.get('walking', 0) %}completed{% else %}incomplete{% endif %}"
+                >
+
+                    {% if activities.get('walking', 0) %}
+                        ✓
+                    {% else %}
+                        ○
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- STRETCHING -->
+
+        <div class="activity-item">
+
+
+            <div class="activity-left">
+
+                <div class="activity-icon">
+                    🤸‍♀️
+                </div>
+
+
+                <div>
+
+                    <div class="activity-name">
+                        Stretching
+                    </div>
+
+
+                    <div class="activity-description">
+                        Relax your muscles
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('activity') }}"
+                class="check-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="save_activity"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="activity_name"
+                    value="stretching"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="completed"
+                    value="{% if activities.get('stretching', 0) %}0{% else %}1{% endif %}"
+                >
+
+
+                <button
+                    type="submit"
+                    class="check-button {% if activities.get('stretching', 0) %}completed{% else %}incomplete{% endif %}"
+                >
+
+                    {% if activities.get('stretching', 0) %}
+                        ✓
+                    {% else %}
+                        ○
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- BREATHING -->
+
+        <div class="activity-item">
+
+
+            <div class="activity-left">
+
+                <div class="activity-icon">
+                    🌬️
+                </div>
+
+
+                <div>
+
+                    <div class="activity-name">
+                        Deep Breathing
+                    </div>
+
+
+                    <div class="activity-description">
+                        A few calm mindful minutes
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('activity') }}"
+                class="check-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="save_activity"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="activity_name"
+                    value="breathing"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="completed"
+                    value="{% if activities.get('breathing', 0) %}0{% else %}1{% endif %}"
+                >
+
+
+                <button
+                    type="submit"
+                    class="check-button {% if activities.get('breathing', 0) %}completed{% else %}incomplete{% endif %}"
+                >
+
+                    {% if activities.get('breathing', 0) %}
+                        ✓
+                    {% else %}
+                        ○
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- EXERCISE -->
+
+        <div class="activity-item">
+
+
+            <div class="activity-left">
+
+                <div class="activity-icon">
+                    🏃‍♀️
+                </div>
+
+
+                <div>
+
+                    <div class="activity-name">
+                        Light Exercise
+                    </div>
+
+
+                    <div class="activity-description">
+                        Keep your body active
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('activity') }}"
+                class="check-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="save_activity"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="activity_name"
+                    value="exercise"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="completed"
+                    value="{% if activities.get('exercise', 0) %}0{% else %}1{% endif %}"
+                >
+
+
+                <button
+                    type="submit"
+                    class="check-button {% if activities.get('exercise', 0) %}completed{% else %}incomplete{% endif %}"
+                >
+
+                    {% if activities.get('exercise', 0) %}
+                        ✓
+                    {% else %}
+                        ○
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- YOGA -->
+
+        <div class="activity-item">
+
+
+            <div class="activity-left">
+
+                <div class="activity-icon">
+                    🧘‍♀️
+                </div>
+
+
+                <div>
+
+                    <div class="activity-name">
+                        Yoga
+                    </div>
+
+
+                    <div class="activity-description">
+                        Gentle mind-body practice
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('activity') }}"
+                class="check-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="save_activity"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="activity_name"
+                    value="yoga"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="completed"
+                    value="{% if activities.get('yoga', 0) %}0{% else %}1{% endif %}"
+                >
+
+
+                <button
+                    type="submit"
+                    class="check-button {% if activities.get('yoga', 0) %}completed{% else %}incomplete{% endif %}"
+                >
+
+                    {% if activities.get('yoga', 0) %}
+                        ✓
+                    {% else %}
+                        ○
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- MEDITATION -->
+
+        <div class="activity-item">
+
+
+            <div class="activity-left">
+
+                <div class="activity-icon">
+                    🪷
+                </div>
+
+
+                <div>
+
+                    <div class="activity-name">
+                        Meditation
+                    </div>
+
+
+                    <div class="activity-description">
+                        Calm your mind
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('activity') }}"
+                class="check-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="save_activity"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="activity_name"
+                    value="meditation"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="completed"
+                    value="{% if activities.get('meditation', 0) %}0{% else %}1{% endif %}"
+                >
+
+
+                <button
+                    type="submit"
+                    class="check-button {% if activities.get('meditation', 0) %}completed{% else %}incomplete{% endif %}"
+                >
+
+                    {% if activities.get('meditation', 0) %}
+                        ✓
+                    {% else %}
+                        ○
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- REST -->
+
+        <div class="activity-item">
+
+
+            <div class="activity-left">
+
+                <div class="activity-icon">
+                    🌙
+                </div>
+
+
+                <div>
+
+                    <div class="activity-name">
+                        Rest & Relaxation
+                    </div>
+
+
+                    <div class="activity-description">
+                        Take time to recharge
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('activity') }}"
+                class="check-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="save_activity"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="activity_name"
+                    value="rest"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="completed"
+                    value="{% if activities.get('rest', 0) %}0{% else %}1{% endif %}"
+                >
+
+
+                <button
+                    type="submit"
+                    class="check-button {% if activities.get('rest', 0) %}completed{% else %}incomplete{% endif %}"
+                >
+
+                    {% if activities.get('rest', 0) %}
+                        ✓
+                    {% else %}
+                        ○
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<div class="bottom-navigation">
+
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="bottom-link"
+    >
+        🏠 Dashboard
+    </a>
+
+
+    <a
+        href="{{ url_for('diet') }}"
+        class="bottom-link"
+    >
+        🥗 Diet
+    </a>
+
+
+    <a
+        href="{{ url_for('yoga') }}"
+        class="bottom-link"
+    >
+        🧘‍♀️ Yoga
+    </a>
+
+
+    <a
+        href="{{ url_for('stress') }}"
+        class="bottom-link"
+    >
+        🧠 Stress
+    </a>
+
+
+</div>
+
+
+</main>
+
+
+
+<!-- =========================
+     PROGRESS SCRIPT
+========================= -->
+
+<script>
+
+    document
+        .querySelectorAll(
+            ".progress-fill, .step-fill"
+        )
+        .forEach(function(bar) {
+
+            var progress =
+                parseFloat(
+                    bar.getAttribute(
+                        "data-progress"
+                    )
+                );
+
+            if (isNaN(progress)) {
+                progress = 0;
+            }
+
+            progress =
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        progress
+                    )
+                );
+
+            bar.style.width =
+                progress + "%";
+
+        });
+
+</script>
+
+
+</body>
+
+</html>

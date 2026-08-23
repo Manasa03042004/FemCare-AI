@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - Health Assessment</title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family: "DM Sans", sans-serif;
+
+            color: #3b3440;
+
+            background:
+                radial-gradient(
+                    circle at 5% 5%,
+                    #f0e5ff 0%,
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 95% 8%,
+                    #ffe5ef 0%,
+                    transparent 28%
+                ),
+                #fcfafc;
+        }
+
+
+        .page {
+
+            width: min(100% - 32px, 940px);
+
+            margin: auto;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            padding: 18px 0;
+        }
+
+
+        .nav-inner {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            color: #7047a4;
+
+            font-size: 19px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eadcff,
+                    #f9dce9
+                );
+
+            font-size: 18px;
+        }
+
+
+        .back-button {
+
+            padding: 8px 14px;
+
+            border-radius: 18px;
+
+            background: #ffffff;
+
+            border: 1px solid #e7dfe8;
+
+            color: #776c7d;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+
+        .back-button:hover {
+
+            color: #7047a4;
+
+            background: #faf6fc;
+        }
+
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            min-height: 190px;
+
+            padding: 30px 35px;
+
+            margin-top: 10px;
+
+            border-radius: 27px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #f3eaff,
+                    #fff0f6 55%,
+                    #fff8e9
+                );
+
+            border: 1px solid #eee4ee;
+
+            box-shadow:
+                0 12px 35px
+                rgba(90,65,100,0.06);
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 600px;
+        }
+
+
+        .hero-tag {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 6px 10px;
+
+            border-radius: 15px;
+
+            background: rgba(255,255,255,0.75);
+
+            color: #866a98;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            margin-bottom: 9px;
+        }
+
+
+        .hero h1 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 34px;
+
+            line-height: 1.15;
+
+            color: #3e3345;
+        }
+
+
+        .hero h1 span {
+
+            color: #a35c92;
+        }
+
+
+        .hero p {
+
+            margin-top: 8px;
+
+            color: #8e838f;
+
+            font-size: 11px;
+
+            line-height: 1.65;
+
+            max-width: 530px;
+        }
+
+
+        .hero-icon {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 120px;
+
+            height: 120px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.72);
+
+            box-shadow:
+                0 10px 30px
+                rgba(110,80,110,0.07);
+
+            font-size: 57px;
+        }
+
+
+        .hero-decoration {
+
+            position: absolute;
+
+            font-size: 70px;
+
+            opacity: 0.1;
+        }
+
+
+        .decoration-one {
+
+            right: 190px;
+
+            top: -20px;
+
+            transform: rotate(20deg);
+        }
+
+
+        .decoration-two {
+
+            right: 25px;
+
+            bottom: -30px;
+
+            transform: rotate(-15deg);
+        }
+
+
+
+        /* =========================
+           NOTE
+        ========================= */
+
+        .note {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: flex-start;
+
+            margin-top: 18px;
+
+            padding: 13px 16px;
+
+            border-radius: 15px;
+
+            background: #fffaf0;
+
+            border: 1px solid #f2e7d1;
+
+            color: #806e54;
+
+            font-size: 9px;
+
+            line-height: 1.6;
+        }
+
+
+        .note-icon {
+
+            font-size: 15px;
+
+            flex-shrink: 0;
+        }
+
+
+        .note strong {
+
+            color: #66553d;
+        }
+
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+
+            margin-top: 23px;
+
+            padding: 23px;
+
+            border-radius: 22px;
+
+            background: #ffffff;
+
+            border: 1px solid #eee7ed;
+
+            box-shadow:
+                0 8px 25px
+                rgba(70,55,70,0.045);
+        }
+
+
+        .section-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 19px;
+        }
+
+
+        .section-icon {
+
+            width: 44px;
+
+            height: 44px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            font-size: 22px;
+        }
+
+
+        .diabetes .section-icon {
+
+            background: #f0e9ff;
+        }
+
+
+        .pcos .section-icon {
+
+            background: #ffe9f0;
+        }
+
+
+        .anemia .section-icon {
+
+            background: #fff0e4;
+        }
+
+
+        .thyroid .section-icon {
+
+            background: #e8f5f2;
+        }
+
+
+        .section-header h2 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 21px;
+
+            color: #403541;
+        }
+
+
+        .section-header p {
+
+            margin-top: 3px;
+
+            color: #958b96;
+
+            font-size: 9px;
+        }
+
+
+
+        /* =========================
+           FORM GRID
+        ========================= */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+        }
+
+
+        .field {
+
+            padding: 13px;
+
+            border-radius: 15px;
+
+            background: #fcfafc;
+
+            border: 1px solid #f0e9ef;
+        }
+
+
+        .field label {
+
+            display: block;
+
+            color: #514653;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        .help {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color: #998f99;
+
+            font-size: 8px;
+
+            line-height: 1.5;
+        }
+
+
+        .input {
+
+            width: 100%;
+
+            height: 36px;
+
+            margin-top: 9px;
+
+            padding: 0 10px;
+
+            border-radius: 10px;
+
+            border: 1px solid #e6dfe7;
+
+            background: #ffffff;
+
+            color: #403641;
+
+            font-family: inherit;
+
+            font-size: 10px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        .input:focus {
+
+            border-color: #b995c7;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(185,149,199,0.1);
+        }
+
+
+        .input::placeholder {
+
+            color: #b0a7b1;
+        }
+
+
+        .input[readonly] {
+
+            background: #f6f2f7;
+
+            color: #7e7181;
+        }
+
+
+
+        /* =========================
+           YES / NO
+        ========================= */
+
+        .yes-no {
+
+            display: flex;
+
+            gap: 7px;
+
+            margin-top: 9px;
+        }
+
+
+        .yes-no input {
+
+            display: none;
+        }
+
+
+        .choice {
+
+            flex: 1;
+
+            padding: 8px;
+
+            text-align: center;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            border: 1px solid #e7dfe7;
+
+            color: #807582;
+
+            font-size: 9px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .choice:hover {
+
+            background: #faf6fc;
+
+            border-color: #cdb8d5;
+        }
+
+
+        .yes-no input:checked + .choice {
+
+            background: #f3e8f7;
+
+            border-color: #b98ac6;
+
+            color: #714a7f;
+        }
+
+
+
+        /* =========================
+           SUBMIT
+        ========================= */
+
+        .submit-area {
+
+            text-align: center;
+
+            margin: 25px 0 12px;
+        }
+
+
+        .predict-button {
+
+            border: none;
+
+            height: 45px;
+
+            padding: 0 27px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7951a7,
+                    #a45f94
+                );
+
+            color: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 9px 22px
+                rgba(121,81,167,0.18);
+
+            transition: 0.2s;
+        }
+
+
+        .predict-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 27px
+                rgba(121,81,167,0.25);
+        }
+
+
+        .submit-text {
+
+            margin-top: 8px;
+
+            color: #a097a1;
+
+            font-size: 8px;
+        }
+
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 20px 0 35px;
+
+            color: #a098a2;
+
+            font-size: 9px;
+
+            line-height: 1.7;
+        }
+
+
+        footer strong {
+
+            color: #89699b;
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .page {
+
+                width: calc(100% - 22px);
+            }
+
+
+            .hero {
+
+                padding: 25px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 28px;
+            }
+
+
+            .hero-icon {
+
+                width: 95px;
+
+                height: 95px;
+
+                font-size: 45px;
+            }
+
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .hero-icon {
+
+                display: none;
+            }
+
+
+            .section {
+
+                padding: 17px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="page nav-inner">
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                🌸
+            </span>
+
+            FemCare AI
+
+        </a>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="back-button"
+        >
+
+            ← Dashboard
+
+        </a>
+
+
+    </div>
+
+</nav>
+
+
+
+<main class="page">
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+
+    <div class="hero-content">
+
+
+        <div class="hero-tag">
+
+            🌷
+
+            Your health, your story
+
+        </div>
+
+
+        <h1>
+
+            Let's understand your
+            <span>wellness.</span>
+
+        </h1>
+
+
+        <p>
+
+            Share a few health details with us.
+            Your information helps FemCare AI provide
+            personalized health-risk insights.
+
+        </p>
+
+
+    </div>
+
+
+    <div class="hero-icon">
+
+        🌸
+
+    </div>
+
+
+    <div class="hero-decoration decoration-one">
+        ✨
+    </div>
+
+
+    <div class="hero-decoration decoration-two">
+        🌿
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     NOTE
+========================= -->
+
+<div class="note">
+
+
+    <div class="note-icon">
+        💡
+    </div>
+
+
+    <div>
+
+        <strong>
+            How to enter values
+        </strong>
+
+        <br>
+
+        Enter numerical values according to the examples shown.
+        For Yes/No questions, simply select <strong>Yes</strong>
+        or <strong>No</strong>. You don't need to enter 0 or 1 manually.
+
+    </div>
+
+
+</div>
+
+
+
+<form
+    action="/predict"
+    method="post"
+    id="healthForm"
+>
+
+
+
+<!-- =====================================================
+     DIABETES
+===================================================== -->
+
+<section class="section diabetes">
+
+
+    <div class="section-header">
+
+
+        <div class="section-icon">
+            🩸
+        </div>
+
+
+        <div>
+
+            <h2>
+                Diabetes Assessment
+            </h2>
+
+
+            <p>
+                A few basic health measurements.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="form-grid">
+
+
+        <!-- Pregnancies -->
+
+        <div class="field">
+
+            <label>
+                Number of Pregnancies
+            </label>
+
+            <span class="help">
+                Example: 0, 1, 2
+            </span>
+
+            <input
+                type="number"
+                name="pregnancies"
+                class="input"
+                min="0"
+                placeholder="e.g. 0"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Glucose -->
+
+        <div class="field">
+
+            <label>
+                Glucose Level
+            </label>
+
+            <span class="help">
+                Enter glucose in mg/dL. Example: 110
+            </span>
+
+            <input
+                type="number"
+                name="glucose"
+                class="input"
+                min="0"
+                placeholder="e.g. 110"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Blood Pressure -->
+
+        <div class="field">
+
+            <label>
+                Blood Pressure
+            </label>
+
+            <span class="help">
+                Enter the assessment value. Example: 80 mmHg
+            </span>
+
+            <input
+                type="number"
+                name="blood_pressure"
+                class="input"
+                min="0"
+                placeholder="e.g. 80"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Skin Thickness -->
+
+        <div class="field">
+
+            <label>
+                Skin Thickness
+            </label>
+
+            <span class="help">
+                Enter value in mm. Example: 20
+            </span>
+
+            <input
+                type="number"
+                name="skin_thickness"
+                class="input"
+                min="0"
+                placeholder="e.g. 20"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Insulin -->
+
+        <div class="field">
+
+            <label>
+                Insulin Level
+            </label>
+
+            <span class="help">
+                Enter insulin value. Example: 100 µIU/mL
+            </span>
+
+            <input
+                type="number"
+                name="insulin"
+                class="input"
+                min="0"
+                placeholder="e.g. 100"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- BMI -->
+
+        <div class="field">
+
+            <label>
+                BMI
+            </label>
+
+            <span class="help">
+                Body Mass Index. Example: 23.5
+            </span>
+
+            <input
+                type="number"
+                name="bmi"
+                class="input"
+                step="0.1"
+                min="0"
+                placeholder="e.g. 23.5"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Diabetes Pedigree -->
+
+        <div class="field">
+
+            <label>
+                Diabetes Pedigree Function
+            </label>
+
+            <span class="help">
+                Enter decimal value. Example: 0.47
+            </span>
+
+            <input
+                type="number"
+                name="diabetes_pedigree"
+                class="input"
+                step="0.01"
+                min="0"
+                placeholder="e.g. 0.47"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Age -->
+
+        <div class="field">
+
+            <label>
+                Age
+            </label>
+
+            <span class="help">
+                Enter your age in years. Example: 22
+            </span>
+
+            <input
+                type="number"
+                name="age"
+                class="input"
+                min="1"
+                placeholder="e.g. 22"
+                required
+            >
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     PCOS
+===================================================== -->
+
+<section class="section pcos">
+
+
+    <div class="section-header">
+
+
+        <div class="section-icon">
+            🌸
+        </div>
+
+
+        <div>
+
+            <h2>
+                PCOS Assessment
+            </h2>
+
+
+            <p>
+                Information about your cycle and related symptoms.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="form-grid">
+
+
+        <!-- Weight -->
+
+        <div class="field">
+
+            <label>
+                Weight
+            </label>
+
+            <span class="help">
+                Enter weight in kg. Example: 60
+            </span>
+
+            <input
+                type="number"
+                name="weight"
+                id="weight"
+                class="input"
+                min="1"
+                step="0.1"
+                placeholder="e.g. 60"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Cycle -->
+
+        <div class="field">
+
+            <label>
+                Menstrual Cycle Length
+            </label>
+
+            <span class="help">
+                Average cycle length in days. Example: 28
+            </span>
+
+            <input
+                type="number"
+                name="cycle_length"
+                class="input"
+                min="1"
+                placeholder="e.g. 28"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Hair -->
+
+        <div class="field">
+
+            <label>
+                Unusual Hair Growth
+            </label>
+
+            <span class="help">
+                Do you experience unusual facial or body hair growth?
+            </span>
+
+
+            <div class="yes-no">
+
+
+                <input
+                    type="radio"
+                    name="hair_growth"
+                    value="0"
+                    id="hairGrowthNo"
+                    required
+                >
+
+                <label
+                    class="choice"
+                    for="hairGrowthNo"
+                >
+                    No
+                </label>
+
+
+                <input
+                    type="radio"
+                    name="hair_growth"
+                    value="1"
+                    id="hairGrowthYes"
+                >
+
+                <label
+                    class="choice"
+                    for="hairGrowthYes"
+                >
+                    Yes
+                </label>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Skin Darkening -->
+
+        <div class="field">
+
+            <label>
+                Skin Darkening
+            </label>
+
+            <span class="help">
+                Do you notice unusual darkening of the skin?
+            </span>
+
+
+            <div class="yes-no">
+
+
+                <input
+                    type="radio"
+                    name="skin_darkening"
+                    value="0"
+                    id="skinDarkeningNo"
+                    required
+                >
+
+                <label
+                    class="choice"
+                    for="skinDarkeningNo"
+                >
+                    No
+                </label>
+
+
+                <input
+                    type="radio"
+                    name="skin_darkening"
+                    value="1"
+                    id="skinDarkeningYes"
+                >
+
+                <label
+                    class="choice"
+                    for="skinDarkeningYes"
+                >
+                    Yes
+                </label>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Weight Gain -->
+
+        <div class="field">
+
+            <label>
+                Unexplained Weight Gain
+            </label>
+
+            <span class="help">
+                Have you experienced unusual or unexplained weight gain?
+            </span>
+
+
+            <div class="yes-no">
+
+
+                <input
+                    type="radio"
+                    name="weight_gain"
+                    value="0"
+                    id="weightGainNo"
+                    required
+                >
+
+                <label
+                    class="choice"
+                    for="weightGainNo"
+                >
+                    No
+                </label>
+
+
+                <input
+                    type="radio"
+                    name="weight_gain"
+                    value="1"
+                    id="weightGainYes"
+                >
+
+                <label
+                    class="choice"
+                    for="weightGainYes"
+                >
+                    Yes
+                </label>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     ANEMIA
+===================================================== -->
+
+<section class="section anemia">
+
+
+    <div class="section-header">
+
+
+        <div class="section-icon">
+            🩸
+        </div>
+
+
+        <div>
+
+            <h2>
+                Anemia Assessment
+            </h2>
+
+
+            <p>
+                Hemoglobin level and common symptoms.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="form-grid">
+
+
+        <!-- Hemoglobin -->
+
+        <div class="field">
+
+            <label>
+                Hemoglobin Level
+            </label>
+
+            <span class="help">
+                Enter hemoglobin in g/dL. Example: 11.5
+            </span>
+
+            <input
+                type="number"
+                name="hemoglobin"
+                class="input"
+                step="0.1"
+                min="0"
+                placeholder="e.g. 11.5"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Fatigue -->
+
+        <div class="field">
+
+            <label>
+                Fatigue
+            </label>
+
+            <span class="help">
+                Do you frequently experience unusual tiredness?
+            </span>
+
+
+            <div class="yes-no">
+
+
+                <input
+                    type="radio"
+                    name="fatigue"
+                    value="0"
+                    id="fatigueNo"
+                    required
+                >
+
+                <label
+                    class="choice"
+                    for="fatigueNo"
+                >
+                    No
+                </label>
+
+
+                <input
+                    type="radio"
+                    name="fatigue"
+                    value="1"
+                    id="fatigueYes"
+                >
+
+                <label
+                    class="choice"
+                    for="fatigueYes"
+                >
+                    Yes
+                </label>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Dizziness -->
+
+        <div class="field">
+
+            <label>
+                Dizziness
+            </label>
+
+            <span class="help">
+                Do you frequently experience dizziness?
+            </span>
+
+
+            <div class="yes-no">
+
+
+                <input
+                    type="radio"
+                    name="dizziness"
+                    value="0"
+                    id="dizzinessNo"
+                    required
+                >
+
+                <label
+                    class="choice"
+                    for="dizzinessNo"
+                >
+                    No
+                </label>
+
+
+                <input
+                    type="radio"
+                    name="dizziness"
+                    value="1"
+                    id="dizzinessYes"
+                >
+
+                <label
+                    class="choice"
+                    for="dizzinessYes"
+                >
+                    Yes
+                </label>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Pale Skin -->
+
+        <div class="field">
+
+            <label>
+                Pale Skin
+            </label>
+
+            <span class="help">
+                Do you notice unusual paleness of the skin?
+            </span>
+
+
+            <div class="yes-no">
+
+
+                <input
+                    type="radio"
+                    name="pale_skin"
+                    value="0"
+                    id="paleSkinNo"
+                    required
+                >
+
+                <label
+                    class="choice"
+                    for="paleSkinNo"
+                >
+                    No
+                </label>
+
+
+                <input
+                    type="radio"
+                    name="pale_skin"
+                    value="1"
+                    id="paleSkinYes"
+                >
+
+                <label
+                    class="choice"
+                    for="paleSkinYes"
+                >
+                    Yes
+                </label>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     THYROID
+===================================================== -->
+
+<section class="section thyroid">
+
+
+    <div class="section-header">
+
+
+        <div class="section-icon">
+            🦋
+        </div>
+
+
+        <div>
+
+            <h2>
+                Thyroid Assessment
+            </h2>
+
+
+            <p>
+                Select the symptoms that apply to you.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="form-grid">
+
+
+        <!-- Weight -->
+
+        <div class="field">
+
+            <label>
+                Weight
+            </label>
+
+            <span class="help">
+                Your weight entered above will be used for thyroid assessment.
+            </span>
+
+            <input
+                type="number"
+                name="thyroid_weight"
+                id="thyroid_weight"
+                class="input"
+                step="0.1"
+                readonly
+                required
+            >
+
+        </div>
+
+
+
+        <!-- Fatigue -->
+
+        <div class="field">
+
+            <label>
+                Fatigue
+            </label>
+
+            <span class="help">
+                Do you frequently experience fatigue or unusual tiredness?
+            </span>
+
+
+            <div class="yes-no">
+
+
+                <input
+                    type="radio"
+                    name="thyroid_fatigue"
+                    value="0"
+                    id="thyroidFatigueNo"
+                    required
+                >
+
+                <label
+                    class="choice"
+                    for="thyroidFatigueNo"
+                >
+                    No
+                </label>
+
+
+                <input
+                    type="radio"
+                    name="thyroid_fatigue"
+                    value="1"
+                    id="thyroidFatigueYes"
+                >
+
+                <label
+                    class="choice"
+                    for="thyroidFatigueYes"
+                >
+                    Yes
+                </label>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Hair Loss -->
+
+        <div class="field">
+
+            <label>
+                Hair Loss
+            </label>
+
+            <span class="help">
+                Are you experiencing noticeable hair loss?
+            </span>
+
+
+            <div class="yes-no">
+
+
+                <input
+                    type="radio"
+                    name="hair_loss"
+                    value="0"
+                    id="hairLossNo"
+                    required
+                >
+
+                <label
+                    class="choice"
+                    for="hairLossNo"
+                >
+                    No
+                </label>
+
+
+                <input
+                    type="radio"
+                    name="hair_loss"
+                    value="1"
+                    id="hairLossYes"
+                >
+
+                <label
+                    class="choice"
+                    for="hairLossYes"
+                >
+                    Yes
+                </label>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Mood Swings -->
+
+        <div class="field">
+
+            <label>
+                Mood Swings
+            </label>
+
+            <span class="help">
+                Do you frequently experience mood changes or mood swings?
+            </span>
+
+
+            <div class="yes-no">
+
+
+                <input
+                    type="radio"
+                    name="mood_swings"
+                    value="0"
+                    id="moodSwingsNo"
+                    required
+                >
+
+                <label
+                    class="choice"
+                    for="moodSwingsNo"
+                >
+                    No
+                </label>
+
+
+                <input
+                    type="radio"
+                    name="mood_swings"
+                    value="1"
+                    id="moodSwingsYes"
+                >
+
+                <label
+                    class="choice"
+                    for="moodSwingsYes"
+                >
+                    Yes
+                </label>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     SUBMIT
+========================= -->
+
+<div class="submit-area">
+
+
+    <button
+        type="submit"
+        class="predict-button"
+    >
+
+        ✨
+        Get My Health Insights
+
+    </button>
+
+
+    <p class="submit-text">
+
+        Your responses are processed by the FemCare AI prediction models.
+
+    </p>
+
+
+</div>
+
+
+</form>
+
+
+
+<footer>
+
+    🌸 <strong>FemCare AI</strong>
+
+    <br>
+
+    Your personalized women's wellness companion 🌿
+
+</footer>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     COPY WEIGHT TO THYROID
+===================================================== -->
+
+<script>
+
+    const weightInput =
+        document.getElementById("weight");
+
+    const thyroidWeightInput =
+        document.getElementById("thyroid_weight");
+
+
+    weightInput.addEventListener(
+        "input",
+        function () {
+
+            thyroidWeightInput.value =
+                weightInput.value;
+
+        }
+    );
+
+
+    document
+        .getElementById("healthForm")
+        .addEventListener(
+            "submit",
+            function () {
+
+                thyroidWeightInput.value =
+                    weightInput.value;
+
+            }
+        );
+
+</script>
+
+
+</body>
+
+</html>

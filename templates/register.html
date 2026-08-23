@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - Create Account</title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family: "DM Sans", sans-serif;
+
+            color: #332b3d;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    #f1e5ff 0%,
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 15%,
+                    #ffe5ef 0%,
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #fcf8ff,
+                    #fff8fb
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 25px;
+        }
+
+
+        .page {
+
+            width: 100%;
+
+            max-width: 900px;
+
+            min-height: 570px;
+
+            display: grid;
+
+            grid-template-columns: 0.9fr 1.1fr;
+
+            background: rgba(255,255,255,0.72);
+
+            border: 1px solid
+                rgba(255,255,255,0.9);
+
+            border-radius: 30px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 60px
+                rgba(83, 59, 105, 0.10);
+
+            backdrop-filter: blur(12px);
+        }
+
+
+        /* =========================
+           LEFT SIDE
+        ========================= */
+
+        .welcome {
+
+            position: relative;
+
+            padding: 45px 38px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #eadcff,
+                    #f9e4ef
+                );
+
+            overflow: hidden;
+        }
+
+
+        .welcome::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+
+            height: 220px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.28);
+
+            top: -80px;
+
+            right: -80px;
+        }
+
+
+        .welcome::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+
+            height: 180px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.22);
+
+            bottom: -70px;
+
+            left: -60px;
+        }
+
+
+        .brand {
+
+            position: relative;
+
+            z-index: 2;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            color: #7047a4;
+
+            font-size: 20px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: rgba(255,255,255,0.75);
+
+            border-radius: 13px;
+
+            font-size: 19px;
+        }
+
+
+        .welcome-content {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .welcome-small {
+
+            color: #806b91;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            margin-bottom: 9px;
+        }
+
+
+        .welcome h1 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 42px;
+
+            line-height: 1.08;
+
+            color: #38284a;
+
+            margin-bottom: 15px;
+        }
+
+
+        .welcome h1 span {
+
+            color: #a75d91;
+        }
+
+
+        .welcome-text {
+
+            color: #75677f;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            max-width: 280px;
+        }
+
+
+        .quote {
+
+            position: relative;
+
+            z-index: 2;
+
+            color: #806d8d;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        .flowers {
+
+            position: absolute;
+
+            right: 35px;
+
+            bottom: 55px;
+
+            font-size: 65px;
+
+            opacity: 0.65;
+
+            transform: rotate(-8deg);
+        }
+
+
+
+        /* =========================
+           FORM SIDE
+        ========================= */
+
+        .form-section {
+
+            padding: 48px 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            background:
+                rgba(255,255,255,0.82);
+        }
+
+
+        .form-heading {
+
+            margin-bottom: 28px;
+        }
+
+
+        .form-heading h2 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 30px;
+
+            color: #33273d;
+
+            margin-bottom: 6px;
+        }
+
+
+        .form-heading p {
+
+            color: #938799;
+
+            font-size: 12px;
+        }
+
+
+
+        /* =========================
+           FLASH MESSAGE
+        ========================= */
+
+        .message {
+
+            background: #fff0f5;
+
+            border: 1px solid #f5cedc;
+
+            color: #a34768;
+
+            border-radius: 12px;
+
+            padding: 10px 13px;
+
+            font-size: 11px;
+
+            margin-bottom: 17px;
+        }
+
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+
+            margin-bottom: 16px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            color: #51465a;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            margin-bottom: 7px;
+        }
+
+
+        .input-wrapper {
+
+            position: relative;
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 13px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 14px;
+
+            opacity: 0.65;
+        }
+
+
+        .form-control {
+
+            width: 100%;
+
+            height: 45px;
+
+            border: 1px solid #e6dfea;
+
+            border-radius: 13px;
+
+            background: #fcfafd;
+
+            padding: 0 13px 0 40px;
+
+            color: #403548;
+
+            font-family: inherit;
+
+            font-size: 12px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        .form-control::placeholder {
+
+            color: #b0a5b6;
+        }
+
+
+        .form-control:focus {
+
+            background: #ffffff;
+
+            border-color: #b997d4;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(145, 92, 188, 0.08);
+        }
+
+
+        .password-note {
+
+            color: #a096a7;
+
+            font-size: 9px;
+
+            margin-top: 5px;
+        }
+
+
+        .create-button {
+
+            width: 100%;
+
+            height: 46px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            margin-top: 7px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7950b5,
+                    #a65f9a
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px
+                rgba(121, 80, 181, 0.20);
+
+            transition: 0.2s;
+        }
+
+
+        .create-button:hover {
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 11px 25px
+                rgba(121, 80, 181, 0.25);
+        }
+
+
+        .login-link {
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #958a9c;
+
+            font-size: 11px;
+        }
+
+
+        .login-link a {
+
+            color: #7950b5;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            margin-left: 3px;
+        }
+
+
+        .login-link a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        .privacy {
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #b0a6b5;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 760px) {
+
+            body {
+
+                padding: 15px;
+            }
+
+
+            .page {
+
+                grid-template-columns: 1fr;
+
+                min-height: auto;
+
+                max-width: 480px;
+
+                border-radius: 25px;
+            }
+
+
+            .welcome {
+
+                min-height: 245px;
+
+                padding: 27px 27px;
+            }
+
+
+            .welcome h1 {
+
+                font-size: 32px;
+            }
+
+
+            .welcome-text {
+
+                max-width: 250px;
+            }
+
+
+            .quote {
+
+                display: none;
+            }
+
+
+            .flowers {
+
+                right: 25px;
+
+                bottom: 30px;
+
+                font-size: 50px;
+            }
+
+
+            .form-section {
+
+                padding: 35px 27px 30px;
+            }
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .welcome {
+
+                min-height: 220px;
+            }
+
+
+            .welcome h1 {
+
+                font-size: 29px;
+            }
+
+
+            .form-heading h2 {
+
+                font-size: 27px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- =========================
+         WELCOME PANEL
+    ========================= -->
+
+    <section class="welcome">
+
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🌸
+            </div>
+
+            FemCare AI
+
+        </div>
+
+
+
+        <div class="welcome-content">
+
+            <div class="welcome-small">
+                A little space for you
+            </div>
+
+
+            <h1>
+
+                Your health,
+                <br>
+
+                <span>your space.</span>
+
+            </h1>
+
+
+            <p class="welcome-text">
+
+                Begin your personalized wellness
+                journey with FemCare AI.
+                Track your health, understand your
+                body and build healthier habits.
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="quote">
+
+            🌿 Take care of yourself gently.
+            <br>
+            Small changes can make a big difference.
+
+        </div>
+
+
+        <div class="flowers">
+            🌷
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         REGISTER FORM
+    ========================= -->
+
+    <section class="form-section">
+
+
+        <div class="form-heading">
+
+            <h2>
+                Create your account
+            </h2>
+
+
+            <p>
+                Let's get you started on your wellness journey.
+            </p>
+
+        </div>
+
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="message">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <form method="POST">
+
+
+            <!-- USERNAME -->
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        👤
+                    </span>
+
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="form-control"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="password-note">
+
+                    Choose a password you'll remember.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="confirm_password">
+                    Confirm Password
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ✓
+                    </span>
+
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        class="form-control"
+                        placeholder="Enter your password again"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="create-button"
+            >
+
+                Create Account
+                <span> →</span>
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- LOGIN -->
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+        </div>
+
+
+
+        <div class="privacy">
+
+            Your information stays within your FemCare AI account.
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+</body>
+
+</html>

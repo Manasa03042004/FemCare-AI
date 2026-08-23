@@ -1,0 +1,4773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - Stress & Mindfulness</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fbf8ff,
+                    #fff9fc
+                );
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: #29233d;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+
+            background: rgba(255,255,255,0.96);
+
+            box-shadow:
+                0 2px 15px rgba(80,50,110,0.06);
+
+            border-bottom:
+                1px solid #eee8f5;
+        }
+
+        .brand {
+
+            color: #7b4bc4;
+
+            font-size: 23px;
+
+            font-weight: 750;
+
+            text-decoration: none;
+        }
+
+        .dashboard-btn {
+
+            border:
+                1px solid #e1d4ef;
+
+            background: white;
+
+            color: #7046b2;
+
+            border-radius: 22px;
+
+            padding:
+                8px 17px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main-container {
+
+            max-width: 1180px;
+
+            margin:
+                28px auto 55px;
+
+            padding:
+                0 18px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff9fd,
+                    #f6effd
+                );
+
+            border:
+                1px solid #eee4f6;
+
+            border-radius: 24px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            margin-bottom: 24px;
+
+            box-shadow:
+                0 7px 25px
+                rgba(91,60,120,0.06);
+        }
+
+        .header-icon {
+
+            width: 65px;
+
+            height: 65px;
+
+            margin:
+                0 auto 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #f0e7fa;
+
+            border-radius: 20px;
+
+            font-size: 31px;
+        }
+
+        .header-title {
+
+            margin: 0;
+
+            font-size: 35px;
+
+            font-weight: 750;
+
+            color: #302744;
+        }
+
+        .header-subtitle {
+
+            margin:
+                7px 0 0;
+
+            color: #8a8298;
+
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           MOOD
+        ===================================================== */
+
+        .mood-card {
+
+            background: white;
+
+            border:
+                1px solid #eee7f4;
+
+            border-radius: 20px;
+
+            padding: 20px 22px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(80,50,110,0.05);
+        }
+
+        .section-title {
+
+            margin: 0;
+
+            font-size: 18px;
+
+            font-weight: 750;
+        }
+
+        .section-subtitle {
+
+            color: #92899f;
+
+            font-size: 13px;
+
+            margin:
+                4px 0 15px;
+        }
+
+        .mood-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5,1fr);
+
+            gap: 10px;
+        }
+
+        .mood-btn {
+
+            border:
+                1px solid #eee8f4;
+
+            background: #fcfaff;
+
+            border-radius: 15px;
+
+            padding:
+                10px 5px;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .mood-btn:hover {
+
+            transform:
+                translateY(-2px);
+        }
+
+        .mood-btn.active {
+
+            background: #f2e7fb;
+
+            border-color:
+                #b995dc;
+        }
+
+        .mood-emoji {
+
+            display: block;
+
+            font-size: 23px;
+        }
+
+        .mood-name {
+
+            font-size: 11px;
+
+            color: #685f76;
+
+            font-weight: 600;
+        }
+
+        .mood-message {
+
+            text-align: center;
+
+            min-height: 18px;
+
+            margin-top: 11px;
+
+            color: #7951b5;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           SECTION
+        ===================================================== */
+
+        .wellness-heading {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            margin:
+                28px 0 14px;
+        }
+
+        .wellness-heading h2 {
+
+            margin: 0;
+
+            font-size: 21px;
+
+            font-weight: 750;
+        }
+
+        .wellness-heading span {
+
+            color: #978fa5;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           ACTIVITY CARDS
+        ===================================================== */
+
+        .activity-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 17px;
+        }
+
+        .activity-card {
+
+            background: white;
+
+            border:
+                1px solid #eee7f4;
+
+            border-radius: 20px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(80,50,110,0.05);
+
+            transition: .2s;
+        }
+
+        .activity-card:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(80,50,110,0.09);
+        }
+
+        .activity-top {
+
+            display: flex;
+
+            gap: 15px;
+        }
+
+        .activity-icon {
+
+            width: 55px;
+
+            height: 55px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background: #f1e9fa;
+
+            font-size: 27px;
+        }
+
+        .activity-title {
+
+            margin:
+                1px 0 4px;
+
+            font-size: 18px;
+
+            font-weight: 750;
+        }
+
+        .activity-description {
+
+            margin: 0;
+
+            color: #8b8398;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .activity-bottom {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-top: 18px;
+        }
+
+        .duration {
+
+            background: #f6effb;
+
+            color: #7650ae;
+
+            border-radius: 18px;
+
+            padding:
+                6px 11px;
+
+            font-size: 12px;
+
+            font-weight: 650;
+        }
+
+        .start-btn {
+
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #774dc0,
+                    #a45ac7
+                );
+
+            color: white;
+
+            border-radius: 18px;
+
+            padding:
+                8px 16px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .completed-btn {
+
+            background: #eee7f7;
+
+            color: #7951ae;
+        }
+
+
+        /* =====================================================
+           PROGRESS
+        ===================================================== */
+
+        .progress-card {
+
+            margin-top: 24px;
+
+            background: white;
+
+            border:
+                1px solid #eee7f4;
+
+            border-radius: 20px;
+
+            padding:
+                21px 23px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(80,50,110,0.05);
+        }
+
+        .progress-top {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+        }
+
+        .progress-title {
+
+            font-size: 18px;
+
+            font-weight: 750;
+        }
+
+        .progress-percent {
+
+            color: #7950b8;
+
+            font-size: 17px;
+
+            font-weight: 750;
+        }
+
+        .progress-text {
+
+            color: #91899e;
+
+            font-size: 13px;
+
+            margin-top: 3px;
+        }
+
+        .progress-track {
+
+            height: 9px;
+
+            background: #eee9f6;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+
+            width: 0%;
+
+            height: 100%;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #7a4cc1,
+                    #aa5ec8,
+                    #68b4d9
+                );
+
+            transition:
+                width .7s ease;
+        }
+
+        .progress-note {
+
+            text-align: center;
+
+            color: #90889c;
+
+            font-size: 13px;
+
+            margin:
+                10px 0 0;
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal-content {
+
+            border: none;
+
+            border-radius: 26px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 80px
+                rgba(55,35,80,.28);
+        }
+
+
+        /* =====================================================
+           BREATHING
+        ===================================================== */
+
+        .breathing-modal {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #fffaff,
+                    #f2f8ff
+                );
+
+            padding: 30px;
+
+            text-align: center;
+        }
+
+        .breathing-wrapper {
+
+            margin:
+                28px auto 22px;
+
+            width: 230px;
+
+            height: 230px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+        .breathing-circle {
+
+            width: 145px;
+
+            height: 145px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #fff,
+                    #eeddf9 55%,
+                    #d8c1ef
+                );
+
+            box-shadow:
+                0 0 0 14px
+                rgba(174,130,220,.10),
+
+                0 0 0 28px
+                rgba(174,130,220,.05);
+
+            transition:
+                transform 4s ease-in-out,
+                box-shadow 4s ease-in-out;
+        }
+
+        .breathing-circle.inhale {
+
+            transform:
+                scale(1.42);
+        }
+
+        .breathing-circle.hold {
+
+            transform:
+                scale(1.42);
+
+            transition:
+                transform .3s ease;
+        }
+
+        .breathing-circle.exhale {
+
+            transform:
+                scale(.82);
+        }
+
+        .breathing-phase {
+
+            color: #7650b2;
+
+            font-size: 17px;
+
+            font-weight: 750;
+        }
+
+        .phase-timer {
+
+            font-size: 27px;
+
+            font-weight: 750;
+
+            color: #4f4660;
+        }
+
+        .total-timer {
+
+            color: #91899c;
+
+            font-size: 13px;
+        }
+
+        .breathing-pattern {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            margin: 18px 0;
+        }
+
+        .pattern-item {
+
+            background: #f3ecfa;
+
+            border-radius: 12px;
+
+            padding:
+                7px 10px;
+
+            color: #7650ad;
+
+            font-size: 11px;
+
+            font-weight: 650;
+        }
+
+
+        /* =====================================================
+           MEDITATION EXPERIENCE
+        ===================================================== */
+
+        .meditation-modal {
+
+            position: relative;
+
+            min-height: 700px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    160deg,
+                    #e9f5ff,
+                    #f7edff
+                );
+
+            color: white;
+
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           THEMES
+        ===================================================== */
+
+        .meditation-modal.nature {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ccebd7,
+                    #8bc9a7 50%,
+                    #477d61
+                );
+        }
+
+        .meditation-modal.ocean {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #91dcf4,
+                    #4baed0 48%,
+                    #19648c
+                );
+        }
+
+        .meditation-modal.rain {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #65758e,
+                    #46586f 50%,
+                    #28384c
+                );
+        }
+
+        .meditation-modal.forest {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #a9d8bd,
+                    #568e70 45%,
+                    #203f35
+                );
+        }
+
+        .meditation-modal.sunset {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffb17d,
+                    #d9789e 45%,
+                    #604b8b
+                );
+        }
+
+        .meditation-modal.night {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #20284d,
+                    #171d3d 50%,
+                    #0b1027
+                );
+        }
+
+
+        /* =====================================================
+           THEME SELECTOR
+        ===================================================== */
+
+        .theme-area {
+
+            position: relative;
+
+            z-index: 20;
+
+            padding:
+                18px 18px 0;
+        }
+
+        .theme-title {
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: .5px;
+
+            margin-bottom: 10px;
+        }
+
+        .theme-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap: 7px;
+        }
+
+        .theme-btn {
+
+            border:
+                1px solid
+                rgba(255,255,255,.35);
+
+            background:
+                rgba(255,255,255,.14);
+
+            backdrop-filter:
+                blur(8px);
+
+            color: white;
+
+            border-radius: 13px;
+
+            padding:
+                8px 4px;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .theme-btn:hover {
+
+            background:
+                rgba(255,255,255,.25);
+        }
+
+        .theme-btn.active {
+
+            background:
+                rgba(255,255,255,.35);
+
+            border-color:
+                white;
+
+            box-shadow:
+                0 4px 16px
+                rgba(0,0,0,.12);
+        }
+
+        .theme-icon {
+
+            display: block;
+
+            font-size: 20px;
+        }
+
+        .theme-name {
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           MEDITATION CONTENT
+        ===================================================== */
+
+        .meditation-content {
+
+            position: relative;
+
+            z-index: 10;
+
+            padding:
+                10px 25px 28px;
+        }
+
+        .meditation-title {
+
+            font-size: 26px;
+
+            font-weight: 750;
+
+            text-shadow:
+                0 2px 12px
+                rgba(0,0,0,.15);
+        }
+
+        .meditation-subtitle {
+
+            font-size: 12px;
+
+            opacity: .9;
+
+            max-width: 430px;
+
+            margin:
+                5px auto;
+        }
+
+
+        /* =====================================================
+           ANIMATED MEDITATION ORB
+        ===================================================== */
+
+        .meditation-orb {
+
+            width: 180px;
+
+            height: 180px;
+
+            margin:
+                22px auto 18px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: relative;
+
+            background:
+                rgba(255,255,255,.17);
+
+            border:
+                2px solid
+                rgba(255,255,255,.5);
+
+            box-shadow:
+                0 0 0 15px
+                rgba(255,255,255,.08),
+
+                0 0 0 30px
+                rgba(255,255,255,.04),
+
+                0 20px 45px
+                rgba(0,0,0,.15);
+
+            animation:
+                meditationPulse 5s
+                ease-in-out infinite;
+        }
+
+        .meditation-orb::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 15px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(255,255,255,.3);
+        }
+
+        .meditation-symbol {
+
+            font-size: 70px;
+
+            animation:
+                gentleFloat 4s
+                ease-in-out infinite;
+
+            filter:
+                drop-shadow(
+                    0 5px 10px
+                    rgba(0,0,0,.15)
+                );
+        }
+
+        @keyframes meditationPulse {
+
+            0%,100% {
+
+                transform:
+                    scale(.93);
+
+            }
+
+            50% {
+
+                transform:
+                    scale(1.06);
+
+            }
+        }
+
+        @keyframes gentleFloat {
+
+            0%,100% {
+
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+
+                transform:
+                    translateY(-8px);
+            }
+        }
+
+
+        /* =====================================================
+           OCEAN ANIMATION
+        ===================================================== */
+
+        .ocean-waves {
+
+            position: absolute;
+
+            left: -10%;
+
+            bottom: -20px;
+
+            width: 120%;
+
+            height: 180px;
+
+            z-index: 2;
+
+            opacity: .6;
+
+            background:
+                radial-gradient(
+                    ellipse at center,
+                    transparent 50%,
+                    rgba(255,255,255,.15) 51%,
+                    transparent 53%
+                );
+
+            background-size:
+                80px 40px;
+
+            animation:
+                wavesMove 5s
+                linear infinite;
+        }
+
+        @keyframes wavesMove {
+
+            from {
+
+                transform:
+                    translateX(0);
+            }
+
+            to {
+
+                transform:
+                    translateX(-80px);
+            }
+        }
+
+
+        /* =====================================================
+           RAIN
+        ===================================================== */
+
+        .rain-container {
+
+            position: absolute;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            overflow: hidden;
+
+            z-index: 3;
+        }
+
+        .rain-drop {
+
+            position: absolute;
+
+            width: 1px;
+
+            height: 22px;
+
+            background:
+                rgba(255,255,255,.55);
+
+            animation:
+                rainFall linear infinite;
+        }
+
+        @keyframes rainFall {
+
+            from {
+
+                transform:
+                    translateY(-40px);
+            }
+
+            to {
+
+                transform:
+                    translateY(750px);
+            }
+        }
+
+
+        /* =====================================================
+           STARS
+        ===================================================== */
+
+        .stars {
+
+            position: absolute;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: 3;
+        }
+
+        .star {
+
+            position: absolute;
+
+            width: 3px;
+
+            height: 3px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            box-shadow:
+                0 0 8px white;
+
+            animation:
+                twinkle 2s
+                ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,100% {
+
+                opacity: .2;
+
+                transform:
+                    scale(.7);
+            }
+
+            50% {
+
+                opacity: 1;
+
+                transform:
+                    scale(1.4);
+            }
+        }
+
+
+        /* =====================================================
+           LEAVES
+        ===================================================== */
+
+        .leaves {
+
+            position: absolute;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            overflow: hidden;
+
+            z-index: 4;
+        }
+
+        .leaf {
+
+            position: absolute;
+
+            font-size: 22px;
+
+            animation:
+                leafFall 8s
+                linear infinite;
+
+            opacity: .65;
+        }
+
+        @keyframes leafFall {
+
+            from {
+
+                transform:
+                    translateY(-50px)
+                    rotate(0deg);
+            }
+
+            to {
+
+                transform:
+                    translateY(700px)
+                    rotate(360deg);
+            }
+        }
+
+
+        /* =====================================================
+           BIRD
+        ===================================================== */
+
+        .birds {
+
+            position: absolute;
+
+            top: 120px;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 80px;
+
+            z-index: 4;
+
+            pointer-events: none;
+        }
+
+        .bird {
+
+            position: absolute;
+
+            font-size: 20px;
+
+            animation:
+                birdFly 12s
+                linear infinite;
+        }
+
+        @keyframes birdFly {
+
+            from {
+
+                left: -50px;
+
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+
+                transform:
+                    translateY(-25px);
+            }
+
+            to {
+
+                left: 110%;
+
+                transform:
+                    translateY(5px);
+            }
+        }
+
+
+        /* =====================================================
+           GUIDANCE
+        ===================================================== */
+
+        .guidance-box {
+
+            max-width: 500px;
+
+            min-height: 58px;
+
+            margin:
+                0 auto 12px;
+
+            padding:
+                10px 16px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,.14);
+
+            border:
+                1px solid
+                rgba(255,255,255,.25);
+
+            backdrop-filter:
+                blur(8px);
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            transition:
+                opacity .5s ease;
+        }
+
+
+        /* =====================================================
+           TIMER
+        ===================================================== */
+
+        .meditation-timer {
+
+            font-size: 40px;
+
+            font-weight: 750;
+
+            letter-spacing: 2px;
+
+            text-shadow:
+                0 3px 15px
+                rgba(0,0,0,.2);
+
+            margin:
+                8px 0 2px;
+        }
+
+        .timer-label {
+
+            font-size: 10px;
+
+            opacity: .75;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing: 1px;
+        }
+
+
+        /* =====================================================
+           DURATION
+        ===================================================== */
+
+        .duration-selector {
+
+            display: flex;
+
+            justify-content:
+                center;
+
+            gap: 7px;
+
+            margin:
+                14px 0;
+        }
+
+        .duration-btn {
+
+            border:
+                1px solid
+                rgba(255,255,255,.35);
+
+            background:
+                rgba(255,255,255,.13);
+
+            color: white;
+
+            border-radius: 18px;
+
+            padding:
+                6px 13px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .duration-btn.active {
+
+            background:
+                rgba(255,255,255,.34);
+
+            border-color: white;
+        }
+
+
+        /* =====================================================
+           CONTROLS
+        ===================================================== */
+
+        .meditation-controls {
+
+            display: flex;
+
+            justify-content:
+                center;
+
+            gap: 7px;
+
+            flex-wrap: wrap;
+        }
+
+        .med-btn {
+
+            border: none;
+
+            border-radius: 20px;
+
+            padding:
+                9px 17px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .med-primary {
+
+            background: white;
+
+            color: #63448e;
+
+            box-shadow:
+                0 5px 15px
+                rgba(0,0,0,.12);
+        }
+
+        .med-secondary {
+
+            background:
+                rgba(255,255,255,.18);
+
+            color: white;
+
+            border:
+                1px solid
+                rgba(255,255,255,.3);
+        }
+
+
+        /* =====================================================
+           SOUND
+        ===================================================== */
+
+        .sound-control {
+
+            margin-top: 13px;
+
+            font-size: 11px;
+
+            opacity: .9;
+        }
+
+        .sound-control label {
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media(max-width:768px) {
+
+            .activity-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .meditation-modal {
+
+                min-height: 680px;
+            }
+        }
+
+        @media(max-width:500px) {
+
+            .mood-grid {
+
+                grid-template-columns:
+                    repeat(5,1fr);
+            }
+
+            .mood-name {
+
+                font-size: 9px;
+            }
+
+            .theme-grid {
+
+                gap: 5px;
+            }
+
+            .theme-name {
+
+                font-size: 8px;
+            }
+
+            .meditation-orb {
+
+                width: 150px;
+
+                height: 150px;
+            }
+
+            .meditation-symbol {
+
+                font-size: 55px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="container py-2">
+
+        <div
+            class="d-flex justify-content-between align-items-center"
+        >
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="brand"
+            >
+                🌸 FemCare AI
+            </a>
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="dashboard-btn"
+            >
+                ← Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<div class="main-container">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header-card">
+
+    <div class="header-icon">
+        🧠
+    </div>
+
+    <h1 class="header-title">
+        Stress & Mindfulness
+    </h1>
+
+    <p class="header-subtitle">
+        Take a gentle pause, calm your thoughts,
+        and give yourself a few mindful minutes. 🌸
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     MOOD
+===================================================== -->
+
+<div class="mood-card">
+
+    <h3 class="section-title">
+        How are you feeling today?
+    </h3>
+
+    <p class="section-subtitle">
+        A small check-in before you begin.
+    </p>
+
+    <div class="mood-grid">
+
+        <button
+            class="mood-btn"
+            onclick="selectMood(this,'happy')"
+        >
+            <span class="mood-emoji">😊</span>
+            <span class="mood-name">Happy</span>
+        </button>
+
+        <button
+            class="mood-btn"
+            onclick="selectMood(this,'calm')"
+        >
+            <span class="mood-emoji">😌</span>
+            <span class="mood-name">Calm</span>
+        </button>
+
+        <button
+            class="mood-btn"
+            onclick="selectMood(this,'okay')"
+        >
+            <span class="mood-emoji">🙂</span>
+            <span class="mood-name">Okay</span>
+        </button>
+
+        <button
+            class="mood-btn"
+            onclick="selectMood(this,'stressed')"
+        >
+            <span class="mood-emoji">😟</span>
+            <span class="mood-name">Stressed</span>
+        </button>
+
+        <button
+            class="mood-btn"
+            onclick="selectMood(this,'tired')"
+        >
+            <span class="mood-emoji">😴</span>
+            <span class="mood-name">Tired</span>
+        </button>
+
+    </div>
+
+    <div
+        id="moodMessage"
+        class="mood-message"
+    ></div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ACTIVITIES
+===================================================== -->
+
+<div class="wellness-heading">
+
+    <h2>
+        🌿 Mindful Activities
+    </h2>
+
+    <span>
+        Choose what feels right for you
+    </span>
+
+</div>
+
+
+<div class="activity-grid">
+
+
+    <!-- BREATHING -->
+
+    <div class="activity-card">
+
+        <div class="activity-top">
+
+            <div class="activity-icon">
+                🌬️
+            </div>
+
+            <div>
+
+                <h3 class="activity-title">
+                    Deep Breathing
+                </h3>
+
+                <p class="activity-description">
+                    Follow the gentle
+                    <strong>4–2–6 breathing rhythm</strong>
+                    to slow down and relax.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="activity-bottom">
+
+            <span class="duration">
+                ⏱️ 5 Minutes
+            </span>
+
+            <button
+                id="breathingButton"
+                class="start-btn"
+                onclick="openBreathing()"
+            >
+                Start →
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MEDITATION -->
+
+    <div class="activity-card">
+
+        <div class="activity-top">
+
+            <div class="activity-icon">
+                🧘
+            </div>
+
+            <div>
+
+                <h3 class="activity-title">
+                    Meditation
+                </h3>
+
+                <p class="activity-description">
+                    Escape into calming nature,
+                    ocean, rain or peaceful night
+                    environments.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="activity-bottom">
+
+            <span class="duration">
+                🧘 5–15 Minutes
+            </span>
+
+            <button
+                id="meditationButton"
+                class="start-btn"
+                onclick="openMeditation()"
+            >
+                Explore →
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- RELAXATION -->
+
+    <div class="activity-card">
+
+        <div class="activity-top">
+
+            <div class="activity-icon">
+                🌿
+            </div>
+
+            <div>
+
+                <h3 class="activity-title">
+                    Relaxation
+                </h3>
+
+                <p class="activity-description">
+                    Take a quiet break and consciously
+                    relax your body and mind.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="activity-bottom">
+
+            <span class="duration">
+                ⏱️ 10 Minutes
+            </span>
+
+            <button
+                id="relaxationButton"
+                class="start-btn"
+                onclick="completeActivity('relaxation')"
+            >
+                Complete
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- POSITIVE -->
+
+    <div class="activity-card">
+
+        <div class="activity-top">
+
+            <div class="activity-icon">
+                💗
+            </div>
+
+            <div>
+
+                <h3 class="activity-title">
+                    Positive Mindfulness
+                </h3>
+
+                <p class="activity-description">
+                    Think about three beautiful,
+                    meaningful or positive moments
+                    from your day.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="activity-bottom">
+
+            <span class="duration">
+                ⏱️ 5 Minutes
+            </span>
+
+            <button
+                id="positiveButton"
+                class="start-btn"
+                onclick="completeActivity('positive')"
+            >
+                Complete
+            </button>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     PROGRESS
+===================================================== -->
+
+<div class="progress-card">
+
+    <div class="progress-top">
+
+        <div>
+
+            <div class="progress-title">
+                🌸 Your Wellness Today
+            </div>
+
+            <div
+                id="progressText"
+                class="progress-text"
+            >
+                0 of 4 mindfulness activities completed
+            </div>
+
+        </div>
+
+        <div
+            id="progressPercent"
+            class="progress-percent"
+        >
+            0%
+        </div>
+
+    </div>
+
+    <div class="progress-track">
+
+        <div
+            id="progressFill"
+            class="progress-fill"
+        ></div>
+
+    </div>
+
+    <p class="progress-note">
+        Keep going — every small step counts. 💕
+    </p>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     BREATHING MODAL
+===================================================== -->
+
+<div
+    class="modal fade"
+    id="breathingModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="breathing-modal">
+
+                <h3>
+                    🌬️ Deep Breathing
+                </h3>
+
+                <p class="text-muted small">
+                    Follow the circle slowly.
+                    There is no need to rush.
+                </p>
+
+
+                <div class="breathing-wrapper">
+
+                    <div
+                        id="breathingCircle"
+                        class="breathing-circle"
+                    >
+
+                        <span
+                            id="breathingPhase"
+                            class="breathing-phase"
+                        >
+                            Ready
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="phaseTimer"
+                    class="phase-timer"
+                >
+                    04
+                </div>
+
+                <div
+                    id="totalBreathingTimer"
+                    class="total-timer"
+                >
+                    05:00 remaining
+                </div>
+
+
+                <div class="breathing-pattern">
+
+                    <div class="pattern-item">
+                        🌬️ Inhale 4s
+                    </div>
+
+                    <div class="pattern-item">
+                        ⏸️ Hold 2s
+                    </div>
+
+                    <div class="pattern-item">
+                        💨 Exhale 6s
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="breathingStartBtn"
+                    class="btn btn-primary rounded-pill px-4"
+                    onclick="startBreathing()"
+                >
+                    ▶ Start
+                </button>
+
+                <button
+                    id="breathingPauseBtn"
+                    class="btn btn-light rounded-pill px-4"
+                    onclick="pauseBreathing()"
+                >
+                    ⏸ Pause
+                </button>
+
+                <button
+                    class="btn btn-light rounded-pill px-4"
+                    data-bs-dismiss="modal"
+                    onclick="closeBreathing()"
+                >
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FULL MEDITATION EXPERIENCE
+===================================================== -->
+
+<div
+    class="modal fade"
+    id="meditationModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div
+            id="meditationExperience"
+            class="modal-content meditation-modal nature"
+        >
+
+
+            <!-- THEME SELECTOR -->
+
+            <div class="theme-area">
+
+                <div class="theme-title">
+                    🌿 Choose your meditation environment
+                </div>
+
+
+                <div class="theme-grid">
+
+
+                    <button
+                        id="themeNature"
+                        class="theme-btn active"
+                        onclick="selectMeditationTheme('nature')"
+                    >
+
+                        <span class="theme-icon">
+                            🌿
+                        </span>
+
+                        <span class="theme-name">
+                            Nature
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="themeOcean"
+                        class="theme-btn"
+                        onclick="selectMeditationTheme('ocean')"
+                    >
+
+                        <span class="theme-icon">
+                            🌊
+                        </span>
+
+                        <span class="theme-name">
+                            Ocean
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="themeRain"
+                        class="theme-btn"
+                        onclick="selectMeditationTheme('rain')"
+                    >
+
+                        <span class="theme-icon">
+                            🌧️
+                        </span>
+
+                        <span class="theme-name">
+                            Rain
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="themeForest"
+                        class="theme-btn"
+                        onclick="selectMeditationTheme('forest')"
+                    >
+
+                        <span class="theme-icon">
+                            🐦
+                        </span>
+
+                        <span class="theme-name">
+                            Forest Birds
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="themeSunset"
+                        class="theme-btn"
+                        onclick="selectMeditationTheme('sunset')"
+                    >
+
+                        <span class="theme-icon">
+                            🌅
+                        </span>
+
+                        <span class="theme-name">
+                            Sunset
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        id="themeNight"
+                        class="theme-btn"
+                        onclick="selectMeditationTheme('night')"
+                    >
+
+                        <span class="theme-icon">
+                            🌙
+                        </span>
+
+                        <span class="theme-name">
+                            Night
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RAIN -->
+
+            <div
+                id="rainContainer"
+                class="rain-container"
+            ></div>
+
+
+            <!-- STARS -->
+
+            <div
+                id="starsContainer"
+                class="stars"
+            ></div>
+
+
+            <!-- LEAVES -->
+
+            <div
+                id="leavesContainer"
+                class="leaves"
+            ></div>
+
+
+            <!-- BIRDS -->
+
+            <div
+                id="birdsContainer"
+                class="birds"
+            ></div>
+
+
+            <!-- OCEAN -->
+
+            <div
+                id="oceanWaves"
+                class="ocean-waves"
+            ></div>
+
+
+
+            <!-- MAIN MEDITATION -->
+
+            <div class="meditation-content">
+
+
+                <div class="meditation-title">
+
+                    <span
+                        id="meditationThemeIcon"
+                    >
+                        🌿
+                    </span>
+
+                    <span
+                        id="meditationThemeTitle"
+                    >
+                        Nature Meditation
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="meditationSubtitle"
+                    class="meditation-subtitle"
+                >
+                    Let the peaceful sounds of nature
+                    slow your thoughts.
+                </div>
+
+
+
+                <!-- ORB -->
+
+                <div class="meditation-orb">
+
+                    <div
+                        id="meditationSymbol"
+                        class="meditation-symbol"
+                    >
+                        🌿
+                    </div>
+
+                </div>
+
+
+
+                <!-- GUIDANCE -->
+
+                <div
+                    id="meditationGuidance"
+                    class="guidance-box"
+                >
+                    Close your eyes.
+                    Relax your shoulders.
+                    Take a slow, comfortable breath.
+                </div>
+
+
+
+                <!-- TIMER -->
+
+                <div
+                    id="meditationTimer"
+                    class="meditation-timer"
+                >
+                    05:00
+                </div>
+
+                <div class="timer-label">
+                    minutes remaining
+                </div>
+
+
+
+                <!-- DURATION -->
+
+                <div class="duration-selector">
+
+                    <button
+                        id="duration5"
+                        class="duration-btn active"
+                        onclick="setMeditationDuration(5)"
+                    >
+                        5 min
+                    </button>
+
+                    <button
+                        id="duration10"
+                        class="duration-btn"
+                        onclick="setMeditationDuration(10)"
+                    >
+                        10 min
+                    </button>
+
+                    <button
+                        id="duration15"
+                        class="duration-btn"
+                        onclick="setMeditationDuration(15)"
+                    >
+                        15 min
+                    </button>
+
+                </div>
+
+
+
+                <!-- CONTROLS -->
+
+                <div class="meditation-controls">
+
+                    <button
+                        id="meditationStartBtn"
+                        class="med-btn med-primary"
+                        onclick="startMeditation()"
+                    >
+                        ▶ Begin Meditation
+                    </button>
+
+
+                    <button
+                        id="meditationPauseBtn"
+                        class="med-btn med-secondary"
+                        onclick="pauseMeditation()"
+                    >
+                        ⏸ Pause
+                    </button>
+
+
+                    <button
+                        class="med-btn med-secondary"
+                        onclick="restartMeditation()"
+                    >
+                        ↻ Restart
+                    </button>
+
+
+                    <button
+                        class="med-btn med-secondary"
+                        data-bs-dismiss="modal"
+                        onclick="closeMeditation()"
+                    >
+                        ✕ End
+                    </button>
+
+                </div>
+
+
+
+                <!-- SOUND -->
+
+                <div class="sound-control">
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            id="soundToggle"
+                            checked
+                        >
+
+                        🔊 Ambient sound
+
+                    </label>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+
+<script>
+
+/* =========================================================
+   MOOD
+========================================================= */
+
+function selectMood(button, mood) {
+
+    document
+        .querySelectorAll(".mood-btn")
+        .forEach(
+            btn =>
+                btn.classList.remove("active")
+        );
+
+
+    button.classList.add("active");
+
+
+    const messages = {
+
+        happy:
+            "That's wonderful. Carry that positive energy with you. 🌸",
+
+        calm:
+            "Beautiful. Stay present and enjoy this peaceful moment. 💜",
+
+        okay:
+            "That's okay. A few mindful minutes can help you reset. 🌿",
+
+        stressed:
+            "It's okay to slow down. Let's take one breath at a time. 🌬️",
+
+        tired:
+            "Be gentle with yourself. Rest is part of wellness too. 🫶"
+
+    };
+
+
+    document.getElementById(
+        "moodMessage"
+    ).textContent =
+        messages[mood];
+
+}
+
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+let completed = {
+
+    breathing: false,
+
+    meditation: false,
+
+    relaxation: false,
+
+    positive: false
+
+};
+
+
+function loadProgress() {
+
+    const saved =
+        localStorage.getItem(
+            "femcareStressProgress"
+        );
+
+
+    if (saved) {
+
+        try {
+
+            completed =
+                JSON.parse(saved);
+
+        } catch(e) {}
+
+    }
+
+
+    updateProgress();
+
+}
+
+
+function saveProgress() {
+
+    localStorage.setItem(
+        "femcareStressProgress",
+        JSON.stringify(completed)
+    );
+
+}
+
+
+function completeActivity(activity) {
+
+    completed[activity] = true;
+
+    saveProgress();
+
+    updateProgress();
+
+}
+
+
+function updateProgress() {
+
+    let count = 0;
+
+
+    Object.keys(completed)
+        .forEach(
+            activity => {
+
+                if (completed[activity]) {
+
+                    count++;
+
+                }
+
+            }
+        );
+
+
+    const percentage =
+        Math.round(
+            (count / 4) * 100
+        );
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        count +
+        " of 4 mindfulness activities completed";
+
+
+    document.getElementById(
+        "progressPercent"
+    ).textContent =
+        percentage + "%";
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percentage + "%";
+
+
+    updateActivityButton(
+        "breathingButton",
+        completed.breathing,
+        "Start →"
+    );
+
+
+    updateActivityButton(
+        "meditationButton",
+        completed.meditation,
+        "Explore →"
+    );
+
+
+    updateActivityButton(
+        "relaxationButton",
+        completed.relaxation,
+        "Complete"
+    );
+
+
+    updateActivityButton(
+        "positiveButton",
+        completed.positive,
+        "Complete"
+    );
+
+}
+
+
+function updateActivityButton(
+    id,
+    isCompleted,
+    defaultText
+) {
+
+    const button =
+        document.getElementById(id);
+
+
+    if (!button) return;
+
+
+    if (isCompleted) {
+
+        button.textContent =
+            "✓ Completed";
+
+        button.classList.add(
+            "completed-btn"
+        );
+
+    } else {
+
+        button.textContent =
+            defaultText;
+
+        button.classList.remove(
+            "completed-btn"
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   BREATHING
+========================================================= */
+
+let breathingInterval = null;
+
+let breathingPhaseInterval = null;
+
+let breathingRunning = false;
+
+let breathingPaused = false;
+
+let breathingSeconds = 300;
+
+let currentBreathingPhase = "ready";
+
+let phaseRemaining = 4;
+
+
+const breathingModal =
+    new bootstrap.Modal(
+        document.getElementById(
+            "breathingModal"
+        )
+    );
+
+
+function openBreathing() {
+
+    stopBreathingCompletely();
+
+    breathingSeconds = 300;
+
+    currentBreathingPhase =
+        "ready";
+
+    phaseRemaining = 4;
+
+
+    document.getElementById(
+        "breathingPhase"
+    ).textContent =
+        "Ready";
+
+
+    document.getElementById(
+        "phaseTimer"
+    ).textContent =
+        "04";
+
+
+    document.getElementById(
+        "totalBreathingTimer"
+    ).textContent =
+        "05:00 remaining";
+
+
+    document
+        .getElementById(
+            "breathingCircle"
+        )
+        .classList.remove(
+            "inhale",
+            "hold",
+            "exhale"
+        );
+
+
+    breathingModal.show();
+
+}
+
+
+function startBreathing() {
+
+    if (breathingRunning) return;
+
+
+    breathingRunning = true;
+
+    breathingPaused = false;
+
+
+    if (
+        currentBreathingPhase ===
+        "ready"
+    ) {
+
+        startBreathingPhase(
+            "inhale"
+        );
+
+    }
+
+
+    breathingInterval =
+        setInterval(
+            () => {
+
+                if (
+                    breathingPaused
+                ) return;
+
+
+                breathingSeconds--;
+
+                updateTotalBreathingTimer();
+
+
+                if (
+                    breathingSeconds <= 0
+                ) {
+
+                    finishBreathing();
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+function startBreathingPhase(phase) {
+
+    clearInterval(
+        breathingPhaseInterval
+    );
+
+
+    currentBreathingPhase =
+        phase;
+
+
+    const circle =
+        document.getElementById(
+            "breathingCircle"
+        );
+
+
+    const text =
+        document.getElementById(
+            "breathingPhase"
+        );
+
+
+    circle.classList.remove(
+        "inhale",
+        "hold",
+        "exhale"
+    );
+
+
+    if (phase === "inhale") {
+
+        phaseRemaining = 4;
+
+        text.textContent =
+            "Breathe In";
+
+        circle.classList.add(
+            "inhale"
+        );
+
+    }
+
+
+    if (phase === "hold") {
+
+        phaseRemaining = 2;
+
+        text.textContent =
+            "Hold";
+
+        circle.classList.add(
+            "hold"
+        );
+
+    }
+
+
+    if (phase === "exhale") {
+
+        phaseRemaining = 6;
+
+        text.textContent =
+            "Breathe Out";
+
+        circle.classList.add(
+            "exhale"
+        );
+
+    }
+
+
+    updatePhaseTimer();
+
+
+    breathingPhaseInterval =
+        setInterval(
+            () => {
+
+                if (
+                    breathingPaused
+                ) return;
+
+
+                phaseRemaining--;
+
+                updatePhaseTimer();
+
+
+                if (
+                    phaseRemaining <= 0
+                ) {
+
+                    clearInterval(
+                        breathingPhaseInterval
+                    );
+
+
+                    if (
+                        currentBreathingPhase ===
+                        "inhale"
+                    ) {
+
+                        startBreathingPhase(
+                            "hold"
+                        );
+
+                    }
+
+                    else if (
+                        currentBreathingPhase ===
+                        "hold"
+                    ) {
+
+                        startBreathingPhase(
+                            "exhale"
+                        );
+
+                    }
+
+                    else {
+
+                        startBreathingPhase(
+                            "inhale"
+                        );
+
+                    }
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+function updatePhaseTimer() {
+
+    document.getElementById(
+        "phaseTimer"
+    ).textContent =
+
+        String(
+            Math.max(
+                phaseRemaining,
+                0
+            )
+        ).padStart(
+            2,
+            "0"
+        );
+
+}
+
+
+function updateTotalBreathingTimer() {
+
+    const minutes =
+        Math.floor(
+            breathingSeconds / 60
+        );
+
+
+    const seconds =
+        breathingSeconds % 60;
+
+
+    document.getElementById(
+        "totalBreathingTimer"
+    ).textContent =
+
+        String(minutes).padStart(
+            2,
+            "0"
+        )
+        +
+        ":"
+        +
+        String(seconds).padStart(
+            2,
+            "0"
+        )
+        +
+        " remaining";
+
+}
+
+
+function pauseBreathing() {
+
+    if (!breathingRunning) return;
+
+
+    breathingPaused =
+        !breathingPaused;
+
+
+    document.getElementById(
+        "breathingPauseBtn"
+    ).textContent =
+
+        breathingPaused
+            ? "▶ Resume"
+            : "⏸ Pause";
+
+}
+
+
+function finishBreathing() {
+
+    stopBreathingCompletely();
+
+
+    completed.breathing = true;
+
+    saveProgress();
+
+    updateProgress();
+
+
+    document.getElementById(
+        "breathingPhase"
+    ).textContent =
+        "Beautiful 💗";
+
+
+    document.getElementById(
+        "phaseTimer"
+    ).textContent =
+        "✓";
+
+
+    document.getElementById(
+        "totalBreathingTimer"
+    ).textContent =
+        "5 minute session complete";
+
+}
+
+
+function stopBreathingCompletely() {
+
+    clearInterval(
+        breathingInterval
+    );
+
+    clearInterval(
+        breathingPhaseInterval
+    );
+
+    breathingInterval = null;
+
+    breathingPhaseInterval = null;
+
+    breathingRunning = false;
+
+    breathingPaused = false;
+
+}
+
+
+function closeBreathing() {
+
+    stopBreathingCompletely();
+
+}
+
+
+
+/* =========================================================
+   MEDITATION DATA
+========================================================= */
+
+const meditationThemes = {
+
+    nature: {
+
+        title:
+            "Nature Meditation",
+
+        icon:
+            "🌿",
+
+        subtitle:
+            "Let the peaceful sounds of nature slow your thoughts.",
+
+        guidance:
+            "Close your eyes. Relax your shoulders. Take a slow, comfortable breath and imagine yourself surrounded by fresh greenery.",
+
+        sound:
+            "nature"
+
+    },
+
+
+    ocean: {
+
+        title:
+            "Ocean Meditation",
+
+        icon:
+            "🌊",
+
+        subtitle:
+            "Let the rhythm of the waves carry your thoughts away.",
+
+        guidance:
+            "Imagine sitting beside a quiet ocean. Breathe in as the wave approaches and breathe out as it gently returns.",
+
+        sound:
+            "ocean"
+
+    },
+
+
+    rain: {
+
+        title:
+            "Rain Meditation",
+
+        icon:
+            "🌧️",
+
+        subtitle:
+            "Listen to the gentle rhythm of rain and allow yourself to slow down.",
+
+        guidance:
+            "Imagine yourself somewhere warm and safe while soft rain falls outside. Let each sound soften your thoughts.",
+
+        sound:
+            "rain"
+
+    },
+
+
+    forest: {
+
+        title:
+            "Forest Birds",
+
+        icon:
+            "🐦",
+
+        subtitle:
+            "Step into a peaceful forest filled with birdsong and fresh air.",
+
+        guidance:
+            "Imagine walking slowly through a green forest. Hear the birds, feel the breeze, and let your mind become quiet.",
+
+        sound:
+            "forest"
+
+    },
+
+
+    sunset: {
+
+        title:
+            "Sunset Meditation",
+
+        icon:
+            "🌅",
+
+        subtitle:
+            "Watch the colours of the evening sky and let the day gently fade.",
+
+        guidance:
+            "Imagine sitting beneath a warm sunset. Release everything you no longer need to carry today.",
+
+        sound:
+            "sunset"
+
+    },
+
+
+    night: {
+
+        title:
+            "Night & Sleep",
+
+        icon:
+            "🌙",
+
+        subtitle:
+            "A quiet night environment designed for deep relaxation.",
+
+        guidance:
+            "Let your body become heavy. Relax your jaw, shoulders and hands. There is nowhere you need to be right now.",
+
+        sound:
+            "night"
+
+    }
+
+};
+
+
+
+/* =========================================================
+   MEDITATION VARIABLES
+========================================================= */
+
+let selectedMeditationTheme =
+    "nature";
+
+let meditationDuration =
+    5;
+
+let meditationSeconds =
+    300;
+
+let meditationInterval =
+    null;
+
+let meditationRunning =
+    false;
+
+let meditationPaused =
+    false;
+
+let guidanceInterval =
+    null;
+
+
+/* =========================================================
+   AUDIO ENGINE
+========================================================= */
+
+let audioContext =
+    null;
+
+let audioNodes = [];
+
+let audioGain = null;
+
+
+function startAmbientSound(
+    theme
+) {
+
+    stopAmbientSound();
+
+
+    if (
+        !document.getElementById(
+            "soundToggle"
+        ).checked
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+
+        audioGain =
+            audioContext.createGain();
+
+
+        audioGain.gain.value =
+            0.045;
+
+
+        audioGain.connect(
+            audioContext.destination
+        );
+
+
+        if (
+            theme === "rain"
+        ) {
+
+            createRainSound();
+
+        }
+
+        else if (
+            theme === "ocean"
+        ) {
+
+            createOceanSound();
+
+        }
+
+        else if (
+            theme === "forest"
+        ) {
+
+            createForestSound();
+
+        }
+
+        else if (
+            theme === "nature"
+        ) {
+
+            createNatureSound();
+
+        }
+
+        else if (
+            theme === "sunset"
+        ) {
+
+            createSunsetSound();
+
+        }
+
+        else {
+
+            createNightSound();
+
+        }
+
+    }
+
+    catch(error) {
+
+        console.log(
+            "Ambient sound unavailable:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RAIN SOUND
+========================================================= */
+
+function createRainSound() {
+
+    const bufferSize =
+        audioContext.sampleRate * 2;
+
+
+    const buffer =
+        audioContext.createBuffer(
+            1,
+            bufferSize,
+            audioContext.sampleRate
+        );
+
+
+    const data =
+        buffer.getChannelData(0);
+
+
+    for (
+        let i = 0;
+        i < bufferSize;
+        i++
+    ) {
+
+        data[i] =
+            (
+                Math.random() * 2 - 1
+            ) * 0.35;
+
+    }
+
+
+    const source =
+        audioContext.createBufferSource();
+
+
+    source.buffer =
+        buffer;
+
+    source.loop =
+        true;
+
+
+    const filter =
+        audioContext.createBiquadFilter();
+
+
+    filter.type =
+        "lowpass";
+
+    filter.frequency.value =
+        3500;
+
+
+    source.connect(filter);
+
+    filter.connect(audioGain);
+
+    source.start();
+
+
+    audioNodes.push(source);
+    audioNodes.push(filter);
+
+}
+
+
+
+/* =========================================================
+   OCEAN SOUND
+========================================================= */
+
+function createOceanSound() {
+
+    const oscillator =
+        audioContext.createOscillator();
+
+
+    const gain =
+        audioContext.createGain();
+
+
+    oscillator.type =
+        "sine";
+
+    oscillator.frequency.value =
+        90;
+
+
+    gain.gain.value =
+        0.20;
+
+
+    oscillator.connect(gain);
+
+    gain.connect(audioGain);
+
+    oscillator.start();
+
+
+    const lfo =
+        audioContext.createOscillator();
+
+
+    const lfoGain =
+        audioContext.createGain();
+
+
+    lfo.frequency.value =
+        0.08;
+
+    lfoGain.gain.value =
+        65;
+
+
+    lfo.connect(
+        lfoGain
+    );
+
+
+    lfoGain.connect(
+        oscillator.frequency
+    );
+
+
+    lfo.start();
+
+
+    audioNodes.push(
+        oscillator,
+        gain,
+        lfo,
+        lfoGain
+    );
+
+}
+
+
+
+/* =========================================================
+   FOREST BIRDS
+========================================================= */
+
+function createForestSound() {
+
+    const master =
+        audioContext.createGain();
+
+
+    master.gain.value =
+        0.15;
+
+
+    master.connect(
+        audioGain
+    );
+
+
+    audioNodes.push(
+        master
+    );
+
+
+    function birdChirp() {
+
+        if (
+            !audioContext
+        ) return;
+
+
+        const osc =
+            audioContext.createOscillator();
+
+
+        const gain =
+            audioContext.createGain();
+
+
+        const now =
+            audioContext.currentTime;
+
+
+        osc.type =
+            "sine";
+
+
+        osc.frequency.setValueAtTime(
+            900,
+            now
+        );
+
+
+        osc.frequency.exponentialRampToValueAtTime(
+            1600,
+            now + .12
+        );
+
+
+        osc.frequency.exponentialRampToValueAtTime(
+            1000,
+            now + .25
+        );
+
+
+        gain.gain.setValueAtTime(
+            0,
+            now
+        );
+
+
+        gain.gain.linearRampToValueAtTime(
+            0.12,
+            now + .04
+        );
+
+
+        gain.gain.linearRampToValueAtTime(
+            0,
+            now + .3
+        );
+
+
+        osc.connect(gain);
+
+        gain.connect(master);
+
+        osc.start(now);
+
+        osc.stop(
+            now + .32
+        );
+
+
+        setTimeout(
+            birdChirp,
+            3500 +
+            Math.random() * 5000
+        );
+
+    }
+
+
+    birdChirp();
+
+}
+
+
+
+/* =========================================================
+   NATURE SOUND
+========================================================= */
+
+function createNatureSound() {
+
+    const osc =
+        audioContext.createOscillator();
+
+
+    const gain =
+        audioContext.createGain();
+
+
+    osc.type =
+        "sine";
+
+    osc.frequency.value =
+        220;
+
+
+    gain.gain.value =
+        0.05;
+
+
+    osc.connect(gain);
+
+    gain.connect(audioGain);
+
+    osc.start();
+
+
+    audioNodes.push(
+        osc,
+        gain
+    );
+
+}
+
+
+
+/* =========================================================
+   SUNSET SOUND
+========================================================= */
+
+function createSunsetSound() {
+
+    const osc =
+        audioContext.createOscillator();
+
+
+    const gain =
+        audioContext.createGain();
+
+
+    osc.type =
+        "sine";
+
+    osc.frequency.value =
+        174;
+
+
+    gain.gain.value =
+        0.05;
+
+
+    osc.connect(gain);
+
+    gain.connect(audioGain);
+
+    osc.start();
+
+
+    audioNodes.push(
+        osc,
+        gain
+    );
+
+}
+
+
+
+/* =========================================================
+   NIGHT SOUND
+========================================================= */
+
+function createNightSound() {
+
+    const osc =
+        audioContext.createOscillator();
+
+
+    const gain =
+        audioContext.createGain();
+
+
+    osc.type =
+        "sine";
+
+    osc.frequency.value =
+        110;
+
+
+    gain.gain.value =
+        0.04;
+
+
+    osc.connect(gain);
+
+    gain.connect(audioGain);
+
+    osc.start();
+
+
+    audioNodes.push(
+        osc,
+        gain
+    );
+
+}
+
+
+
+/* =========================================================
+   STOP AUDIO
+========================================================= */
+
+function stopAmbientSound() {
+
+    audioNodes.forEach(
+        node => {
+
+            try {
+
+                if (
+                    node.stop
+                ) {
+
+                    node.stop();
+
+                }
+
+                else if (
+                    node.disconnect
+                ) {
+
+                    node.disconnect();
+
+                }
+
+            }
+
+            catch(e) {}
+
+        }
+    );
+
+
+    audioNodes = [];
+
+
+    if (audioContext) {
+
+        try {
+
+            audioContext.close();
+
+        }
+
+        catch(e) {}
+
+        audioContext = null;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   OPEN MEDITATION
+========================================================= */
+
+const meditationModal =
+    new bootstrap.Modal(
+        document.getElementById(
+            "meditationModal"
+        )
+    );
+
+
+function openMeditation() {
+
+    stopMeditation();
+
+    meditationSeconds =
+        meditationDuration * 60;
+
+
+    updateMeditationTimer();
+
+    renderMeditationTheme(
+        selectedMeditationTheme
+    );
+
+
+    meditationModal.show();
+
+}
+
+
+
+/* =========================================================
+   SELECT THEME
+========================================================= */
+
+function selectMeditationTheme(
+    theme
+) {
+
+    if (meditationRunning) {
+
+        stopMeditation();
+
+    }
+
+
+    selectedMeditationTheme =
+        theme;
+
+
+    renderMeditationTheme(
+        theme
+    );
+
+}
+
+
+function renderMeditationTheme(
+    theme
+) {
+
+    const data =
+        meditationThemes[theme];
+
+
+    const experience =
+        document.getElementById(
+            "meditationExperience"
+        );
+
+
+    experience.className =
+        "modal-content meditation-modal " +
+        theme;
+
+
+    document
+        .querySelectorAll(
+            ".theme-btn"
+        )
+        .forEach(
+            btn =>
+                btn.classList.remove(
+                    "active"
+                )
+        );
+
+
+    const activeButton =
+        document.getElementById(
+            "theme" +
+            theme.charAt(0).toUpperCase() +
+            theme.slice(1)
+        );
+
+
+    if (activeButton) {
+
+        activeButton.classList.add(
+            "active"
+        );
+
+    }
+
+
+    document.getElementById(
+        "meditationThemeIcon"
+    ).textContent =
+        data.icon;
+
+
+    document.getElementById(
+        "meditationThemeTitle"
+    ).textContent =
+        data.title;
+
+
+    document.getElementById(
+        "meditationSubtitle"
+    ).textContent =
+        data.subtitle;
+
+
+    document.getElementById(
+        "meditationGuidance"
+    ).textContent =
+        data.guidance;
+
+
+    document.getElementById(
+        "meditationSymbol"
+    ).textContent =
+        data.icon;
+
+
+    createThemeAnimations(
+        theme
+    );
+
+}
+
+
+
+/* =========================================================
+   THEME ANIMATIONS
+========================================================= */
+
+function createThemeAnimations(
+    theme
+) {
+
+    document.getElementById(
+        "rainContainer"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "starsContainer"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "leavesContainer"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "birdsContainer"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "oceanWaves"
+    ).style.display =
+        "none";
+
+
+    if (
+        theme === "rain"
+    ) {
+
+        const rain =
+            document.getElementById(
+                "rainContainer"
+            );
+
+
+        for (
+            let i = 0;
+            i < 90;
+            i++
+        ) {
+
+            const drop =
+                document.createElement(
+                    "div"
+                );
+
+
+            drop.className =
+                "rain-drop";
+
+
+            drop.style.left =
+                Math.random() * 100 +
+                "%";
+
+
+            drop.style.animationDuration =
+                (
+                    .5 +
+                    Math.random() * .8
+                ) +
+                "s";
+
+
+            drop.style.animationDelay =
+                Math.random() * 2 +
+                "s";
+
+
+            rain.appendChild(
+                drop
+            );
+
+        }
+
+    }
+
+
+    if (
+        theme === "ocean"
+    ) {
+
+        document.getElementById(
+            "oceanWaves"
+        ).style.display =
+            "block";
+
+    }
+
+
+    if (
+        theme === "night"
+    ) {
+
+        const stars =
+            document.getElementById(
+                "starsContainer"
+            );
+
+
+        for (
+            let i = 0;
+            i < 80;
+            i++
+        ) {
+
+            const star =
+                document.createElement(
+                    "div"
+                );
+
+
+            star.className =
+                "star";
+
+
+            star.style.left =
+                Math.random() * 100 +
+                "%";
+
+
+            star.style.top =
+                Math.random() * 65 +
+                "%";
+
+
+            star.style.animationDelay =
+                Math.random() * 3 +
+                "s";
+
+
+            stars.appendChild(
+                star
+            );
+
+        }
+
+    }
+
+
+    if (
+        theme === "nature" ||
+        theme === "forest"
+    ) {
+
+        const leaves =
+            document.getElementById(
+                "leavesContainer"
+            );
+
+
+        for (
+            let i = 0;
+            i < 14;
+            i++
+        ) {
+
+            const leaf =
+                document.createElement(
+                    "div"
+                );
+
+
+            leaf.className =
+                "leaf";
+
+
+            leaf.textContent =
+                i % 2 === 0
+                    ? "🍃"
+                    : "🌿";
+
+
+            leaf.style.left =
+                Math.random() * 100 +
+                "%";
+
+
+            leaf.style.animationDuration =
+                (
+                    6 +
+                    Math.random() * 6
+                ) +
+                "s";
+
+
+            leaf.style.animationDelay =
+                Math.random() * 5 +
+                "s";
+
+
+            leaves.appendChild(
+                leaf
+            );
+
+        }
+
+    }
+
+
+    if (
+        theme === "forest"
+    ) {
+
+        const birds =
+            document.getElementById(
+                "birdsContainer"
+            );
+
+
+        for (
+            let i = 0;
+            i < 3;
+            i++
+        ) {
+
+            const bird =
+                document.createElement(
+                    "div"
+                );
+
+
+            bird.className =
+                "bird";
+
+
+            bird.textContent =
+                "🐦";
+
+
+            bird.style.top =
+                (
+                    10 +
+                    i * 22
+                ) +
+                "px";
+
+
+            bird.style.animationDelay =
+                i * 3 +
+                "s";
+
+
+            birds.appendChild(
+                bird
+            );
+
+        }
+
+    }
+
+}
+
+
+
+/* =========================================================
+   DURATION
+========================================================= */
+
+function setMeditationDuration(
+    minutes
+) {
+
+    if (meditationRunning) {
+
+        return;
+
+    }
+
+
+    meditationDuration =
+        minutes;
+
+
+    meditationSeconds =
+        minutes * 60;
+
+
+    updateMeditationTimer();
+
+
+    document
+        .querySelectorAll(
+            ".duration-btn"
+        )
+        .forEach(
+            btn =>
+                btn.classList.remove(
+                    "active"
+                )
+        );
+
+
+    document.getElementById(
+        "duration" +
+        minutes
+    ).classList.add(
+        "active"
+    );
+
+}
+
+
+
+/* =========================================================
+   START MEDITATION
+========================================================= */
+
+function startMeditation() {
+
+    if (
+        meditationRunning
+    ) {
+
+        return;
+
+    }
+
+
+    meditationRunning =
+        true;
+
+
+    meditationPaused =
+        false;
+
+
+    startAmbientSound(
+        selectedMeditationTheme
+    );
+
+
+    document.getElementById(
+        "meditationStartBtn"
+    ).textContent =
+        "🧘 Meditating...";
+
+
+    startGuidance();
+
+
+    meditationInterval =
+        setInterval(
+            () => {
+
+                if (
+                    meditationPaused
+                ) {
+
+                    return;
+
+                }
+
+
+                meditationSeconds--;
+
+
+                updateMeditationTimer();
+
+
+                if (
+                    meditationSeconds <= 0
+                ) {
+
+                    finishMeditation();
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+
+/* =========================================================
+   GUIDED MEDITATION
+========================================================= */
+
+function startGuidance() {
+
+    clearInterval(
+        guidanceInterval
+    );
+
+
+    const messages = {
+
+        nature: [
+
+            "Close your eyes and take a slow breath.",
+
+            "Feel your shoulders becoming softer.",
+
+            "Imagine cool green leaves moving gently in the breeze.",
+
+            "Let your thoughts pass without holding onto them.",
+
+            "Return your attention gently to your breathing."
+
+        ],
+
+
+        ocean: [
+
+            "Breathe in as the wave approaches.",
+
+            "Pause gently at the top of your breath.",
+
+            "Breathe out as the wave returns to the sea.",
+
+            "Listen to the rhythm of the imaginary waves.",
+
+            "Let each exhale release a little tension."
+
+        ],
+
+
+        rain: [
+
+            "Imagine soft rain falling outside your window.",
+
+            "Listen to each imagined raindrop.",
+
+            "Relax your forehead and unclench your jaw.",
+
+            "You do not need to solve anything right now.",
+
+            "Simply breathe and allow yourself to rest."
+
+        ],
+
+
+        forest: [
+
+            "Imagine standing beneath tall green trees.",
+
+            "Listen to the distant birdsong.",
+
+            "Feel a gentle breeze around you.",
+
+            "With every breath, allow your mind to become quieter.",
+
+            "Stay here for a little while."
+
+        ],
+
+
+        sunset: [
+
+            "Imagine the warm colours of the evening sky.",
+
+            "Let the day slowly come to an end.",
+
+            "Release anything that no longer needs your attention.",
+
+            "Breathe slowly and notice the peacefulness around you.",
+
+            "You have done enough for today."
+
+        ],
+
+
+        night: [
+
+            "Imagine yourself beneath a quiet night sky.",
+
+            "Relax your hands, shoulders and face.",
+
+            "Let your body become comfortably heavy.",
+
+            "There is nothing you need to accomplish right now.",
+
+            "Simply rest and breathe."
+
+        ]
+
+    };
+
+
+    const lines =
+        messages[
+            selectedMeditationTheme
+        ];
+
+
+    let index = 0;
+
+
+    document.getElementById(
+        "meditationGuidance"
+    ).textContent =
+        lines[0];
+
+
+    guidanceInterval =
+        setInterval(
+            () => {
+
+                if (
+                    meditationPaused
+                ) return;
+
+
+                index =
+                    (index + 1)
+                    %
+                    lines.length;
+
+
+                const box =
+                    document.getElementById(
+                        "meditationGuidance"
+                    );
+
+
+                box.style.opacity =
+                    "0";
+
+
+                setTimeout(
+                    () => {
+
+                        box.textContent =
+                            lines[index];
+
+                        box.style.opacity =
+                            "1";
+
+                    },
+                    400
+                );
+
+            },
+            12000
+        );
+
+}
+
+
+
+/* =========================================================
+   PAUSE
+========================================================= */
+
+function pauseMeditation() {
+
+    if (
+        !meditationRunning
+    ) {
+
+        return;
+
+    }
+
+
+    meditationPaused =
+        !meditationPaused;
+
+
+    const button =
+        document.getElementById(
+            "meditationPauseBtn"
+        );
+
+
+    if (
+        meditationPaused
+    ) {
+
+        button.textContent =
+            "▶ Resume";
+
+
+        document.getElementById(
+            "meditationGuidance"
+        ).textContent =
+            "Paused. Take your time. Breathe naturally. 💜";
+
+
+        stopAmbientSound();
+
+    }
+
+    else {
+
+        button.textContent =
+            "⏸ Pause";
+
+
+        startAmbientSound(
+            selectedMeditationTheme
+        );
+
+
+        startGuidance();
+
+    }
+
+}
+
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+function updateMeditationTimer() {
+
+    const minutes =
+        Math.floor(
+            meditationSeconds / 60
+        );
+
+
+    const seconds =
+        meditationSeconds % 60;
+
+
+    document.getElementById(
+        "meditationTimer"
+    ).textContent =
+
+        String(minutes).padStart(
+            2,
+            "0"
+        )
+        +
+        ":"
+        +
+        String(seconds).padStart(
+            2,
+            "0"
+        );
+
+}
+
+
+
+/* =========================================================
+   RESTART
+========================================================= */
+
+function restartMeditation() {
+
+    stopMeditation();
+
+
+    meditationSeconds =
+        meditationDuration * 60;
+
+
+    updateMeditationTimer();
+
+
+    document.getElementById(
+        "meditationStartBtn"
+    ).textContent =
+        "▶ Begin Meditation";
+
+
+    document.getElementById(
+        "meditationPauseBtn"
+    ).textContent =
+        "⏸ Pause";
+
+
+    renderMeditationTheme(
+        selectedMeditationTheme
+    );
+
+}
+
+
+
+/* =========================================================
+   FINISH
+========================================================= */
+
+function finishMeditation() {
+
+    stopMeditation();
+
+
+    completed.meditation =
+        true;
+
+
+    saveProgress();
+
+    updateProgress();
+
+
+    document.getElementById(
+        "meditationTimer"
+    ).textContent =
+        "00:00";
+
+
+    document.getElementById(
+        "meditationGuidance"
+    ).textContent =
+        "Beautiful. You gave yourself this peaceful time. 🌸";
+
+
+    document.getElementById(
+        "meditationStartBtn"
+    ).textContent =
+        "✓ Completed";
+
+
+    document.getElementById(
+        "meditationPauseBtn"
+    ).textContent =
+        "⏸ Pause";
+
+}
+
+
+
+/* =========================================================
+   STOP
+========================================================= */
+
+function stopMeditation() {
+
+    clearInterval(
+        meditationInterval
+    );
+
+
+    clearInterval(
+        guidanceInterval
+    );
+
+
+    meditationInterval =
+        null;
+
+
+    guidanceInterval =
+        null;
+
+
+    meditationRunning =
+        false;
+
+
+    meditationPaused =
+        false;
+
+
+    stopAmbientSound();
+
+}
+
+
+
+/* =========================================================
+   CLOSE
+========================================================= */
+
+function closeMeditation() {
+
+    stopMeditation();
+
+}
+
+
+
+/* =========================================================
+   SOUND TOGGLE
+========================================================= */
+
+document.getElementById(
+    "soundToggle"
+).addEventListener(
+    "change",
+    function() {
+
+        if (
+            this.checked &&
+            meditationRunning &&
+            !meditationPaused
+        ) {
+
+            startAmbientSound(
+                selectedMeditationTheme
+            );
+
+        }
+
+        else {
+
+            stopAmbientSound();
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   MODAL CLEANUP
+========================================================= */
+
+document.getElementById(
+    "meditationModal"
+).addEventListener(
+    "hidden.bs.modal",
+    function() {
+
+        stopMeditation();
+
+    }
+);
+
+
+document.getElementById(
+    "breathingModal"
+).addEventListener(
+    "hidden.bs.modal",
+    function() {
+
+        stopBreathingCompletely();
+
+    }
+);
+
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+loadProgress();
+
+</script>
+
+
+</body>
+
+</html>

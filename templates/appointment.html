@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - Book Appointment</title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family: "DM Sans", sans-serif;
+
+            color: #332b3d;
+
+            background:
+                radial-gradient(
+                    circle at 8% 5%,
+                    #f1e5ff 0%,
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 92% 10%,
+                    #ffe5ef 0%,
+                    transparent 28%
+                ),
+                #fcf9fd;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        .page {
+
+            width: min(100% - 32px, 920px);
+
+            margin: auto;
+        }
+
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            padding: 18px 0;
+        }
+
+
+        .nav-inner {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            color: #7047a4;
+
+            font-size: 19px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eadcff,
+                    #f9dce9
+                );
+
+            font-size: 18px;
+        }
+
+
+        .nav-button {
+
+            padding: 8px 14px;
+
+            border-radius: 18px;
+
+            border: 1px solid #e7ddec;
+
+            background: #ffffff;
+
+            color: #76518f;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .nav-button:hover {
+
+            background: #f7f1fb;
+
+            border-color: #d5c1e2;
+
+            color: #65438a;
+        }
+
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            text-align: center;
+
+            padding: 28px 0 20px;
+        }
+
+
+        .header-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f0e3ff,
+                    #ffe8f0
+                );
+
+            font-size: 24px;
+
+            box-shadow:
+                0 7px 20px
+                rgba(100, 70, 120, 0.08);
+        }
+
+
+        .header h1 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 34px;
+
+            color: #35293f;
+
+            margin-top: 12px;
+        }
+
+
+        .header h1 span {
+
+            color: #a45e98;
+        }
+
+
+        .header p {
+
+            color: #8d8295;
+
+            font-size: 12px;
+
+            margin-top: 6px;
+        }
+
+
+
+        /* =========================
+           DOCTOR SUMMARY
+        ========================= */
+
+        .doctor-card {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff3f8,
+                    #f5effc
+                );
+
+            border: 1px solid #eee2f2;
+
+            border-radius: 20px;
+
+            padding: 18px 20px;
+
+            margin-bottom: 15px;
+
+            box-shadow:
+                0 7px 22px
+                rgba(85, 60, 105, 0.05);
+        }
+
+
+        .doctor-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background: #ffffff;
+
+            font-size: 26px;
+        }
+
+
+        .doctor-details {
+
+            flex: 1;
+        }
+
+
+        .doctor-name {
+
+            color: #3b3044;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .specialization {
+
+            color: #9a5d91;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            margin-top: 3px;
+        }
+
+
+        .doctor-info {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 6px;
+
+            color: #8d8391;
+
+            font-size: 9px;
+        }
+
+
+        .doctor-info span {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 3px;
+        }
+
+
+
+        /* =========================
+           FORM CARD
+        ========================= */
+
+        .form-card {
+
+            background: #ffffff;
+
+            border: 1px solid #eee7f2;
+
+            border-radius: 22px;
+
+            padding: 27px;
+
+            box-shadow:
+                0 9px 30px
+                rgba(80, 60, 100, 0.055);
+        }
+
+
+        .section-heading {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .section-heading-icon {
+
+            width: 34px;
+
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background: #f5edfa;
+
+            font-size: 16px;
+        }
+
+
+        .section-heading h2 {
+
+            font-size: 16px;
+
+            color: #3b3044;
+
+            font-weight: 700;
+        }
+
+
+        .section-heading p {
+
+            color: #988d9e;
+
+            font-size: 9px;
+
+            margin-top: 2px;
+        }
+
+
+
+        /* =========================
+           FORM GRID
+        ========================= */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .full-width {
+
+            grid-column: 1 / -1;
+        }
+
+
+        .form-label {
+
+            color: #51465a;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            margin-bottom: 7px;
+        }
+
+
+        .form-control,
+        .form-select {
+
+            width: 100%;
+
+            height: 44px;
+
+            border: 1px solid #e6dfea;
+
+            border-radius: 12px;
+
+            background: #fcfafd;
+
+            padding: 0 12px;
+
+            color: #403548;
+
+            font-family: inherit;
+
+            font-size: 11px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        .form-control:focus,
+        .form-select:focus {
+
+            background: #ffffff;
+
+            border-color: #b997d4;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(145, 92, 188, 0.08);
+        }
+
+
+        textarea.form-control {
+
+            height: 105px;
+
+            padding: 12px;
+
+            resize: vertical;
+
+            line-height: 1.5;
+        }
+
+
+        textarea.form-control::placeholder {
+
+            color: #afa5b5;
+        }
+
+
+        .field-note {
+
+            color: #a198a7;
+
+            font-size: 9px;
+
+            margin-top: 5px;
+        }
+
+
+
+        /* =========================
+           CONSULTATION OPTIONS
+        ========================= */
+
+        .consultation-options {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+
+        .consultation-option {
+
+            position: relative;
+        }
+
+
+        .consultation-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+
+        .consultation-label {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 12px;
+
+            border: 1px solid #e7e0eb;
+
+            border-radius: 13px;
+
+            background: #fcfafd;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .consultation-label:hover {
+
+            border-color: #cfb5df;
+
+            background: #faf6fd;
+        }
+
+
+        .option-icon {
+
+            width: 33px;
+
+            height: 33px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #f3eafa;
+
+            font-size: 15px;
+        }
+
+
+        .option-title {
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            color: #403548;
+        }
+
+
+        .option-subtitle {
+
+            color: #9b909f;
+
+            font-size: 8px;
+
+            margin-top: 2px;
+        }
+
+
+        .consultation-option input:checked
+        + .consultation-label {
+
+            border-color: #a77bc4;
+
+            background: #f8f0fc;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(167,123,196,0.08);
+        }
+
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .submit-area {
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #f0ebf3;
+
+            display: flex;
+
+            justify-content: center;
+        }
+
+
+        .book-button {
+
+            border: none;
+
+            min-width: 210px;
+
+            height: 44px;
+
+            padding: 0 25px;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7950b5,
+                    #a65f9a
+                );
+
+            color: #ffffff;
+
+            font-family: inherit;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px
+                rgba(121, 80, 181, 0.18);
+
+            transition: 0.2s;
+        }
+
+
+        .book-button:hover {
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 11px 25px
+                rgba(121, 80, 181, 0.24);
+        }
+
+
+
+        /* =========================
+           NOTE
+        ========================= */
+
+        .note {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 9px;
+
+            margin-top: 13px;
+
+            padding: 12px 14px;
+
+            background: #faf7fc;
+
+            border: 1px solid #eee6f2;
+
+            border-radius: 13px;
+
+            color: #8c8292;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+
+        .note-icon {
+
+            font-size: 13px;
+        }
+
+
+
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
+
+        .navigation {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+            margin: 22px 0 35px;
+        }
+
+
+        .navigation a {
+
+            padding: 8px 14px;
+
+            border-radius: 17px;
+
+            border: 1px solid #e7ddec;
+
+            background: #ffffff;
+
+            color: #776b82;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .navigation a:hover {
+
+            color: #7047a4;
+
+            background: #faf7fc;
+
+            border-color: #d5c1e2;
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .page {
+
+                width: calc(100% - 22px);
+            }
+
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .full-width {
+
+                grid-column: auto;
+            }
+
+
+            .consultation-options {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .doctor-card {
+
+                align-items: flex-start;
+            }
+
+
+            .header h1 {
+
+                font-size: 29px;
+            }
+
+
+            .form-card {
+
+                padding: 20px;
+            }
+
+        }
+
+
+        @media (max-width: 430px) {
+
+            .doctor-info {
+
+                flex-direction: column;
+
+                gap: 4px;
+            }
+
+
+            .nav-button {
+
+                font-size: 10px;
+
+                padding: 7px 11px;
+            }
+
+
+            .brand {
+
+                font-size: 17px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="page nav-inner">
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                🌸
+            </span>
+
+            FemCare AI
+
+        </a>
+
+
+        <a
+            href="{{ url_for('doctors') }}"
+            class="nav-button"
+        >
+
+            👩‍⚕️ Doctors
+
+        </a>
+
+
+    </div>
+
+</nav>
+
+
+
+<main class="page">
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<section class="header">
+
+
+    <div class="header-icon">
+        📅
+    </div>
+
+
+    <h1>
+
+        Book an
+        <span>Appointment</span>
+
+    </h1>
+
+
+    <p>
+
+        Choose a convenient time for your
+        personalized consultation.
+
+    </p>
+
+
+</section>
+
+
+
+<!-- =========================
+     DOCTOR
+========================= -->
+
+<div class="doctor-card">
+
+
+    <div class="doctor-icon">
+        👩‍⚕️
+    </div>
+
+
+    <div class="doctor-details">
+
+
+        {% if doctor %}
+
+
+            <div class="doctor-name">
+
+                {{ doctor["name"] }}
+
+            </div>
+
+
+            <div class="specialization">
+
+                {{ doctor["specialization"] }}
+
+            </div>
+
+
+            <div class="doctor-info">
+
+
+                {% if doctor["experience"] %}
+
+                    <span>
+                        🎓
+                        {{ doctor["experience"] }}
+                        years experience
+                    </span>
+
+                {% endif %}
+
+
+                {% if doctor["location"] %}
+
+                    <span>
+                        📍
+                        {{ doctor["location"] }}
+                    </span>
+
+                {% endif %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="doctor-name">
+
+                Doctor Consultation
+
+            </div>
+
+
+            <div class="specialization">
+
+                Choose your consultation details below
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     APPOINTMENT FORM
+========================= -->
+
+<div class="form-card">
+
+
+    <div class="section-heading">
+
+
+        <div class="section-heading-icon">
+            📝
+        </div>
+
+
+        <div>
+
+            <h2>
+                Appointment details
+            </h2>
+
+
+            <p>
+                Tell us when you'd like to meet.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <form
+        method="POST"
+        action=""
+    >
+
+
+        <div class="form-grid">
+
+
+            <!-- DATE -->
+
+            <div class="form-group">
+
+
+                <label
+                    for="appointment_date"
+                    class="form-label"
+                >
+
+                    📅 Appointment Date
+
+                </label>
+
+
+                <input
+                    type="date"
+                    id="appointment_date"
+                    name="appointment_date"
+                    class="form-control"
+                    required
+                >
+
+
+                <div class="field-note">
+                    Select your preferred consultation date.
+                </div>
+
+
+            </div>
+
+
+
+            <!-- TIME -->
+
+            <div class="form-group">
+
+
+                <label
+                    for="appointment_time"
+                    class="form-label"
+                >
+
+                    🕐 Appointment Time
+
+                </label>
+
+
+                <input
+                    type="time"
+                    id="appointment_time"
+                    name="appointment_time"
+                    class="form-control"
+                    required
+                >
+
+
+                <div class="field-note">
+                    Choose a convenient time.
+                </div>
+
+
+            </div>
+
+
+
+            <!-- REASON -->
+
+            <div class="form-group full-width">
+
+
+                <label
+                    for="reason"
+                    class="form-label"
+                >
+
+                    💬 Reason for Consultation
+
+                </label>
+
+
+                <textarea
+                    id="reason"
+                    name="reason"
+                    class="form-control"
+                    placeholder="Briefly describe what you'd like to discuss..."
+                    required
+                ></textarea>
+
+
+            </div>
+
+
+
+            <!-- CONSULTATION TYPE -->
+
+            <div class="form-group full-width">
+
+
+                <label class="form-label">
+
+                    🩺 Consultation Type
+
+                </label>
+
+
+                <div class="consultation-options">
+
+
+                    <!-- ONLINE -->
+
+                    <div class="consultation-option">
+
+
+                        <input
+                            type="radio"
+                            id="online"
+                            name="consultation_type"
+                            value="Online"
+                            required
+                        >
+
+
+                        <label
+                            for="online"
+                            class="consultation-label"
+                        >
+
+
+                            <div class="option-icon">
+                                💻
+                            </div>
+
+
+                            <div>
+
+                                <div class="option-title">
+                                    Online Consultation
+                                </div>
+
+
+                                <div class="option-subtitle">
+                                    Connect virtually
+                                </div>
+
+                            </div>
+
+
+                        </label>
+
+
+                    </div>
+
+
+
+                    <!-- IN PERSON -->
+
+                    <div class="consultation-option">
+
+
+                        <input
+                            type="radio"
+                            id="in_person"
+                            name="consultation_type"
+                            value="In-Person"
+                        >
+
+
+                        <label
+                            for="in_person"
+                            class="consultation-label"
+                        >
+
+
+                            <div class="option-icon">
+                                🏥
+                            </div>
+
+
+                            <div>
+
+                                <div class="option-title">
+                                    In-Person Consultation
+                                </div>
+
+
+                                <div class="option-subtitle">
+                                    Visit the clinic
+                                </div>
+
+                            </div>
+
+
+                        </label>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- SUBMIT -->
+
+        <div class="submit-area">
+
+
+            <button
+                type="submit"
+                class="book-button"
+            >
+
+                📅
+                Book Appointment
+                →
+
+            </button>
+
+
+        </div>
+
+
+    </form>
+
+
+</div>
+
+
+
+<!-- =========================
+     NOTE
+========================= -->
+
+<div class="note">
+
+
+    <div class="note-icon">
+        🌿
+    </div>
+
+
+    <div>
+
+        <strong>
+            Before you book:
+        </strong>
+
+        Please verify your appointment date and
+        time before submitting your request.
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<div class="navigation">
+
+
+    <a href="{{ url_for('doctors') }}">
+
+        ← Back to Doctors
+
+    </a>
+
+
+    <a href="{{ url_for('appointments') }}">
+
+        📅 My Appointments
+
+    </a>
+
+
+    <a href="{{ url_for('dashboard') }}">
+
+        🏠 Dashboard
+
+    </a>
+
+
+</div>
+
+
+</main>
+
+
+</body>
+
+</html>

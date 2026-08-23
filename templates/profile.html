@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - My Profile</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "DM Sans", sans-serif;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #fff0f6 0%,
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #f0eaff 0%,
+                    transparent 32%
+                ),
+                #faf8fc;
+            color: #29233a;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid #eee7f3;
+        }
+
+        .brand {
+            color: #7d4bc5;
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .dashboard-btn {
+            border: 1px solid #dfd2ef;
+            color: #7042b5;
+            background: #fff;
+            border-radius: 30px;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .dashboard-btn:hover {
+            background: #f5effc;
+            color: #7042b5;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main-container {
+            max-width: 980px;
+            margin: 38px auto;
+            padding: 0 18px 50px;
+        }
+
+
+        /* =========================
+           PROFILE HERO
+        ========================= */
+
+        .profile-hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(
+                135deg,
+                #fff7fb,
+                #f5efff
+            );
+            border: 1px solid #eee3f4;
+            border-radius: 28px;
+            padding: 34px;
+            margin-bottom: 22px;
+        }
+
+        .profile-hero::after {
+            content: "✿";
+            position: absolute;
+            right: 35px;
+            bottom: -15px;
+            font-size: 90px;
+            color: rgba(180, 139, 225, 0.12);
+        }
+
+        .profile-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .profile-avatar {
+            width: 82px;
+            height: 82px;
+            min-width: 82px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #f1d9ec,
+                #e3d5fa
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            box-shadow: 0 8px 20px rgba(126,76,180,0.12);
+        }
+
+        .profile-label {
+            font-size: 13px;
+            color: #927fa4;
+            margin-bottom: 3px;
+        }
+
+        .profile-title {
+            font-family: "Playfair Display", serif;
+            font-size: 32px;
+            margin: 0;
+            color: #302640;
+        }
+
+        .profile-welcome {
+            margin: 5px 0 0;
+            color: #85748f;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           SECTION CARD
+        ========================= */
+
+        .section-card {
+            background: rgba(255,255,255,0.94);
+            border: 1px solid #eee8f2;
+            border-radius: 24px;
+            padding: 26px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 28px rgba(73,49,94,0.05);
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 20px;
+        }
+
+        .section-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #f3eafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: 19px;
+            font-weight: 700;
+            color: #332844;
+        }
+
+        .section-subtitle {
+            font-size: 12px;
+            color: #9a8aa3;
+            margin-top: 2px;
+        }
+
+
+        /* =========================
+           INFORMATION GRID
+        ========================= */
+
+        .info-box {
+            height: 100%;
+            background: #fbf9fd;
+            border: 1px solid #f0eaf4;
+            border-radius: 16px;
+            padding: 16px 17px;
+            transition: 0.2s ease;
+        }
+
+        .info-box:hover {
+            transform: translateY(-2px);
+            background: #faf5fd;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #9a8aa3;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #342a40;
+        }
+
+
+        /* =========================
+           UPDATE PROFILE
+        ========================= */
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4c4055;
+            margin-bottom: 7px;
+        }
+
+        .form-control {
+            border: 1px solid #e6ddea;
+            background: #fcfbfd;
+            border-radius: 13px;
+            padding: 11px 13px;
+            font-size: 14px;
+            color: #352b40;
+        }
+
+        .form-control:focus {
+            border-color: #b18bd5;
+            box-shadow: 0 0 0 3px rgba(177,139,213,0.13);
+            background: white;
+        }
+
+        .field-hint {
+            color: #a294aa;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .update-btn {
+            border: none;
+            background: linear-gradient(
+                135deg,
+                #8755c7,
+                #a56bd2
+            );
+            color: white;
+            border-radius: 30px;
+            padding: 11px 28px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 7px 18px rgba(126,76,180,0.18);
+        }
+
+        .update-btn:hover {
+            color: white;
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           HEALTH RISK
+        ========================= */
+
+        .risk-card {
+            background: #fcfbfd;
+            border: 1px solid #eee8f2;
+            border-radius: 18px;
+            padding: 20px 15px;
+            text-align: center;
+            height: 100%;
+        }
+
+        .risk-icon {
+            width: 42px;
+            height: 42px;
+            margin: 0 auto 10px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f4ecfa;
+            font-size: 19px;
+        }
+
+        .risk-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #65566d;
+        }
+
+        .risk-percentage {
+            font-family: "Playfair Display", serif;
+            font-size: 29px;
+            font-weight: 700;
+            color: #392d48;
+            margin-top: 5px;
+        }
+
+        .risk-status {
+            display: inline-block;
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .low {
+            background: #e8f7ef;
+            color: #32805a;
+        }
+
+        .moderate {
+            background: #fff2df;
+            color: #b16b22;
+        }
+
+        .high {
+            background: #fde8ef;
+            color: #c54d72;
+        }
+
+
+        /* =========================
+           DISCLAIMER
+        ========================= */
+
+        .disclaimer {
+            margin-top: 18px;
+            padding: 13px 15px;
+            border-radius: 14px;
+            background: #f8f4fc;
+            border: 1px solid #eee5f5;
+            color: #786a80;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 25px;
+        }
+
+        .quick-links a {
+            text-decoration: none;
+            border-radius: 25px;
+            padding: 9px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid #e5d9ed;
+            color: #72528b;
+            background: white;
+        }
+
+        .quick-links a:hover {
+            background: #f7f0fb;
+            color: #7042a0;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .main-container {
+                margin-top: 22px;
+            }
+
+            .profile-hero {
+                padding: 25px 20px;
+            }
+
+            .profile-content {
+                gap: 15px;
+            }
+
+            .profile-avatar {
+                width: 65px;
+                height: 65px;
+                min-width: 65px;
+                font-size: 30px;
+            }
+
+            .profile-title {
+                font-size: 25px;
+            }
+
+            .section-card {
+                padding: 20px 16px;
+                border-radius: 20px;
+            }
+
+            .dashboard-btn {
+                padding: 7px 13px;
+            }
+
+            .brand {
+                font-size: 19px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="container py-3">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="brand"
+            >
+                🌸 FemCare AI
+            </a>
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="dashboard-btn"
+            >
+                ← Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="container main-container">
+
+
+    <!-- PROFILE HEADER -->
+
+    <div class="profile-hero">
+
+        <div class="profile-content">
+
+            <div class="profile-avatar">
+                👩🏻
+            </div>
+
+            <div>
+
+                <div class="profile-label">
+                    Your personal space
+                </div>
+
+                <h1 class="profile-title">
+                    My Profile
+                </h1>
+
+                <p class="profile-welcome">
+                    Welcome back, {{ username }} 🌷
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         PERSONAL INFORMATION
+    ========================= -->
+
+    <div class="section-card">
+
+        <div class="section-heading">
+
+            <div class="section-icon">
+                👤
+            </div>
+
+            <div>
+
+                <h2 class="section-title">
+                    Personal Information
+                </h2>
+
+                <div class="section-subtitle">
+                    Your saved health information
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-3">
+
+
+            <!-- USERNAME -->
+
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Username
+                    </div>
+
+                    <div class="info-value">
+                        {{ username }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- AGE -->
+
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Age
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if profile %}
+                            {{ profile["age"] }} years
+                        {% else %}
+                            Not available
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- WEIGHT -->
+
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Weight
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if profile %}
+                            {{ profile["weight"] }} kg
+                        {% else %}
+                            Not available
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BMI -->
+
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        BMI
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if profile %}
+                            {{ profile["bmi"] }}
+                        {% else %}
+                            Not available
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CYCLE -->
+
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Menstrual Cycle Length
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if profile %}
+                            {{ profile["cycle_length"] }} days
+                        {% else %}
+                            Not available
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HEMOGLOBIN -->
+
+            <div class="col-md-6">
+
+                <div class="info-box">
+
+                    <div class="info-label">
+                        Hemoglobin
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if profile %}
+                            {{ profile["hemoglobin"] }} g/dL
+                        {% else %}
+                            Not available
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         UPDATE PROFILE
+    ========================= -->
+
+    <div class="section-card">
+
+        <div class="section-heading">
+
+            <div class="section-icon">
+                ✨
+            </div>
+
+            <div>
+
+                <h2 class="section-title">
+                    Update Profile
+                </h2>
+
+                <div class="section-subtitle">
+                    Keep your information up to date
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <form method="POST">
+
+
+            <div class="row">
+
+
+                <!-- AGE -->
+
+                <div class="col-md-6 mb-4">
+
+                    <label
+                        for="age"
+                        class="form-label"
+                    >
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        class="form-control"
+                        min="1"
+                        max="120"
+                        value="{% if profile %}{{ profile['age'] }}{% endif %}"
+                        required
+                    >
+
+                    <div class="field-hint">
+                        Enter your age in years
+                    </div>
+
+                </div>
+
+
+                <!-- WEIGHT -->
+
+                <div class="col-md-6 mb-4">
+
+                    <label
+                        for="weight"
+                        class="form-label"
+                    >
+                        Weight (kg)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weight"
+                        name="weight"
+                        class="form-control"
+                        min="1"
+                        max="300"
+                        step="1"
+                        value="{% if profile %}{{ profile['weight'] }}{% endif %}"
+                        required
+                    >
+
+                    <div class="field-hint">
+                        Enter your current weight
+                    </div>
+
+                </div>
+
+
+                <!-- BMI -->
+
+                <div class="col-md-6 mb-4">
+
+                    <label
+                        for="bmi"
+                        class="form-label"
+                    >
+                        BMI
+                    </label>
+
+                    <input
+                        type="number"
+                        id="bmi"
+                        name="bmi"
+                        class="form-control"
+                        min="1"
+                        max="100"
+                        step="0.1"
+                        value="{% if profile %}{{ profile['bmi'] }}{% endif %}"
+                        required
+                    >
+
+                    <div class="field-hint">
+                        Example: 22.5
+                    </div>
+
+                </div>
+
+
+                <!-- CYCLE -->
+
+                <div class="col-md-6 mb-4">
+
+                    <label
+                        for="cycle_length"
+                        class="form-label"
+                    >
+                        Cycle Length (days)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="cycle_length"
+                        name="cycle_length"
+                        class="form-control"
+                        min="20"
+                        max="60"
+                        value="{% if profile %}{{ profile['cycle_length'] }}{% endif %}"
+                        required
+                    >
+
+                    <div class="field-hint">
+                        Usually entered in days
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="text-center">
+
+                <button
+                    type="submit"
+                    class="btn update-btn"
+                >
+                    ✓ Save Changes
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+
+    <!-- =========================
+         AI HEALTH RISK
+    ========================= -->
+
+    <div class="section-card">
+
+        <div class="section-heading">
+
+            <div class="section-icon">
+                🩺
+            </div>
+
+            <div>
+
+                <h2 class="section-title">
+                    My AI Health Summary
+                </h2>
+
+                <div class="section-subtitle">
+                    Your latest health-risk estimates
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-3">
+
+
+            <!-- DIABETES -->
+
+            <div class="col-6 col-lg-3">
+
+                <div class="risk-card">
+
+                    <div class="risk-icon">
+                        🩸
+                    </div>
+
+                    <div class="risk-name">
+                        Diabetes
+                    </div>
+
+                    <div class="risk-percentage">
+
+                        {% if predictions %}
+                            {{ predictions["diabetes_percentage"] }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+
+                    </div>
+
+
+                    {% if predictions %}
+
+                        {% if predictions["diabetes_percentage"] < 30 %}
+
+                            <span class="risk-status low">
+                                Low Risk
+                            </span>
+
+                        {% elif predictions["diabetes_percentage"] < 70 %}
+
+                            <span class="risk-status moderate">
+                                Moderate
+                            </span>
+
+                        {% else %}
+
+                            <span class="risk-status high">
+                                High Risk
+                            </span>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PCOS -->
+
+            <div class="col-6 col-lg-3">
+
+                <div class="risk-card">
+
+                    <div class="risk-icon">
+                        🌸
+                    </div>
+
+                    <div class="risk-name">
+                        PCOS
+                    </div>
+
+                    <div class="risk-percentage">
+
+                        {% if predictions %}
+                            {{ predictions["pcos_percentage"] }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+
+                    </div>
+
+
+                    {% if predictions %}
+
+                        {% if predictions["pcos_percentage"] < 30 %}
+
+                            <span class="risk-status low">
+                                Low Risk
+                            </span>
+
+                        {% elif predictions["pcos_percentage"] < 70 %}
+
+                            <span class="risk-status moderate">
+                                Moderate
+                            </span>
+
+                        {% else %}
+
+                            <span class="risk-status high">
+                                High Risk
+                            </span>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ANEMIA -->
+
+            <div class="col-6 col-lg-3">
+
+                <div class="risk-card">
+
+                    <div class="risk-icon">
+                        💧
+                    </div>
+
+                    <div class="risk-name">
+                        Anemia
+                    </div>
+
+                    <div class="risk-percentage">
+
+                        {% if predictions %}
+                            {{ predictions["anemia_percentage"] }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+
+                    </div>
+
+
+                    {% if predictions %}
+
+                        {% if predictions["anemia_percentage"] < 30 %}
+
+                            <span class="risk-status low">
+                                Low Risk
+                            </span>
+
+                        {% elif predictions["anemia_percentage"] < 70 %}
+
+                            <span class="risk-status moderate">
+                                Moderate
+                            </span>
+
+                        {% else %}
+
+                            <span class="risk-status high">
+                                High Risk
+                            </span>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <!-- THYROID -->
+
+            <div class="col-6 col-lg-3">
+
+                <div class="risk-card">
+
+                    <div class="risk-icon">
+                        🦋
+                    </div>
+
+                    <div class="risk-name">
+                        Thyroid
+                    </div>
+
+                    <div class="risk-percentage">
+
+                        {% if predictions %}
+                            {{ predictions["thyroid_percentage"] }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+
+                    </div>
+
+
+                    {% if predictions %}
+
+                        {% if predictions["thyroid_percentage"] < 30 %}
+
+                            <span class="risk-status low">
+                                Low Risk
+                            </span>
+
+                        {% elif predictions["thyroid_percentage"] < 70 %}
+
+                            <span class="risk-status moderate">
+                                Moderate
+                            </span>
+
+                        {% else %}
+
+                            <span class="risk-status high">
+                                High Risk
+                            </span>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="disclaimer">
+
+            <strong>🌷 A gentle reminder:</strong>
+
+            These AI-generated risk estimates are for awareness
+            and informational purposes only. They should not replace
+            professional medical diagnosis or treatment.
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         QUICK NAVIGATION
+    ========================= -->
+
+    <div class="quick-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            🏠 Dashboard
+        </a>
+
+        <a href="{{ url_for('diet') }}">
+            🥗 Diet
+        </a>
+
+        <a href="{{ url_for('activity') }}">
+            🏃 Activity
+        </a>
+
+        <a href="{{ url_for('yoga') }}">
+            🧘 Yoga
+        </a>
+
+        <a href="{{ url_for('menstrual') }}">
+            🌸 Menstrual Cycle
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

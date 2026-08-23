@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - Yoga & Wellness</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Fonts -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        /* =========================
+           BODY
+        ========================= */
+
+        body {
+
+            margin: 0;
+
+            background:
+                radial-gradient(
+                    circle at 8% 10%,
+                    rgba(255, 214, 231, 0.35),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 92% 15%,
+                    rgba(225, 215, 255, 0.35),
+                    transparent 30%
+                ),
+                #fffafd;
+
+            font-family: "DM Sans", sans-serif;
+
+            color: #403943;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            background: rgba(255,255,255,0.94);
+
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid #f2e7ed;
+
+            box-shadow:
+                0 3px 18px rgba(80,50,80,0.05);
+
+        }
+
+
+        .brand {
+
+            color: #d65a91;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            letter-spacing: -0.3px;
+
+        }
+
+
+        .dashboard-btn {
+
+            border: 1px solid #eadde7;
+
+            color: #766274;
+
+            background: white;
+
+            border-radius: 50px;
+
+            padding: 8px 17px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+
+        }
+
+
+        .dashboard-btn:hover {
+
+            background: #fff2f7;
+
+            border-color: #efc6d9;
+
+            color: #d35c91;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main-container {
+
+            max-width: 1080px;
+
+            margin: 32px auto 60px;
+
+            padding: 0 18px;
+
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff3f8,
+                    #f8f3ff
+                );
+
+            border: 1px solid #f2e4ed;
+
+            border-radius: 28px;
+
+            padding: 32px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 12px 35px rgba(100,70,100,0.07);
+
+        }
+
+
+        .hero::after {
+
+            content: "🪷";
+
+            position: absolute;
+
+            right: 32px;
+
+            top: 22px;
+
+            font-size: 52px;
+
+            opacity: 0.12;
+
+        }
+
+
+        .hero-icon {
+
+            width: 60px;
+
+            height: 60px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: white;
+
+            border-radius: 18px;
+
+            font-size: 30px;
+
+            box-shadow:
+                0 7px 20px rgba(150,100,140,0.10);
+
+        }
+
+
+        .hero-title {
+
+            font-family: "Playfair Display", serif;
+
+            color: #73518d;
+
+            font-size: 31px;
+
+            margin: 14px 0 5px;
+
+        }
+
+
+        .hero-subtitle {
+
+            color: #7e7480;
+
+            margin: 0;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           INFO CARD
+        ========================= */
+
+        .routine-info {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff8fb,
+                    #fbf8ff
+                );
+
+            border: 1px solid #f0e4eb;
+
+            border-radius: 19px;
+
+            padding: 18px 20px;
+
+            margin-bottom: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+        }
+
+
+        .info-icon {
+
+            width: 43px;
+
+            height: 43px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: white;
+
+            border-radius: 13px;
+
+            font-size: 21px;
+
+            box-shadow:
+                0 5px 14px rgba(120,80,110,0.06);
+
+        }
+
+
+        .info-title {
+
+            color: #70517f;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            margin-bottom: 2px;
+
+        }
+
+
+        .info-text {
+
+            color: #8b818c;
+
+            font-size: 12px;
+
+            margin: 0;
+
+        }
+
+
+        /* =========================
+           YOGA GRID
+        ========================= */
+
+        .yoga-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+        }
+
+
+        /* =========================
+           YOGA CARD
+        ========================= */
+
+        .yoga-card {
+
+            position: relative;
+
+            background: rgba(255,255,255,0.96);
+
+            border: 1px solid #eee5eb;
+
+            border-radius: 21px;
+
+            padding: 22px;
+
+            min-height: 285px;
+
+            box-shadow:
+                0 7px 25px rgba(90,65,90,0.055);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+
+        }
+
+
+        .yoga-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 12px 30px rgba(90,65,90,0.09);
+
+            border-color: #e8ccd9;
+
+        }
+
+
+        .yoga-card.completed {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f5fff9,
+                    #ffffff
+                );
+
+            border-color: #b8dfcd;
+
+        }
+
+
+        /* =========================
+           COMPLETED BADGE
+        ========================= */
+
+        .completed-badge {
+
+            position: absolute;
+
+            right: 15px;
+
+            top: 15px;
+
+            background: #edf9f3;
+
+            color: #43876b;
+
+            border-radius: 50px;
+
+            padding: 5px 9px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =========================
+           YOGA ICON
+        ========================= */
+
+        .yoga-icon {
+
+            width: 68px;
+
+            height: 68px;
+
+            margin: 0 auto 13px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff0f6,
+                    #f3edfa
+                );
+
+            font-size: 34px;
+
+            box-shadow:
+                0 7px 18px rgba(170,110,150,0.08);
+
+        }
+
+
+        .yoga-card.completed .yoga-icon {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf9f1,
+                    #f3f8f5
+                );
+
+        }
+
+
+        /* =========================
+           TEXT
+        ========================= */
+
+        .yoga-name {
+
+            color: #493f49;
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .duration {
+
+            color: #a46c94;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .description {
+
+            color: #8a818b;
+
+            font-size: 12px;
+
+            line-height: 1.55;
+
+            min-height: 38px;
+
+            margin-bottom: 17px;
+
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .check-btn {
+
+            width: 100%;
+
+            border-radius: 50px;
+
+            padding: 9px 14px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            transition: 0.22s;
+
+        }
+
+
+        .check-btn:hover {
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .btn-outline-success {
+
+            color: #4c9073;
+
+            border-color: #c8e2d6;
+
+        }
+
+
+        .btn-outline-success:hover {
+
+            background: #edf9f3;
+
+            border-color: #a9d5c0;
+
+            color: #39765d;
+
+        }
+
+
+        /* =========================
+           PROGRESS CARD
+        ========================= */
+
+        .progress-card {
+
+            background: white;
+
+            border: 1px solid #eee5eb;
+
+            border-radius: 22px;
+
+            padding: 25px;
+
+            margin-top: 18px;
+
+            box-shadow:
+                0 7px 25px rgba(90,65,90,0.055);
+
+        }
+
+
+        .progress-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .progress-title {
+
+            color: #73518d;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            margin: 0;
+
+        }
+
+
+        .progress-count {
+
+            color: #9c8e9c;
+
+            font-size: 12px;
+
+        }
+
+
+        .big-progress-number {
+
+            color: #73518d;
+
+            font-family: "Playfair Display", serif;
+
+            font-size: 34px;
+
+            font-weight: 700;
+
+            margin: 17px 0 3px;
+
+        }
+
+
+        .progress-subtitle {
+
+            color: #9a909a;
+
+            font-size: 11px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .progress {
+
+            height: 10px;
+
+            border-radius: 50px;
+
+            background: #f0ebef;
+
+            overflow: hidden;
+
+        }
+
+
+        .progress-bar {
+
+            border-radius: 50px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #d86196,
+                    #a979b7
+                );
+
+            transition: width 1s ease;
+
+        }
+
+
+        /* =========================
+           MOTIVATION
+        ========================= */
+
+        .motivation {
+
+            margin-top: 18px;
+
+            padding: 16px 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff6fa,
+                    #faf6ff
+                );
+
+            border: 1px solid #f0e3eb;
+
+            border-radius: 16px;
+
+            color: #716673;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .motivation strong {
+
+            color: #73518d;
+
+        }
+
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .navigation {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 25px;
+
+        }
+
+
+        .navigation a {
+
+            border-radius: 50px;
+
+            padding: 8px 15px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            border-color: #e8dfe7;
+
+            color: #756676;
+
+            background: white;
+
+        }
+
+
+        .navigation a:hover {
+
+            background: #fff3f8;
+
+            border-color: #ecc8d8;
+
+            color: #d05b91;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 760px) {
+
+            .main-container {
+
+                margin-top: 20px;
+
+            }
+
+
+            .hero {
+
+                padding: 25px;
+
+            }
+
+
+            .hero-title {
+
+                font-size: 26px;
+
+            }
+
+
+            .yoga-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .yoga-card {
+
+                min-height: auto;
+
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .brand {
+
+                font-size: 19px;
+
+            }
+
+
+            .dashboard-btn {
+
+                padding: 7px 12px;
+
+                font-size: 11px;
+
+            }
+
+
+            .hero {
+
+                padding: 21px;
+
+            }
+
+
+            .hero-icon {
+
+                width: 52px;
+
+                height: 52px;
+
+                font-size: 26px;
+
+            }
+
+
+            .hero-title {
+
+                font-size: 23px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar">
+
+    <div class="container py-2">
+
+        <div
+            class="d-flex justify-content-between align-items-center w-100"
+        >
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="brand"
+            >
+                🌸 FemCare AI
+            </a>
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="dashboard-btn text-decoration-none"
+            >
+                🏠 Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<div class="container main-container">
+
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <div class="hero-icon">
+            🧘
+        </div>
+
+
+        <h1 class="hero-title">
+            Yoga & Wellness
+        </h1>
+
+
+        <p class="hero-subtitle">
+            Gentle movement for your body, mind and everyday wellness.
+        </p>
+
+    </div>
+
+
+
+    <!-- INFORMATION -->
+
+    <div class="routine-info">
+
+        <div class="info-icon">
+            🌸
+        </div>
+
+
+        <div>
+
+            <div class="info-title">
+                Today's Yoga Routine
+            </div>
+
+
+            <p class="info-text">
+
+                Complete the routines you practice today.
+                Your progress will be saved automatically.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         YOGA ROUTINES
+    ================================================== -->
+
+    <div class="yoga-grid">
+
+
+        {% for item in yoga_items %}
+
+
+            {% set activity_id = item[0] %}
+
+            {% set yoga_name = item[1] %}
+
+            {% set duration = item[2] %}
+
+            {% set description = item[3] %}
+
+
+            <div
+                class="yoga-card"
+                data-completed="{{ status.get(activity_id, 0) }}"
+            >
+
+
+                {% if status.get(activity_id, 0) == 1 %}
+
+                    <div class="completed-badge">
+                        ✓ Completed
+                    </div>
+
+                {% endif %}
+
+
+
+                <!-- ICON -->
+
+                <div class="text-center">
+
+                    <div class="yoga-icon">
+
+
+                        {% if activity_id == "yoga_surya" %}
+
+                            ☀️
+
+                        {% elif activity_id == "yoga_bhujang" %}
+
+                            🐍
+
+                        {% elif activity_id == "yoga_setu" %}
+
+                            🌉
+
+                        {% elif activity_id == "yoga_malasana" %}
+
+                            🧘‍♀️
+
+                        {% elif activity_id == "yoga_balasana" %}
+
+                            🌸
+
+                        {% else %}
+
+                            🧘
+
+                        {% endif %}
+
+
+                    </div>
+
+
+
+                    <!-- NAME -->
+
+                    <h3 class="yoga-name">
+
+                        {{ yoga_name }}
+
+                    </h3>
+
+
+
+                    <!-- DURATION -->
+
+                    <p class="duration">
+
+                        ⏱ {{ duration }}
+
+                    </p>
+
+
+
+                    <!-- DESCRIPTION -->
+
+                    <p class="description">
+
+                        {{ description }}
+
+                    </p>
+
+
+
+                    <!-- COMPLETION FORM -->
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('yoga') }}"
+                    >
+
+
+                        <input
+                            type="hidden"
+                            name="activity_name"
+                            value="{{ activity_id }}"
+                        >
+
+
+                        <input
+                            type="hidden"
+                            name="completed"
+                            value="{% if status.get(activity_id, 0) == 1 %}0{% else %}1{% endif %}"
+                        >
+
+
+                        {% if status.get(activity_id, 0) == 1 %}
+
+
+                            <button
+                                type="submit"
+                                class="btn btn-success check-btn"
+                            >
+
+                                ✓ Completed — Tap to Undo
+
+                            </button>
+
+
+                        {% else %}
+
+
+                            <button
+                                type="submit"
+                                class="btn btn-outline-success check-btn"
+                            >
+
+                                ○ Mark as Complete
+
+                            </button>
+
+
+                        {% endif %}
+
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         TODAY'S PROGRESS
+    ================================================== -->
+
+    <div class="progress-card">
+
+
+        <div class="progress-header">
+
+            <h3 class="progress-title">
+
+                🧘 Today's Yoga Progress
+
+            </h3>
+
+
+            <div class="progress-count">
+
+                Your daily movement
+
+            </div>
+
+        </div>
+
+
+
+        {% set total_yoga = yoga_items|length %}
+
+        {% set completed_yoga = namespace(count=0) %}
+
+
+        {% for item in yoga_items %}
+
+
+            {% if status.get(item[0], 0) == 1 %}
+
+                {% set completed_yoga.count =
+                    completed_yoga.count + 1 %}
+
+            {% endif %}
+
+
+        {% endfor %}
+
+
+
+        {% if total_yoga > 0 %}
+
+            {% set yoga_percent =
+                ((completed_yoga.count / total_yoga) * 100)|int %}
+
+        {% else %}
+
+            {% set yoga_percent = 0 %}
+
+        {% endif %}
+
+
+
+        <div class="big-progress-number">
+
+            {{ yoga_percent }}%
+
+        </div>
+
+
+        <div class="progress-subtitle">
+
+            {{ completed_yoga.count }}
+            of
+            {{ total_yoga }}
+            yoga routines completed today
+
+        </div>
+
+
+
+        <!-- DATA ATTRIBUTE
+             Keeps Jinja away from CSS -->
+
+        <div
+            id="yogaProgressData"
+            data-progress="{{ yoga_percent }}"
+            hidden
+        ></div>
+
+
+
+        <!-- PROGRESS BAR -->
+
+        <div class="progress">
+
+            <div
+                id="yogaProgressBar"
+                class="progress-bar"
+                role="progressbar"
+                aria-valuenow="{{ yoga_percent }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+            >
+
+                <span id="yogaProgressText">
+
+                    {{ yoga_percent }}%
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MOTIVATION -->
+
+        {% if yoga_percent == 100 %}
+
+            <div class="motivation">
+
+                🌷 <strong>Beautiful work!</strong>
+                You completed your full yoga routine today.
+                Take a moment to appreciate yourself. 💗
+
+            </div>
+
+        {% elif yoga_percent >= 50 %}
+
+            <div class="motivation">
+
+                🌿 <strong>You're doing wonderfully!</strong>
+                You're already more than halfway there.
+                Keep going gently—no pressure.
+
+            </div>
+
+        {% elif yoga_percent > 0 %}
+
+            <div class="motivation">
+
+                🌸 <strong>Every little movement counts.</strong>
+                You've started your routine today.
+                One more session can make a difference.
+
+            </div>
+
+        {% else %}
+
+            <div class="motivation">
+
+                🪷 <strong>Give yourself a few peaceful minutes.</strong>
+                Start with one gentle routine and let your body
+                move at its own pace.
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         NAVIGATION
+    ================================================== -->
+
+    <div class="navigation">
+
+
+        <a
+            href="{{ url_for('activity') }}"
+            class="btn"
+        >
+
+            🏃 Activity
+
+        </a>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="btn"
+        >
+
+            🏠 Dashboard
+
+        </a>
+
+
+        <a
+            href="{{ url_for('diet') }}"
+            class="btn"
+        >
+
+            🥗 Diet
+
+        </a>
+
+
+        <a
+            href="{{ url_for('stress') }}"
+            class="btn"
+        >
+
+            🧠 Stress Control
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* ==========================
+           PROGRESS BAR
+        ========================== */
+
+        const progressData =
+            document.getElementById(
+                "yogaProgressData"
+            );
+
+
+        const progressBar =
+            document.getElementById(
+                "yogaProgressBar"
+            );
+
+
+        const progressText =
+            document.getElementById(
+                "yogaProgressText"
+            );
+
+
+        if (
+            progressData &&
+            progressBar
+        ) {
+
+
+            const percentage =
+                Number(
+                    progressData.dataset.progress || 0
+                );
+
+
+            setTimeout(
+                function () {
+
+                    progressBar.style.width =
+                        percentage + "%";
+
+                },
+                180
+            );
+
+
+            progressBar.setAttribute(
+                "aria-valuenow",
+                percentage
+            );
+
+
+            if (progressText) {
+
+                progressText.textContent =
+                    percentage + "%";
+
+            }
+
+        }
+
+
+
+        /* ==========================
+           COMPLETED CARDS
+        ========================== */
+
+        const cards =
+            document.querySelectorAll(
+                ".yoga-card"
+            );
+
+
+        cards.forEach(
+            function (card) {
+
+
+                const completed =
+                    card.dataset.completed;
+
+
+                if (completed === "1") {
+
+                    card.classList.add(
+                        "completed"
+                    );
+
+                }
+
+            }
+        );
+
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

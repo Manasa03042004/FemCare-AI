@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - My Appointments</title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family: "DM Sans", sans-serif;
+
+            color: #332b3d;
+
+            background:
+                radial-gradient(
+                    circle at 8% 5%,
+                    #f1e5ff 0%,
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 92% 10%,
+                    #ffe5ef 0%,
+                    transparent 28%
+                ),
+                #fcf9fd;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        .page {
+
+            width: min(100% - 32px, 920px);
+
+            margin: auto;
+        }
+
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            padding: 18px 0;
+        }
+
+
+        .nav-inner {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            color: #7047a4;
+
+            font-size: 19px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eadcff,
+                    #f9dce9
+                );
+
+            font-size: 18px;
+        }
+
+
+        .nav-button {
+
+            padding: 8px 14px;
+
+            border-radius: 18px;
+
+            border: 1px solid #e7ddec;
+
+            background: #ffffff;
+
+            color: #76518f;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .nav-button:hover {
+
+            background: #f7f1fb;
+
+            color: #65438a;
+        }
+
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            text-align: center;
+
+            padding: 28px 0 22px;
+        }
+
+
+        .header-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f0e3ff,
+                    #ffe8f0
+                );
+
+            font-size: 24px;
+
+            box-shadow:
+                0 7px 20px
+                rgba(100,70,120,0.08);
+        }
+
+
+        .header h1 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 34px;
+
+            color: #35293f;
+
+            margin-top: 12px;
+        }
+
+
+        .header h1 span {
+
+            color: #a45e98;
+        }
+
+
+        .header p {
+
+            color: #8d8295;
+
+            font-size: 12px;
+
+            margin-top: 6px;
+        }
+
+
+
+        /* =========================
+           FLASH MESSAGE
+        ========================= */
+
+        .flash {
+
+            background: #f3f9f5;
+
+            border: 1px solid #dceee3;
+
+            color: #52745e;
+
+            border-radius: 13px;
+
+            padding: 10px 14px;
+
+            margin-bottom: 14px;
+
+            text-align: center;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+
+
+        /* =========================
+           APPOINTMENT CARD
+        ========================= */
+
+        .appointment-card {
+
+            background: #ffffff;
+
+            border: 1px solid #eee7f2;
+
+            border-radius: 20px;
+
+            padding: 21px;
+
+            margin-bottom: 13px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(80,60,100,0.055);
+
+            transition: 0.2s;
+        }
+
+
+        .appointment-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 11px 30px
+                rgba(80,60,100,0.08);
+        }
+
+
+        .appointment-layout {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .doctor-section {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 14px;
+
+            flex: 1;
+        }
+
+
+        .doctor-icon {
+
+            width: 50px;
+
+            height: 50px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f2e8fb,
+                    #ffeaf1
+                );
+
+            font-size: 24px;
+        }
+
+
+        .doctor-name {
+
+            color: #403449;
+
+            font-size: 16px;
+
+            font-weight: 700;
+        }
+
+
+        .specialization {
+
+            color: #a05d94;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            margin-top: 3px;
+        }
+
+
+        .appointment-info {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 7px;
+
+            margin-top: 10px;
+        }
+
+
+        .info-pill {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 4px;
+
+            padding: 6px 9px;
+
+            border-radius: 9px;
+
+            background: #faf7fc;
+
+            color: #807487;
+
+            font-size: 9px;
+
+            border: 1px solid #f0eaf3;
+        }
+
+
+        .reason {
+
+            margin-top: 9px;
+
+            color: #8b8190;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+
+        .reason strong {
+
+            color: #665b6d;
+        }
+
+
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status-section {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: flex-end;
+
+            gap: 8px;
+
+            min-width: 95px;
+        }
+
+
+        .status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            background: #fff7df;
+
+            color: #91702d;
+        }
+
+
+        .status.confirmed {
+
+            background: #edf8f1;
+
+            color: #4e8061;
+        }
+
+
+        .status.cancelled {
+
+            background: #fff0f2;
+
+            color: #ad5a69;
+        }
+
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-card {
+
+            background: #ffffff;
+
+            border: 1px solid #eee7f2;
+
+            border-radius: 22px;
+
+            padding: 55px 25px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 28px
+                rgba(80,60,100,0.055);
+        }
+
+
+        .empty-icon {
+
+            width: 65px;
+
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f1e5ff,
+                    #ffe8f0
+                );
+
+            font-size: 29px;
+        }
+
+
+        .empty-title {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            color: #44354d;
+
+            font-size: 23px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .empty-text {
+
+            color: #958b9b;
+
+            font-size: 10px;
+
+            line-height: 1.6;
+
+            margin-bottom: 18px;
+        }
+
+
+        .find-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 10px 17px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7950b5,
+                    #a65f9a
+                );
+
+            color: white;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 7px 18px
+                rgba(121,80,181,0.16);
+        }
+
+
+
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
+
+        .navigation {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin: 22px 0 35px;
+        }
+
+
+        .navigation a {
+
+            padding: 8px 14px;
+
+            border-radius: 17px;
+
+            border: 1px solid #e7ddec;
+
+            background: #ffffff;
+
+            color: #776b82;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .navigation a:hover {
+
+            background: #faf7fc;
+
+            color: #7047a4;
+
+            border-color: #d5c1e2;
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .page {
+
+                width: calc(100% - 22px);
+            }
+
+
+            .header h1 {
+
+                font-size: 29px;
+            }
+
+
+            .appointment-layout {
+
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .status-section {
+
+                align-items: flex-start;
+            }
+
+        }
+
+
+        @media (max-width: 430px) {
+
+            .doctor-section {
+
+                gap: 10px;
+            }
+
+
+            .doctor-icon {
+
+                width: 44px;
+
+                height: 44px;
+
+                font-size: 20px;
+            }
+
+
+            .doctor-name {
+
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="page nav-inner">
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                🌸
+            </span>
+
+            FemCare AI
+
+        </a>
+
+
+        <a
+            href="{{ url_for('doctors') }}"
+            class="nav-button"
+        >
+
+            👩‍⚕️ Find a Doctor
+
+        </a>
+
+
+    </div>
+
+</nav>
+
+
+
+<main class="page">
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<section class="header">
+
+
+    <div class="header-icon">
+        📅
+    </div>
+
+
+    <h1>
+
+        My
+        <span>Appointments</span>
+
+    </h1>
+
+
+    <p>
+
+        Keep track of your upcoming doctor consultations.
+
+    </p>
+
+
+</section>
+
+
+
+<!-- =========================
+     FLASH MESSAGES
+========================= -->
+
+{% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="flash">
+
+                ✓ {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
+
+
+
+<!-- =========================
+     APPOINTMENTS
+========================= -->
+
+{% if appointments %}
+
+
+    {% for appointment in appointments %}
+
+
+        <div class="appointment-card">
+
+
+            <div class="appointment-layout">
+
+
+                <!-- DOCTOR -->
+
+                <div class="doctor-section">
+
+
+                    <div class="doctor-icon">
+                        👩‍⚕️
+                    </div>
+
+
+                    <div>
+
+
+                        <div class="doctor-name">
+
+                            {{ appointment["name"] }}
+
+                        </div>
+
+
+                        <div class="specialization">
+
+                            {{ appointment["specialization"] }}
+
+                        </div>
+
+
+                        <div class="appointment-info">
+
+
+                            <span class="info-pill">
+
+                                🏥
+
+                                {{ appointment["clinic"] }}
+
+                            </span>
+
+
+                            <span class="info-pill">
+
+                                📅
+
+                                {{ appointment["appointment_date"] }}
+
+                            </span>
+
+
+                            <span class="info-pill">
+
+                                🕐
+
+                                {{ appointment["appointment_time"] }}
+
+                            </span>
+
+
+                        </div>
+
+
+                        {% if appointment["reason"] %}
+
+                            <div class="reason">
+
+                                <strong>
+                                    💬 Reason:
+                                </strong>
+
+                                {{ appointment["reason"] }}
+
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- STATUS -->
+
+                <div class="status-section">
+
+
+                    {% if appointment["status"] == "Confirmed" %}
+
+
+                        <div class="status confirmed">
+
+                            ✓ Confirmed
+
+                        </div>
+
+
+                    {% elif appointment["status"] == "Cancelled" %}
+
+
+                        <div class="status cancelled">
+
+                            ✕ Cancelled
+
+                        </div>
+
+
+                    {% else %}
+
+
+                        <div class="status">
+
+                            ⏳
+
+                            {{ appointment["status"] or "Requested" }}
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    {% endfor %}
+
+
+{% else %}
+
+
+    <!-- =========================
+         EMPTY STATE
+    ========================= -->
+
+    <div class="empty-card">
+
+
+        <div class="empty-icon">
+            📅
+        </div>
+
+
+        <h2 class="empty-title">
+
+            No appointments yet
+
+        </h2>
+
+
+        <p class="empty-text">
+
+            You haven't booked a doctor consultation yet.<br>
+
+            Whenever you need support, we're here for you.
+
+        </p>
+
+
+        <a
+            href="{{ url_for('doctors') }}"
+            class="find-button"
+        >
+
+            👩‍⚕️
+
+            Find a Doctor
+
+            →
+
+        </a>
+
+
+    </div>
+
+
+{% endif %}
+
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<div class="navigation">
+
+
+    <a href="{{ url_for('doctors') }}">
+
+        👩‍⚕️ Doctors
+
+    </a>
+
+
+    <a href="{{ url_for('dashboard') }}">
+
+        🏠 Dashboard
+
+    </a>
+
+
+</div>
+
+
+</main>
+
+
+</body>
+
+</html>

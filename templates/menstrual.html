@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - Menstrual Cycle</title>
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family: "DM Sans", sans-serif;
+
+            color: #443946;
+
+            background:
+                radial-gradient(
+                    circle at 5% 5%,
+                    #f3e8ff 0%,
+                    transparent 27%
+                ),
+                radial-gradient(
+                    circle at 95% 10%,
+                    #ffe5ef 0%,
+                    transparent 28%
+                ),
+                #fcfafc;
+        }
+
+
+        .page {
+
+            width: min(100% - 30px, 980px);
+
+            margin: auto;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            padding: 18px 0;
+        }
+
+
+        .nav-inner {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            text-decoration: none;
+
+            color: #704b82;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-icon {
+
+            width: 35px;
+
+            height: 35px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eadcff,
+                    #f9dce9
+                );
+
+            font-size: 17px;
+        }
+
+
+        .back-btn {
+
+            padding: 8px 14px;
+
+            border-radius: 18px;
+
+            border: 1px solid #eadfea;
+
+            background: white;
+
+            color: #786b7b;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+
+        .back-btn:hover {
+
+            color: #704b82;
+
+            background: #faf6fc;
+        }
+
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 27px 32px;
+
+            min-height: 165px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #f2e7ff,
+                    #fff0f6 60%,
+                    #fff8eb
+                );
+
+            border: 1px solid #eee3ed;
+
+            box-shadow:
+                0 12px 32px
+                rgba(80,60,80,0.055);
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .hero-tag {
+
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            margin-bottom: 8px;
+
+            border-radius: 15px;
+
+            background: rgba(255,255,255,0.75);
+
+            color: #8a6a98;
+
+            font-size: 8px;
+
+            font-weight: 700;
+        }
+
+
+        .hero h1 {
+
+            font-family: "Playfair Display", serif;
+
+            font-size: 31px;
+
+            line-height: 1.2;
+
+            color: #443646;
+        }
+
+
+        .hero h1 span {
+
+            color: #a85d91;
+        }
+
+
+        .hero p {
+
+            max-width: 540px;
+
+            margin-top: 7px;
+
+            color: #8e828e;
+
+            font-size: 10px;
+
+            line-height: 1.6;
+        }
+
+
+        .hero-icon {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 105px;
+
+            height: 105px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.75);
+
+            box-shadow:
+                0 10px 25px
+                rgba(100,70,100,0.06);
+
+            font-size: 49px;
+        }
+
+
+        .hero-decoration {
+
+            position: absolute;
+
+            opacity: 0.1;
+
+            font-size: 65px;
+        }
+
+
+        .flower {
+
+            right: 170px;
+
+            top: -20px;
+        }
+
+
+        .moon {
+
+            right: 15px;
+
+            bottom: -30px;
+        }
+
+
+
+        /* =========================
+           FLASH
+        ========================= */
+
+        .flash {
+
+            margin-top: 15px;
+
+            padding: 11px 15px;
+
+            border-radius: 13px;
+
+            background: #eef9f1;
+
+            border: 1px solid #d9eedf;
+
+            color: #477252;
+
+            font-size: 10px;
+        }
+
+
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .card {
+
+            margin-top: 20px;
+
+            padding: 22px;
+
+            border-radius: 21px;
+
+            background: white;
+
+            border: 1px solid #eee7ed;
+
+            box-shadow:
+                0 8px 25px
+                rgba(70,55,70,0.045);
+        }
+
+
+        .card-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+
+            font-family: "Playfair Display", serif;
+
+            font-size: 20px;
+
+            color: #493b49;
+        }
+
+
+        .title-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #f8e8f1;
+
+            font-size: 19px;
+        }
+
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 13px;
+        }
+
+
+        .field {
+
+            padding: 12px;
+
+            border-radius: 14px;
+
+            background: #fcfafc;
+
+            border: 1px solid #f0e8ef;
+        }
+
+
+        .field label {
+
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #594c58;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        .input,
+        .select {
+
+            width: 100%;
+
+            height: 35px;
+
+            padding: 0 9px;
+
+            border-radius: 9px;
+
+            border: 1px solid #e5dce6;
+
+            background: white;
+
+            color: #514653;
+
+            font-family: inherit;
+
+            font-size: 9px;
+
+            outline: none;
+        }
+
+
+        .input:focus,
+        .select:focus {
+
+            border-color: #bd94c7;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(189,148,199,0.1);
+        }
+
+
+        .help {
+
+            display: block;
+
+            margin-top: 5px;
+
+            color: #9c929d;
+
+            font-size: 7.5px;
+
+            line-height: 1.4;
+        }
+
+
+
+        /* =========================
+           SYMPTOMS
+        ========================= */
+
+        .sub-label {
+
+            display: block;
+
+            margin: 20px 0 10px;
+
+            color: #594c58;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        .symptoms {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 8px;
+        }
+
+
+        .symptom-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 10px;
+
+            border-radius: 11px;
+
+            background: #fcfafc;
+
+            border: 1px solid #eee6ed;
+
+            color: #6a5e69;
+
+            font-size: 8px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .symptom-box:hover {
+
+            background: #fff4f8;
+
+            border-color: #e4bfd1;
+        }
+
+
+        .symptom-box input {
+
+            accent-color: #c46c99;
+
+            cursor: pointer;
+        }
+
+
+
+        /* =========================
+           SAVE BUTTON
+        ========================= */
+
+        .save-area {
+
+            text-align: center;
+
+            margin-top: 20px;
+        }
+
+
+        .save-button {
+
+            border: none;
+
+            padding: 11px 25px;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #b65c91,
+                    #8c62ae
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px
+                rgba(160,90,140,0.17);
+
+            transition: 0.2s;
+        }
+
+
+        .save-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 11px 25px
+                rgba(160,90,140,0.24);
+        }
+
+
+
+        /* =========================
+           PREDICTION
+        ========================= */
+
+        .prediction {
+
+            position: relative;
+
+            overflow: hidden;
+
+            text-align: center;
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff1f6,
+                    #f7efff
+                );
+
+            border: 1px solid #f0dfea;
+        }
+
+
+        .prediction-label {
+
+            color: #927286;
+
+            font-size: 9px;
+
+            font-weight: 600;
+        }
+
+
+        .next-period {
+
+            margin-top: 7px;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            color: #a65287;
+
+            font-size: 29px;
+
+            font-weight: 700;
+        }
+
+
+        .cycle-day {
+
+            margin-top: 7px;
+
+            color: #756978;
+
+            font-size: 10px;
+        }
+
+
+        .prediction-text {
+
+            margin-top: 10px;
+
+            color: #988e98;
+
+            font-size: 8px;
+
+            line-height: 1.5;
+        }
+
+
+        .prediction-decoration {
+
+            position: absolute;
+
+            font-size: 65px;
+
+            opacity: 0.07;
+        }
+
+
+        .prediction-decoration.one {
+
+            left: 15px;
+
+            top: -18px;
+        }
+
+
+        .prediction-decoration.two {
+
+            right: 20px;
+
+            bottom: -22px;
+        }
+
+
+
+        /* =========================
+           HISTORY
+        ========================= */
+
+        .table-wrapper {
+
+            overflow-x: auto;
+
+            border-radius: 13px;
+
+            border: 1px solid #eee7ed;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 600px;
+        }
+
+
+        th {
+
+            padding: 11px;
+
+            background: #f7edf5;
+
+            color: #72546d;
+
+            text-align: left;
+
+            font-size: 8px;
+
+            font-weight: 700;
+        }
+
+
+        td {
+
+            padding: 11px;
+
+            border-top: 1px solid #f0e9ef;
+
+            color: #746976;
+
+            font-size: 8px;
+        }
+
+
+        tr:hover td {
+
+            background: #fffafb;
+        }
+
+
+        .empty-history {
+
+            padding: 25px;
+
+            text-align: center;
+
+            color: #9d939d;
+
+            font-size: 9px;
+        }
+
+
+
+        /* =========================
+           TIP
+        ========================= */
+
+        .tip {
+
+            display: flex;
+
+            gap: 11px;
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background: #faf6ff;
+
+            border: 1px solid #ece2f5;
+
+            color: #7f7188;
+
+            font-size: 8px;
+
+            line-height: 1.6;
+        }
+
+
+        .tip-icon {
+
+            font-size: 18px;
+        }
+
+
+        .tip strong {
+
+            color: #6b5577;
+        }
+
+
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .navigation {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin: 22px 0 35px;
+        }
+
+
+        .navigation a {
+
+            padding: 8px 13px;
+
+            border-radius: 18px;
+
+            background: white;
+
+            border: 1px solid #e8e0e8;
+
+            color: #746876;
+
+            text-decoration: none;
+
+            font-size: 8px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .navigation a:hover {
+
+            background: #faf4fc;
+
+            color: #704b82;
+
+            transform: translateY(-1px);
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 760px) {
+
+            .form-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .symptoms {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 520px) {
+
+            .page {
+
+                width: calc(100% - 20px);
+            }
+
+
+            .hero {
+
+                padding: 22px;
+
+            }
+
+
+            .hero h1 {
+
+                font-size: 26px;
+            }
+
+
+            .hero-icon {
+
+                display: none;
+            }
+
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .symptoms {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .card {
+
+                padding: 16px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="page nav-inner">
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                🌸
+            </span>
+
+            FemCare AI
+
+        </a>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="back-btn"
+        >
+
+            ← Dashboard
+
+        </a>
+
+
+    </div>
+
+</nav>
+
+
+
+<main class="page">
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+
+    <div class="hero-content">
+
+
+        <div class="hero-tag">
+
+            🌷
+
+            Know your rhythm
+
+        </div>
+
+
+        <h1>
+
+            Your cycle,
+            <span>your story.</span>
+
+        </h1>
+
+
+        <p>
+
+            Keep track of your period dates, symptoms and
+            cycle patterns — all in one gentle little space.
+
+        </p>
+
+
+    </div>
+
+
+    <div class="hero-icon">
+
+        🩷
+
+    </div>
+
+
+    <div class="hero-decoration flower">
+        ✿
+    </div>
+
+
+    <div class="hero-decoration moon">
+        ☾
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     FLASH MESSAGES
+========================= -->
+
+{% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="flash">
+
+                ✓ {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
+
+
+
+<!-- =========================
+     CYCLE INFORMATION
+========================= -->
+
+<section class="card">
+
+
+    <h2 class="card-title">
+
+        <span class="title-icon">
+            📅
+        </span>
+
+        Your Cycle Information
+
+    </h2>
+
+
+    <form
+        method="POST"
+        action="{{ url_for('menstrual') }}"
+        id="menstrualForm"
+    >
+
+
+        <div class="form-grid">
+
+
+            <!-- LAST PERIOD -->
+
+            <div class="field">
+
+                <label
+                    for="period_start"
+                >
+                    Last Period Date
+                </label>
+
+
+                <input
+                    type="date"
+                    id="period_start"
+                    name="period_start"
+                    class="input"
+                    value="{% if latest %}{{ latest['period_start'] }}{% endif %}"
+                    required
+                >
+
+
+                <span class="help">
+
+                    Select the first day of your last period.
+
+                </span>
+
+            </div>
+
+
+
+            <!-- CYCLE LENGTH -->
+
+            <div class="field">
+
+                <label
+                    for="cycle_length"
+                >
+                    Cycle Length
+                </label>
+
+
+                <input
+                    type="number"
+                    id="cycle_length"
+                    name="cycle_length"
+                    class="input"
+                    value="{% if latest %}{{ latest['cycle_length'] or 28 }}{% else %}28{% endif %}"
+                    min="20"
+                    max="60"
+                    required
+                >
+
+
+                <span class="help">
+                    Typical range: 20–60 days.
+                </span>
+
+            </div>
+
+
+
+            <!-- PERIOD DURATION -->
+
+            <div class="field">
+
+                <label
+                    for="period_duration"
+                >
+                    Period Duration
+                </label>
+
+
+                <input
+                    type="number"
+                    id="period_duration"
+                    class="input"
+                    value="5"
+                    min="1"
+                    max="10"
+                    required
+                >
+
+
+                <span class="help">
+                    Number of bleeding days.
+                </span>
+
+            </div>
+
+
+
+            <!-- FLOW -->
+
+            <div class="field">
+
+                <label
+                    for="flow"
+                >
+                    Flow
+                </label>
+
+
+                <select
+                    id="flow"
+                    name="flow"
+                    class="select"
+                >
+
+                    <option value="">
+                        Select flow
+                    </option>
+
+
+                    <option
+                        value="Light"
+                        {% if latest and latest['flow'] == 'Light' %}selected{% endif %}
+                    >
+                        Light
+                    </option>
+
+
+                    <option
+                        value="Medium"
+                        {% if latest and latest['flow'] == 'Medium' %}selected{% endif %}
+                    >
+                        Medium
+                    </option>
+
+
+                    <option
+                        value="Heavy"
+                        {% if latest and latest['flow'] == 'Heavy' %}selected{% endif %}
+                    >
+                        Heavy
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- HIDDEN PERIOD END -->
+
+        <input
+            type="hidden"
+            name="period_end"
+            id="period_end"
+            value="{% if latest %}{{ latest['period_end'] or '' }}{% endif %}"
+        >
+
+
+
+        <!-- SECOND ROW -->
+
+        <div
+            class="form-grid"
+            style="margin-top:13px;"
+        >
+
+
+            <!-- MOOD -->
+
+            <div class="field">
+
+                <label
+                    for="mood"
+                >
+                    Mood
+                </label>
+
+
+                <select
+                    id="mood"
+                    name="mood"
+                    class="select"
+                >
+
+                    <option value="">
+                        Select mood
+                    </option>
+
+
+                    <option
+                        value="Happy"
+                        {% if latest and latest['mood'] == 'Happy' %}selected{% endif %}
+                    >
+                        😊 Happy
+                    </option>
+
+
+                    <option
+                        value="Normal"
+                        {% if latest and latest['mood'] == 'Normal' %}selected{% endif %}
+                    >
+                        😐 Normal
+                    </option>
+
+
+                    <option
+                        value="Low"
+                        {% if latest and latest['mood'] == 'Low' %}selected{% endif %}
+                    >
+                        😔 Low
+                    </option>
+
+
+                    <option
+                        value="Irritable"
+                        {% if latest and latest['mood'] == 'Irritable' %}selected{% endif %}
+                    >
+                        😤 Irritable
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- NOTES -->
+
+            <div class="field">
+
+                <label
+                    for="notes"
+                >
+                    Notes
+                </label>
+
+
+                <input
+                    type="text"
+                    id="notes"
+                    name="notes"
+                    class="input"
+                    placeholder="Optional notes..."
+                    value="{% if latest %}{{ latest['notes'] or '' }}{% endif %}"
+                >
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- SYMPTOMS -->
+
+        <label class="sub-label">
+            Symptoms
+        </label>
+
+
+        <div class="symptoms">
+
+
+            <label class="symptom-box">
+
+                <input
+                    type="checkbox"
+                    class="symptom"
+                    name="symptom_list"
+                    value="Abdominal Cramps"
+                    id="cramps"
+                >
+
+                Abdominal Cramps
+
+            </label>
+
+
+
+            <label class="symptom-box">
+
+                <input
+                    type="checkbox"
+                    class="symptom"
+                    name="symptom_list"
+                    value="Headache"
+                    id="headache"
+                >
+
+                Headache
+
+            </label>
+
+
+
+            <label class="symptom-box">
+
+                <input
+                    type="checkbox"
+                    class="symptom"
+                    name="symptom_list"
+                    value="Fatigue"
+                    id="fatigue"
+                >
+
+                Fatigue
+
+            </label>
+
+
+
+            <label class="symptom-box">
+
+                <input
+                    type="checkbox"
+                    class="symptom"
+                    name="symptom_list"
+                    value="Bloating"
+                    id="bloating"
+                >
+
+                Bloating
+
+            </label>
+
+
+
+            <label class="symptom-box">
+
+                <input
+                    type="checkbox"
+                    class="symptom"
+                    name="symptom_list"
+                    value="Mood Changes"
+                    id="mood_changes"
+                >
+
+                Mood Changes
+
+            </label>
+
+
+
+            <label class="symptom-box">
+
+                <input
+                    type="checkbox"
+                    class="symptom"
+                    name="symptom_list"
+                    value="Back Pain"
+                    id="backpain"
+                >
+
+                Back Pain
+
+            </label>
+
+
+
+            <label class="symptom-box">
+
+                <input
+                    type="checkbox"
+                    class="symptom"
+                    name="symptom_list"
+                    value="Acne"
+                    id="acne"
+                >
+
+                Acne
+
+            </label>
+
+
+
+            <label class="symptom-box">
+
+                <input
+                    type="checkbox"
+                    class="symptom"
+                    name="symptom_list"
+                    value="Food Cravings"
+                    id="cravings"
+                >
+
+                Food Cravings
+
+            </label>
+
+
+        </div>
+
+
+
+        <!-- HIDDEN SYMPTOMS -->
+
+        <input
+            type="hidden"
+            name="symptoms"
+            id="symptoms"
+        >
+
+
+
+        <!-- SAVE -->
+
+        <div class="save-area">
+
+            <button
+                type="submit"
+                class="save-button"
+            >
+
+                💾 Save Cycle Information
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+</section>
+
+
+
+<!-- =========================
+     PREDICTION
+========================= -->
+
+<section class="card">
+
+
+    <h2 class="card-title">
+
+        <span class="title-icon">
+            🌙
+        </span>
+
+        Cycle Prediction
+
+    </h2>
+
+
+    <div class="prediction">
+
+
+        <div class="prediction-decoration one">
+            ✿
+        </div>
+
+
+        <div class="prediction-decoration two">
+            ✨
+        </div>
+
+
+        <div class="prediction-label">
+
+            Estimated Next Period
+
+        </div>
+
+
+        <div class="next-period">
+
+            {% if next_period %}
+
+                {{ next_period.strftime('%d %B %Y') }}
+
+            {% else %}
+
+                Enter your last period date
+
+            {% endif %}
+
+        </div>
+
+
+        {% if cycle_day %}
+
+            <div class="cycle-day">
+
+                Current Cycle Day:
+
+                <strong>
+                    {{ cycle_day }}
+                </strong>
+
+            </div>
+
+        {% endif %}
+
+
+        <p class="prediction-text">
+
+            This is an estimated date based on the
+            cycle length you entered.
+
+        </p>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     HISTORY
+========================= -->
+
+<section class="card">
+
+
+    <h2 class="card-title">
+
+        <span class="title-icon">
+            📊
+        </span>
+
+        Cycle History
+
+    </h2>
+
+
+    {% if history %}
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Period Start
+                        </th>
+
+                        <th>
+                            Period End
+                        </th>
+
+                        <th>
+                            Cycle Length
+                        </th>
+
+                        <th>
+                            Flow
+                        </th>
+
+                        <th>
+                            Mood
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for row in history %}
+
+                        <tr>
+
+                            <td>
+                                {{ row['period_start'] }}
+                            </td>
+
+                            <td>
+                                {{ row['period_end'] or '-' }}
+                            </td>
+
+                            <td>
+                                {{ row['cycle_length'] or 28 }}
+                                days
+                            </td>
+
+                            <td>
+                                {{ row['flow'] or '-' }}
+                            </td>
+
+                            <td>
+                                {{ row['mood'] or '-' }}
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty-history">
+
+            🌷
+
+            <br>
+
+            No cycle history available yet.
+
+        </div>
+
+
+    {% endif %}
+
+
+</section>
+
+
+
+<!-- =========================
+     TIP
+========================= -->
+
+<section class="card">
+
+
+    <div class="tip">
+
+
+        <div class="tip-icon">
+            💡
+        </div>
+
+
+        <div>
+
+            <strong>
+                Cycle Tracking Tip
+            </strong>
+
+            <br>
+
+            Tracking your period dates and symptoms regularly
+            can help you understand your personal cycle patterns
+            and notice changes over time.
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<div class="navigation">
+
+
+    <a href="{{ url_for('dashboard') }}">
+        🏠 Dashboard
+    </a>
+
+
+    <a href="{{ url_for('activity') }}">
+        🏃 Activity
+    </a>
+
+
+    <a href="{{ url_for('yoga') }}">
+        🧘 Yoga
+    </a>
+
+
+    <a href="{{ url_for('stress') }}">
+        🧠 Stress Control
+    </a>
+
+
+</div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     KEEPING YOUR WORKING DATE LOGIC
+===================================================== -->
+
+<script>
+
+    const menstrualForm =
+        document.getElementById("menstrualForm");
+
+
+    menstrualForm.addEventListener(
+        "submit",
+        function(event) {
+
+
+            const startDate =
+                document.getElementById(
+                    "period_start"
+                ).value;
+
+
+            const duration =
+                parseInt(
+                    document.getElementById(
+                        "period_duration"
+                    ).value
+                );
+
+
+            if (!startDate) {
+
+                event.preventDefault();
+
+                alert(
+                    "Please select your last period date."
+                );
+
+                return;
+            }
+
+
+            if (
+                isNaN(duration) ||
+                duration < 1 ||
+                duration > 10
+            ) {
+
+                event.preventDefault();
+
+                alert(
+                    "Please enter a period duration between 1 and 10 days."
+                );
+
+                return;
+            }
+
+
+            /*
+                Convert YYYY-MM-DD safely.
+                This avoids timezone/month shifting.
+            */
+
+            const parts =
+                startDate.split("-");
+
+
+            const year =
+                parseInt(parts[0]);
+
+
+            const month =
+                parseInt(parts[1]);
+
+
+            const day =
+                parseInt(parts[2]);
+
+
+            const start =
+                new Date(
+                    year,
+                    month - 1,
+                    day
+                );
+
+
+            start.setDate(
+                start.getDate() +
+                duration -
+                1
+            );
+
+
+            const endYear =
+                start.getFullYear();
+
+
+            const endMonth =
+                String(
+                    start.getMonth() + 1
+                ).padStart(2, "0");
+
+
+            const endDay =
+                String(
+                    start.getDate()
+                ).padStart(2, "0");
+
+
+            const endDate =
+                endYear +
+                "-" +
+                endMonth +
+                "-" +
+                endDay;
+
+
+            document.getElementById(
+                "period_end"
+            ).value = endDate;
+
+
+            /*
+                Collect selected symptoms.
+            */
+
+            const selectedSymptoms = [];
+
+
+            document
+                .querySelectorAll(
+                    ".symptom:checked"
+                )
+                .forEach(
+                    function(checkbox) {
+
+                        selectedSymptoms.push(
+                            checkbox.value
+                        );
+
+                    }
+                );
+
+
+            document.getElementById(
+                "symptoms"
+            ).value =
+                selectedSymptoms.join(", ");
+
+        }
+
+    );
+
+</script>
+
+
+</body>
+
+</html>

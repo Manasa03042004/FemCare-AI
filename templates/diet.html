@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FemCare AI - Diet & Nutrition</title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family: "DM Sans", sans-serif;
+
+            color: #352f3b;
+
+            background:
+                radial-gradient(
+                    circle at 5% 5%,
+                    #fff0d9 0%,
+                    transparent 27%
+                ),
+                radial-gradient(
+                    circle at 95% 8%,
+                    #ffe4ef 0%,
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 50% 100%,
+                    #eaf7ed 0%,
+                    transparent 30%
+                ),
+                #fcfaf8;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        .page {
+
+            width: min(100% - 32px, 980px);
+
+            margin: auto;
+        }
+
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            padding: 18px 0;
+        }
+
+
+        .nav-inner {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            color: #7047a4;
+
+            font-size: 19px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eadcff,
+                    #f9dce9
+                );
+
+            font-size: 18px;
+        }
+
+
+        .nav-button {
+
+            padding: 8px 14px;
+
+            border-radius: 18px;
+
+            border: 1px solid #e8dfdf;
+
+            background: #ffffff;
+
+            color: #766b78;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .nav-button:hover {
+
+            background: #faf5fb;
+
+            color: #7047a4;
+        }
+
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            min-height: 185px;
+
+            padding: 30px 35px;
+
+            margin-top: 12px;
+
+            border-radius: 26px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #fff4df,
+                    #fff0f5 55%,
+                    #f1eaff
+                );
+
+            border: 1px solid #f0e4e7;
+
+            box-shadow:
+                0 12px 35px
+                rgba(100,75,70,0.07);
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 590px;
+        }
+
+
+        .hero-tag {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 6px 10px;
+
+            border-radius: 15px;
+
+            background: rgba(255,255,255,0.72);
+
+            color: #8b6370;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            margin-bottom: 9px;
+        }
+
+
+        .hero h1 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 34px;
+
+            line-height: 1.15;
+
+            color: #3a303d;
+        }
+
+
+        .hero h1 span {
+
+            color: #b45d80;
+        }
+
+
+        .hero p {
+
+            margin-top: 8px;
+
+            color: #8c808a;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        .hero-food {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 135px;
+
+            height: 135px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.68);
+
+            box-shadow:
+                0 10px 30px
+                rgba(150,100,100,0.08);
+
+            font-size: 70px;
+        }
+
+
+        .hero-leaf {
+
+            position: absolute;
+
+            font-size: 70px;
+
+            opacity: 0.13;
+        }
+
+
+        .leaf-one {
+
+            right: 200px;
+
+            top: -20px;
+
+            transform: rotate(25deg);
+        }
+
+
+        .leaf-two {
+
+            right: 30px;
+
+            bottom: -30px;
+
+            transform: rotate(-20deg);
+        }
+
+
+
+        /* =========================
+           NUTRITION FOCUS
+        ========================= */
+
+        .section-title {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin: 30px 0 13px;
+        }
+
+
+        .section-title h2 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 21px;
+
+            color: #413643;
+        }
+
+
+        .section-title span {
+
+            color: #9b909a;
+
+            font-size: 9px;
+        }
+
+
+        .focus-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 11px;
+        }
+
+
+        .focus-card {
+
+            padding: 17px 13px;
+
+            text-align: center;
+
+            border-radius: 17px;
+
+            background: #ffffff;
+
+            border: 1px solid #eee8e8;
+
+            box-shadow:
+                0 6px 20px
+                rgba(80,60,60,0.045);
+
+            transition: 0.2s;
+        }
+
+
+        .focus-card:hover {
+
+            transform: translateY(-2px);
+        }
+
+
+        .focus-icon {
+
+            width: 43px;
+
+            height: 43px;
+
+            margin: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            font-size: 22px;
+        }
+
+
+        .focus-card:nth-child(1)
+        .focus-icon {
+
+            background: #fff0e9;
+        }
+
+
+        .focus-card:nth-child(2)
+        .focus-icon {
+
+            background: #eaf7ee;
+        }
+
+
+        .focus-card:nth-child(3)
+        .focus-icon {
+
+            background: #eaf4ff;
+        }
+
+
+        .focus-card:nth-child(4)
+        .focus-icon {
+
+            background: #f3eafb;
+        }
+
+
+        .focus-card h3 {
+
+            margin-top: 9px;
+
+            font-size: 11px;
+
+            color: #4a3f4c;
+        }
+
+
+        .focus-card p {
+
+            margin-top: 5px;
+
+            color: #9a9099;
+
+            font-size: 8px;
+
+            line-height: 1.5;
+        }
+
+
+
+        /* =========================
+           MEAL SECTION
+        ========================= */
+
+        .meal-section-title {
+
+            margin-top: 32px;
+
+            text-align: center;
+        }
+
+
+        .meal-section-title h2 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 24px;
+
+            color: #3e3442;
+        }
+
+
+        .meal-section-title p {
+
+            margin-top: 5px;
+
+            color: #958b95;
+
+            font-size: 9px;
+        }
+
+
+        .meal-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 14px;
+
+            margin-top: 18px;
+        }
+
+
+
+        /* =========================
+           MEAL CARD
+        ========================= */
+
+        .meal-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            min-height: 245px;
+
+            padding: 21px;
+
+            border-radius: 21px;
+
+            background: #ffffff;
+
+            border: 1px solid #eee8e6;
+
+            box-shadow:
+                0 8px 25px
+                rgba(80,60,50,0.055);
+
+            transition: 0.25s;
+        }
+
+
+        .meal-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 13px 32px
+                rgba(80,60,50,0.08);
+        }
+
+
+        .meal-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 120px;
+
+            height: 120px;
+
+            right: -55px;
+
+            top: -55px;
+
+            border-radius: 50%;
+
+            background: #fff4e8;
+
+            opacity: 0.75;
+        }
+
+
+        .meal-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .meal-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 16px;
+
+            font-size: 27px;
+        }
+
+
+        .breakfast .meal-icon {
+
+            background: #fff0d9;
+        }
+
+
+        .snack .meal-icon {
+
+            background: #eaf7e9;
+        }
+
+
+        .lunch .meal-icon {
+
+            background: #fff1df;
+        }
+
+
+        .evening .meal-icon {
+
+            background: #e9f5ef;
+        }
+
+
+        .dinner .meal-icon {
+
+            background: #f4e9f7;
+        }
+
+
+        .meal-time {
+
+            padding: 5px 8px;
+
+            border-radius: 12px;
+
+            background: #faf7f7;
+
+            color: #9a9095;
+
+            font-size: 8px;
+
+            font-weight: 600;
+        }
+
+
+        .meal-card h3 {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 13px;
+
+            color: #403541;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size: 18px;
+        }
+
+
+        .dish-name {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 2px;
+
+            color: #b25d78;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .ingredients {
+
+            position: relative;
+
+            z-index: 2;
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 5px;
+
+            margin-top: 11px;
+
+            list-style: none;
+
+            padding: 0;
+        }
+
+
+        .ingredients li {
+
+            padding: 5px 8px;
+
+            border-radius: 9px;
+
+            background: #faf8f7;
+
+            color: #81767f;
+
+            font-size: 8px;
+        }
+
+
+
+        /* =========================
+           RECIPE + CHECKBOX
+        ========================= */
+
+        .meal-bottom {
+
+            position: relative;
+
+            z-index: 3;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-top: 17px;
+
+            padding-top: 13px;
+
+            border-top: 1px solid #f2eeee;
+        }
+
+
+        .recipe-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 7px 11px;
+
+            border-radius: 12px;
+
+            background: #fff5ee;
+
+            color: #9c6650;
+
+            font-size: 8px;
+
+            font-weight: 700;
+
+            border: 1px solid #f5e6dd;
+
+            transition: 0.2s;
+        }
+
+
+        .recipe-button:hover {
+
+            background: #ffecdf;
+
+            color: #8e5540;
+        }
+
+
+        .complete-label {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            color: #756a74;
+
+            font-size: 8px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+
+        .check-box {
+
+            width: 17px;
+
+            height: 17px;
+
+            accent-color: #79a875;
+
+            cursor: pointer;
+        }
+
+
+
+        /* =========================
+           SAVE BUTTON
+        ========================= */
+
+        .save-area {
+
+            display: flex;
+
+            justify-content: center;
+
+            margin: 20px 0 0;
+        }
+
+
+        .save-button {
+
+            border: none;
+
+            height: 43px;
+
+            padding: 0 23px;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #77a96f,
+                    #5d966c
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px
+                rgba(93,150,108,0.18);
+
+            transition: 0.2s;
+        }
+
+
+        .save-button:hover {
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 11px 25px
+                rgba(93,150,108,0.25);
+        }
+
+
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress-card {
+
+            margin-top: 30px;
+
+            padding: 22px;
+
+            border-radius: 21px;
+
+            background: #ffffff;
+
+            border: 1px solid #eee8e6;
+
+            box-shadow:
+                0 8px 25px
+                rgba(80,60,50,0.05);
+        }
+
+
+        .progress-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .progress-header h2 {
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            color: #403541;
+
+            font-size: 19px;
+        }
+
+
+        .progress-header span {
+
+            color: #8f858f;
+
+            font-size: 9px;
+        }
+
+
+        .progress {
+
+            height: 10px;
+
+            margin-top: 14px;
+
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            background: #f0eceb;
+        }
+
+
+        .progress-bar {
+
+            height: 100%;
+
+            width: 0%;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #91bd82,
+                    #69a977
+                );
+
+            transition: width 0.3s;
+        }
+
+
+        .progress-text {
+
+            text-align: center;
+
+            margin-top: 8px;
+
+            color: #817681;
+
+            font-size: 9px;
+        }
+
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 25px 0 35px;
+
+            color: #a097a0;
+
+            font-size: 9px;
+
+            line-height: 1.7;
+        }
+
+
+        footer strong {
+
+            color: #8b6a9b;
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .page {
+
+                width: calc(100% - 22px);
+            }
+
+
+            .hero {
+
+                min-height: 160px;
+
+                padding: 25px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 28px;
+            }
+
+
+            .hero-food {
+
+                width: 100px;
+
+                height: 100px;
+
+                font-size: 52px;
+            }
+
+
+            .focus-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .meal-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .hero-food {
+
+                display: none;
+            }
+
+
+            .hero {
+
+                padding: 23px;
+            }
+
+
+            .focus-grid {
+
+                grid-template-columns: 1fr 1fr;
+
+                gap: 8px;
+            }
+
+
+            .meal-card {
+
+                min-height: auto;
+            }
+
+
+            .meal-bottom {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="page nav-inner">
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                🌸
+            </span>
+
+            FemCare AI
+
+        </a>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="nav-button"
+        >
+
+            ← Dashboard
+
+        </a>
+
+
+    </div>
+
+</nav>
+
+
+
+<main class="page">
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+
+    <div class="hero-content">
+
+
+        <div class="hero-tag">
+
+            🥑
+
+            Nourish your body
+
+        </div>
+
+
+        <h1>
+
+            Eat well,
+            <span>feel well.</span>
+
+        </h1>
+
+
+        <p>
+
+            A simple, nourishing meal plan designed
+            to support your everyday women's wellness.
+
+        </p>
+
+
+    </div>
+
+
+    <div class="hero-food">
+
+        🥗
+
+    </div>
+
+
+    <div class="hero-leaf leaf-one">
+        🌿
+    </div>
+
+
+    <div class="hero-leaf leaf-two">
+        🍃
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     NUTRITION FOCUS
+========================= -->
+
+<div class="section-title">
+
+    <h2>
+        Your nutrition focus
+    </h2>
+
+    <span>
+        Small choices • Better days
+    </span>
+
+</div>
+
+
+<div class="focus-grid">
+
+
+    <div class="focus-card">
+
+
+        <div class="focus-icon">
+            🩸
+        </div>
+
+
+        <h3>
+            Iron Rich
+        </h3>
+
+
+        <p>
+            Spinach, dates, beetroot and legumes.
+        </p>
+
+
+    </div>
+
+
+
+    <div class="focus-card">
+
+
+        <div class="focus-icon">
+            🥗
+        </div>
+
+
+        <h3>
+            Balanced Diet
+        </h3>
+
+
+        <p>
+            Vegetables, protein and whole grains.
+        </p>
+
+
+    </div>
+
+
+
+    <div class="focus-card">
+
+
+        <div class="focus-icon">
+            💧
+        </div>
+
+
+        <h3>
+            Hydration
+        </h3>
+
+
+        <p>
+            Keep your water intake regular throughout the day.
+        </p>
+
+
+    </div>
+
+
+
+    <div class="focus-card">
+
+
+        <div class="focus-icon">
+            🥜
+        </div>
+
+
+        <h3>
+            Protein
+        </h3>
+
+
+        <p>
+            Add healthy protein sources to your meals.
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     TODAY'S MEALS
+========================= -->
+
+<div class="meal-section-title">
+
+    <h2>
+        🍽️ Today's Meal Plan
+    </h2>
+
+
+    <p>
+        Delicious, simple and nourishing choices for your day.
+    </p>
+
+</div>
+
+
+
+<form
+    method="POST"
+    action="{{ url_for('diet') }}"
+    id="dietForm"
+>
+
+
+<div class="meal-grid">
+
+
+
+    <!-- =========================
+         BREAKFAST
+    ========================= -->
+
+    <div class="meal-card breakfast">
+
+
+        <div class="meal-top">
+
+            <div class="meal-icon">
+                🍳
+            </div>
+
+
+            <div class="meal-time">
+                MORNING
+            </div>
+
+        </div>
+
+
+        <h3>
+            Breakfast
+        </h3>
+
+
+        <div class="dish-name">
+            Oats Upma
+        </div>
+
+
+        <ul class="ingredients">
+
+            <li>🥣 Oats</li>
+
+            <li>🥕 Mixed vegetables</li>
+
+            <li>🌿 Healthy spices</li>
+
+        </ul>
+
+
+        <div class="meal-bottom">
+
+
+            <a
+                href="{{ url_for('recipe', dish_name='oats_upma') }}"
+                class="recipe-button"
+            >
+
+                🍴 View Recipe →
+
+            </a>
+
+
+            <label class="complete-label">
+
+                <input
+                    class="check-box"
+                    type="checkbox"
+                    id="breakfast"
+                    name="meal_breakfast"
+                    value="1"
+                    {% if meal_status.get("meal_breakfast", 0) == 1 %}
+                        checked
+                    {% endif %}
+                >
+
+                Done
+
+            </label>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         MID MORNING
+    ========================= -->
+
+    <div class="meal-card snack">
+
+
+        <div class="meal-top">
+
+            <div class="meal-icon">
+                🍎
+            </div>
+
+
+            <div class="meal-time">
+                MID-MORNING
+            </div>
+
+        </div>
+
+
+        <h3>
+            Mid-Morning
+        </h3>
+
+
+        <div class="dish-name">
+            Fruit & Nuts
+        </div>
+
+
+        <ul class="ingredients">
+
+            <li>🍎 Seasonal fruit</li>
+
+            <li>🥜 Almonds / walnuts</li>
+
+            <li>💧 Water</li>
+
+        </ul>
+
+
+        <div class="meal-bottom">
+
+
+            <div class="recipe-button">
+                🍓 Fresh & Simple
+            </div>
+
+
+            <label class="complete-label">
+
+                <input
+                    class="check-box"
+                    type="checkbox"
+                    id="snack"
+                    name="meal_snack"
+                    value="1"
+                    {% if meal_status.get("meal_snack", 0) == 1 %}
+                        checked
+                    {% endif %}
+                >
+
+                Done
+
+            </label>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         LUNCH
+    ========================= -->
+
+    <div class="meal-card lunch">
+
+
+        <div class="meal-top">
+
+            <div class="meal-icon">
+                🍚
+            </div>
+
+
+            <div class="meal-time">
+                AFTERNOON
+            </div>
+
+        </div>
+
+
+        <h3>
+            Lunch
+        </h3>
+
+
+        <div class="dish-name">
+            Brown Rice Vegetable Meal
+        </div>
+
+
+        <ul class="ingredients">
+
+            <li>🍚 Brown rice</li>
+
+            <li>🥦 Vegetables</li>
+
+            <li>🥣 Dal / protein</li>
+
+        </ul>
+
+
+        <div class="meal-bottom">
+
+
+            <a
+                href="{{ url_for('recipe', dish_name='brown_rice') }}"
+                class="recipe-button"
+            >
+
+                🍴 View Recipe →
+
+            </a>
+
+
+            <label class="complete-label">
+
+                <input
+                    class="check-box"
+                    type="checkbox"
+                    id="lunch"
+                    name="meal_lunch"
+                    value="1"
+                    {% if meal_status.get("meal_lunch", 0) == 1 %}
+                        checked
+                    {% endif %}
+                >
+
+                Done
+
+            </label>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         EVENING
+    ========================= -->
+
+    <div class="meal-card evening">
+
+
+        <div class="meal-top">
+
+            <div class="meal-icon">
+                🥗
+            </div>
+
+
+            <div class="meal-time">
+                EVENING
+            </div>
+
+        </div>
+
+
+        <h3>
+            Evening Snack
+        </h3>
+
+
+        <div class="dish-name">
+            Sprouts Salad
+        </div>
+
+
+        <ul class="ingredients">
+
+            <li>🌱 Sprouts</li>
+
+            <li>🍅 Tomato</li>
+
+            <li>🧅 Onion</li>
+
+        </ul>
+
+
+        <div class="meal-bottom">
+
+
+            <a
+                href="{{ url_for('recipe', dish_name='sprouts_salad') }}"
+                class="recipe-button"
+            >
+
+                🍴 View Recipe →
+
+            </a>
+
+
+            <label class="complete-label">
+
+                <input
+                    class="check-box"
+                    type="checkbox"
+                    id="evening"
+                    name="meal_evening"
+                    value="1"
+                    {% if meal_status.get("meal_evening", 0) == 1 %}
+                        checked
+                    {% endif %}
+                >
+
+                Done
+
+            </label>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         DINNER
+    ========================= -->
+
+    <div class="meal-card dinner">
+
+
+        <div class="meal-top">
+
+            <div class="meal-icon">
+                🥘
+            </div>
+
+
+            <div class="meal-time">
+                NIGHT
+            </div>
+
+        </div>
+
+
+        <h3>
+            Dinner
+        </h3>
+
+
+        <div class="dish-name">
+            Paneer Salad
+        </div>
+
+
+        <ul class="ingredients">
+
+            <li>🧀 Paneer</li>
+
+            <li>🥒 Cucumber</li>
+
+            <li>🍅 Tomato</li>
+
+            <li>🌿 Healthy spices</li>
+
+        </ul>
+
+
+        <div class="meal-bottom">
+
+
+            <a
+                href="{{ url_for('recipe', dish_name='paneer_salad') }}"
+                class="recipe-button"
+            >
+
+                🍴 View Recipe →
+
+            </a>
+
+
+            <label class="complete-label">
+
+                <input
+                    class="check-box"
+                    type="checkbox"
+                    id="dinner"
+                    name="meal_dinner"
+                    value="1"
+                    {% if meal_status.get("meal_dinner", 0) == 1 %}
+                        checked
+                    {% endif %}
+                >
+
+                Done
+
+            </label>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     SAVE
+========================= -->
+
+<div class="save-area">
+
+    <button
+        type="submit"
+        class="save-button"
+    >
+
+        💾
+
+        Save Today's Meal Progress
+
+    </button>
+
+</div>
+
+
+</form>
+
+
+
+<!-- =========================
+     DAILY PROGRESS
+========================= -->
+
+<div class="progress-card">
+
+
+    <div class="progress-header">
+
+
+        <h2>
+            📊 Today's Progress
+        </h2>
+
+
+        <span>
+            Keep going 🌿
+        </span>
+
+
+    </div>
+
+
+    <div class="progress">
+
+
+        <div
+            id="dietProgress"
+            class="progress-bar"
+            style="width: 0%;"
+        ></div>
+
+
+    </div>
+
+
+    <p
+        id="dietProgressText"
+        class="progress-text"
+    >
+
+        {{ meals_done }} / {{ meal_total }}
+        meals completed
+
+    </p>
+
+
+</div>
+
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    🌸 <strong>FemCare AI</strong>
+
+    <br>
+
+    Your personalized women's wellness companion 🌿
+
+</footer>
+
+
+
+<!-- =========================
+     SAVED PROGRESS
+========================= -->
+
+<div
+    id="savedMealProgress"
+    data-progress="{{ meal_progress | default(0) }}"
+    hidden
+></div>
+
+
+
+<script>
+
+
+    const checkboxes =
+        document.querySelectorAll(".check-box");
+
+
+    const progressBar =
+        document.getElementById("dietProgress");
+
+
+    const progressText =
+        document.getElementById("dietProgressText");
+
+
+    const savedMealProgress =
+        Number(
+            document
+                .getElementById("savedMealProgress")
+                .dataset.progress || 0
+        );
+
+
+
+    function updateDietProgress() {
+
+
+        let completed = 0;
+
+
+        checkboxes.forEach(function(box) {
+
+            if (box.checked) {
+
+                completed++;
+
+            }
+
+        });
+
+
+        const total =
+            checkboxes.length;
+
+
+        const percentage =
+            total > 0
+                ? Math.round(
+                    (completed / total) * 100
+                )
+                : 0;
+
+
+        progressBar.style.width =
+            percentage + "%";
+
+
+        progressText.innerText =
+            completed +
+            " / " +
+            total +
+            " meals completed";
+
+    }
+
+
+
+    checkboxes.forEach(function(box) {
+
+        box.addEventListener(
+            "change",
+            updateDietProgress
+        );
+
+    });
+
+
+
+    updateDietProgress();
+
+
+</script>
+
+
+</body>
+
+</html>

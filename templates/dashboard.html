@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FemCare AI - Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background:
+                radial-gradient(circle at 10% 0%, #f4eaff 0%, transparent 30%),
+                radial-gradient(circle at 95% 10%, #ffeaf3 0%, transparent 28%),
+                #faf8fc;
+            color: #29243a;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .page {
+            width: min(1180px, calc(100% - 36px));
+            margin: auto;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            padding: 18px 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #7046b8;
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .brand-flower {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #eadcff, #f9dce9);
+            font-size: 19px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            color: #756d85;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 11px;
+            border-radius: 12px;
+            transition: 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #f0e8fa;
+            color: #7046b8;
+        }
+
+        .logout {
+            border: none;
+            background: #fff;
+            color: #c54f7c;
+            padding: 9px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 3px 14px rgba(80, 55, 100, 0.06);
+        }
+
+        .logout:hover {
+            background: #fff0f5;
+        }
+
+        /* WELCOME */
+
+        .welcome {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            padding: 28px 0 20px;
+        }
+
+        .welcome-small {
+            color: #8a8196;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .welcome-title {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(28px, 4vw, 39px);
+            line-height: 1.15;
+            color: #302541;
+        }
+
+        .welcome-title span {
+            color: #9a64c9;
+        }
+
+        .welcome-subtitle {
+            color: #81788e;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .date-pill {
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #eee5f4;
+            border-radius: 20px;
+            padding: 9px 14px;
+            color: #766b82;
+            font-size: 12px;
+        }
+
+        /* SUMMARY */
+
+        .summary {
+            display: grid;
+            grid-template-columns: 1.35fr 0.65fr;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .wellness-card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f3e8ff, #fff2f7);
+            border-radius: 24px;
+            padding: 24px 26px;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 10px 35px rgba(93, 63, 120, 0.08);
+        }
+
+        .wellness-card::after {
+            content: "✦";
+            position: absolute;
+            right: 24px;
+            top: 18px;
+            color: #b987d8;
+            opacity: 0.45;
+            font-size: 24px;
+        }
+
+        .wellness-label {
+            color: #806c91;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .wellness-number {
+            font-family: "Playfair Display", serif;
+            font-size: 42px;
+            color: #654098;
+            margin: 4px 0;
+        }
+
+        .wellness-description {
+            color: #80748b;
+            font-size: 13px;
+        }
+
+        .big-progress {
+            height: 8px;
+            margin-top: 17px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .big-progress-inner {
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #9a63d4, #db83a8);
+        }
+
+        .summary-note {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+            border-radius: 24px;
+            padding: 22px;
+            border: 1px solid #eee7f3;
+            box-shadow: 0 10px 30px rgba(80, 60, 100, 0.06);
+        }
+
+        .summary-note-icon {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .summary-note h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .summary-note p {
+            color: #83798c;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* SECTION */
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 25px 0 12px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #342a42;
+        }
+
+        .section-caption {
+            color: #93889c;
+            font-size: 12px;
+        }
+
+        /* PROGRESS */
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .progress-card {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid #eee8f3;
+            border-radius: 18px;
+            padding: 17px;
+            box-shadow: 0 7px 22px rgba(78, 55, 100, 0.045);
+            transition: 0.2s;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(78, 55, 100, 0.08);
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-icon {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            background: #f5effb;
+            font-size: 18px;
+        }
+
+        .progress-percent {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8d7d9c;
+        }
+
+        .progress-name {
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .progress-value {
+            font-size: 15px;
+            font-weight: 700;
+            margin-top: 3px;
+        }
+
+        .mini-progress {
+            height: 5px;
+            margin-top: 10px;
+            border-radius: 20px;
+            background: #eeeaf1;
+            overflow: hidden;
+        }
+
+        .mini-progress-inner {
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+        }
+
+        .water-bar {
+            background: #69c8e8;
+        }
+
+        .steps-bar {
+            background: #8d6bdd;
+        }
+
+        .meal-bar {
+            background: #72c49b;
+        }
+
+        .wellness-bar {
+            background: #e3a55c;
+        }
+
+        /* HEALTH */
+
+        .health-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .health-card {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid #eee8f3;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 7px 22px rgba(78, 55, 100, 0.045);
+        }
+
+        .health-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .health-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .health-icon {
+            font-size: 17px;
+        }
+
+        .risk-number {
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+            margin-top: 8px;
+        }
+
+        .risk-status {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 4px 9px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .low {
+            color: #3d916b;
+            background: #eaf8f1;
+        }
+
+        .moderate {
+            color: #b57635;
+            background: #fff3e5;
+        }
+
+        .high {
+            color: #c75572;
+            background: #ffedf2;
+        }
+
+        .risk-note {
+            color: #9b919f;
+            font-size: 10px;
+            margin-top: 7px;
+        }
+
+        /* QUICK ACCESS */
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 11px;
+        }
+
+        .quick-card {
+            background: rgba(255,255,255,0.94);
+            border: 1px solid #eee8f3;
+            border-radius: 17px;
+            padding: 15px 10px;
+            text-align: center;
+            color: #33293f;
+            box-shadow: 0 6px 18px rgba(80, 60, 100, 0.045);
+            transition: 0.2s;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-3px);
+            border-color: #dfc9ee;
+            background: #fff;
+        }
+
+        .quick-icon {
+            width: 39px;
+            height: 39px;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: #f4edfa;
+            font-size: 19px;
+        }
+
+        .quick-title {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .quick-subtitle {
+            font-size: 9px;
+            color: #958b9d;
+            margin-top: 3px;
+        }
+
+        /* BOTTOM */
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+        }
+
+        .bottom-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1px solid #eee8f3;
+            border-radius: 19px;
+            padding: 17px 19px;
+            box-shadow: 0 7px 20px rgba(80, 60, 100, 0.045);
+        }
+
+        .bottom-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bottom-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: #f8edf4;
+            font-size: 19px;
+        }
+
+        .bottom-title {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .bottom-text {
+            color: #958b9d;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .small-btn {
+            padding: 8px 13px;
+            border-radius: 16px;
+            background: #7d50bd;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .small-btn:hover {
+            background: #6940a5;
+            color: white;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 30px 0 35px;
+            color: #9a909f;
+            font-size: 11px;
+        }
+
+        footer strong {
+            color: #8050ae;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-grid,
+            .health-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .nav-link {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .page {
+                width: min(100% - 24px, 1180px);
+            }
+
+            .welcome {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .date-pill {
+                align-self: flex-start;
+            }
+
+            .progress-grid,
+            .health-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 390px) {
+
+            .progress-grid,
+            .health-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="page nav-inner">
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="brand"
+        >
+            <span class="brand-flower">🌸</span>
+            FemCare AI
+        </a>
+
+        <div class="nav-actions">
+
+            <a
+                href="{{ url_for('weekly_report') }}"
+                class="nav-link"
+            >
+                Reports
+            </a>
+
+            <a
+                href="{{ url_for('profile') }}"
+                class="nav-link"
+            >
+                Profile
+            </a>
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<main class="page">
+
+
+<section class="welcome">
+
+    <div>
+
+        <div class="welcome-small">
+            Your personal wellness space
+        </div>
+
+        <h1 class="welcome-title">
+            Welcome, <span>{{ username }}</span> 🌸
+        </h1>
+
+        <p class="welcome-subtitle">
+            Take a moment for yourself. Here's your wellness overview.
+        </p>
+
+    </div>
+
+    <div class="date-pill">
+        ✨ Today's Wellness
+    </div>
+
+</section>
+
+
+
+<section class="summary">
+
+    <div class="wellness-card">
+
+        <div class="wellness-label">
+            Today's wellness progress
+        </div>
+
+        <div class="wellness-number">
+            {{ wellness_progress }}%
+        </div>
+
+        <div class="wellness-description">
+            Small consistent steps create healthy habits.
+        </div>
+
+        <div class="big-progress">
+
+            <div
+                class="big-progress-inner"
+                data-progress="{{ wellness_progress }}"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="summary-note">
+
+        <div class="summary-note-icon">
+            💜
+        </div>
+
+        <h3>
+            A gentle reminder
+        </h3>
+
+        <p>
+            You don't need to do everything perfectly.
+            Just keep taking care of yourself, one day at a time.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-title">
+            Today's progress
+        </div>
+
+        <div class="section-caption">
+            Your daily wellness goals
+        </div>
+
+    </div>
+
+
+    <div class="progress-grid">
+
+
+        <div class="progress-card">
+
+            <div class="progress-top">
+
+                <div class="progress-icon">💧</div>
+
+                <div class="progress-percent">
+                    {{ water_progress }}%
+                </div>
+
+            </div>
+
+            <div class="progress-name">
+                Water
+            </div>
+
+            <div class="progress-value">
+                {{ water_glasses }} / 8 glasses
+            </div>
+
+            <div class="mini-progress">
+
+                <div
+                    class="mini-progress-inner water-bar"
+                    data-progress="{{ water_progress }}"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-card">
+
+            <div class="progress-top">
+
+                <div class="progress-icon">👣</div>
+
+                <div class="progress-percent">
+                    {{ step_progress }}%
+                </div>
+
+            </div>
+
+            <div class="progress-name">
+                Steps
+            </div>
+
+            <div class="progress-value">
+                {{ steps }}
+            </div>
+
+            <div class="mini-progress">
+
+                <div
+                    class="mini-progress-inner steps-bar"
+                    data-progress="{{ step_progress }}"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-card">
+
+            <div class="progress-top">
+
+                <div class="progress-icon">🥗</div>
+
+                <div class="progress-percent">
+                    {{ meal_progress }}%
+                </div>
+
+            </div>
+
+            <div class="progress-name">
+                Meals
+            </div>
+
+            <div class="progress-value">
+                {{ meals_done }} / 4
+            </div>
+
+            <div class="mini-progress">
+
+                <div
+                    class="mini-progress-inner meal-bar"
+                    data-progress="{{ meal_progress }}"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-card">
+
+            <div class="progress-top">
+
+                <div class="progress-icon">🌸</div>
+
+                <div class="progress-percent">
+                    {{ wellness_progress }}%
+                </div>
+
+            </div>
+
+            <div class="progress-name">
+                Wellness
+            </div>
+
+            <div class="progress-value">
+                {{ wellness_progress }}%
+            </div>
+
+            <div class="mini-progress">
+
+                <div
+                    class="mini-progress-inner wellness-bar"
+                    data-progress="{{ wellness_progress }}"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-title">
+            Your health overview
+        </div>
+
+        <div class="section-caption">
+            AI assessment
+        </div>
+
+    </div>
+
+
+    <div class="health-grid">
+
+
+        <div class="health-card">
+
+            <div class="health-top">
+
+                <div class="health-name">
+                    Diabetes
+                </div>
+
+                <div class="health-icon">
+                    🩺
+                </div>
+
+            </div>
+
+            <div class="risk-number">
+                {{ diabetes_percentage }}%
+            </div>
+
+            <div
+                class="risk-status
+                {% if diabetes_percentage < 30 %}
+                    low
+                {% elif diabetes_percentage < 70 %}
+                    moderate
+                {% else %}
+                    high
+                {% endif %}"
+            >
+                {{ diabetes_risk }}
+            </div>
+
+            <div class="risk-note">
+                AI risk estimate
+            </div>
+
+        </div>
+
+
+        <div class="health-card">
+
+            <div class="health-top">
+
+                <div class="health-name">
+                    PCOS
+                </div>
+
+                <div class="health-icon">
+                    🌸
+                </div>
+
+            </div>
+
+            <div class="risk-number">
+                {{ pcos_percentage }}%
+            </div>
+
+            <div
+                class="risk-status
+                {% if pcos_percentage < 30 %}
+                    low
+                {% elif pcos_percentage < 70 %}
+                    moderate
+                {% else %}
+                    high
+                {% endif %}"
+            >
+                {{ pcos_risk }}
+            </div>
+
+            <div class="risk-note">
+                AI risk estimate
+            </div>
+
+        </div>
+
+
+        <div class="health-card">
+
+            <div class="health-top">
+
+                <div class="health-name">
+                    Anemia
+                </div>
+
+                <div class="health-icon">
+                    🩸
+                </div>
+
+            </div>
+
+            <div class="risk-number">
+                {{ anemia_percentage }}%
+            </div>
+
+            <div
+                class="risk-status
+                {% if anemia_percentage < 30 %}
+                    low
+                {% elif anemia_percentage < 70 %}
+                    moderate
+                {% else %}
+                    high
+                {% endif %}"
+            >
+                {{ anemia_risk }}
+            </div>
+
+            <div class="risk-note">
+                AI risk estimate
+            </div>
+
+        </div>
+
+
+        <div class="health-card">
+
+            <div class="health-top">
+
+                <div class="health-name">
+                    Thyroid
+                </div>
+
+                <div class="health-icon">
+                    🦋
+                </div>
+
+            </div>
+
+            <div class="risk-number">
+                {{ thyroid_percentage }}%
+            </div>
+
+            <div
+                class="risk-status
+                {% if thyroid_percentage < 30 %}
+                    low
+                {% elif thyroid_percentage < 70 %}
+                    moderate
+                {% else %}
+                    high
+                {% endif %}"
+            >
+                {{ thyroid_risk }}
+            </div>
+
+            <div class="risk-note">
+                AI risk estimate
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-title">
+            Explore your wellness
+        </div>
+
+        <div class="section-caption">
+            Quick access
+        </div>
+
+    </div>
+
+
+    <div class="quick-grid">
+
+
+        <a
+            href="{{ url_for('diet') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">🥗</div>
+
+            <div class="quick-title">
+                Diet
+            </div>
+
+            <div class="quick-subtitle">
+                Meals & recipes
+            </div>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('activity') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">👣</div>
+
+            <div class="quick-title">
+                Activity
+            </div>
+
+            <div class="quick-subtitle">
+                Daily movement
+            </div>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('yoga') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">🧘‍♀️</div>
+
+            <div class="quick-title">
+                Yoga
+            </div>
+
+            <div class="quick-subtitle">
+                Mind & body
+            </div>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('stress') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">🧠</div>
+
+            <div class="quick-title">
+                Stress
+            </div>
+
+            <div class="quick-subtitle">
+                Calm & relax
+            </div>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('menstrual') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">🌷</div>
+
+            <div class="quick-title">
+                Cycle
+            </div>
+
+            <div class="quick-subtitle">
+                Period tracker
+            </div>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('doctors') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">👩‍⚕️</div>
+
+            <div class="quick-title">
+                Doctors
+            </div>
+
+            <div class="quick-subtitle">
+                Consultation
+            </div>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('appointments') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">📅</div>
+
+            <div class="quick-title">
+                Appointments
+            </div>
+
+            <div class="quick-subtitle">
+                Your bookings
+            </div>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('weekly_report') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">📊</div>
+
+            <div class="quick-title">
+                Weekly Report
+            </div>
+
+            <div class="quick-subtitle">
+                Your progress
+            </div>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('profile') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">👤</div>
+
+            <div class="quick-title">
+                Profile
+            </div>
+
+            <div class="quick-subtitle">
+                Your details
+            </div>
+
+        </a>
+
+
+        <!-- RECIPES -->
+        <!-- Recipe requires dish_name, so it is accessed through Diet. -->
+
+        <a
+            href="{{ url_for('diet') }}"
+            class="quick-card"
+        >
+
+            <div class="quick-icon">🍓</div>
+
+            <div class="quick-title">
+                Recipes
+            </div>
+
+            <div class="quick-subtitle">
+                Explore in Diet
+            </div>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<section>
+
+    <div class="section-head">
+
+        <div class="section-title">
+            Stay on track
+        </div>
+
+    </div>
+
+
+    <div class="bottom-grid">
+
+
+        <div class="bottom-card">
+
+            <div class="bottom-left">
+
+                <div class="bottom-icon">
+                    📅
+                </div>
+
+                <div>
+
+                    <div class="bottom-title">
+                        My Appointments
+                    </div>
+
+                    <div class="bottom-text">
+                        Manage your doctor consultations
+                    </div>
+
+                </div>
+
+            </div>
+
+            <a
+                href="{{ url_for('appointments') }}"
+                class="small-btn"
+            >
+                View
+            </a>
+
+        </div>
+
+
+        <div class="bottom-card">
+
+            <div class="bottom-left">
+
+                <div class="bottom-icon">
+                    📈
+                </div>
+
+                <div>
+
+                    <div class="bottom-title">
+                        Weekly Report
+                    </div>
+
+                    <div class="bottom-text">
+                        See your wellness journey
+                    </div>
+
+                </div>
+
+            </div>
+
+            <a
+                href="{{ url_for('weekly_report') }}"
+                class="small-btn"
+            >
+                View
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<footer>
+
+    <strong>🌸 FemCare AI</strong>
+
+    <br>
+
+    Your gentle women's wellness companion 💗
+
+</footer>
+
+
+</main>
+
+
+
+<script>
+
+    function setProgressBars() {
+
+        const bars = document.querySelectorAll(
+            "[data-progress]"
+        );
+
+        bars.forEach(function(bar) {
+
+            let value = parseFloat(
+                bar.getAttribute("data-progress")
+            );
+
+            if (isNaN(value)) {
+                value = 0;
+            }
+
+            value = Math.max(0, Math.min(100, value));
+
+            bar.style.width = value + "%";
+
+        });
+
+    }
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        setProgressBars
+    );
+
+</script>
+
+
+</body>
+
+</html>
