@@ -476,22 +476,8 @@ def logout():
 @login_required
 def health_assessment():
 
-    conn = get_db()
-
-    profile = conn.execute(
-        """
-        SELECT profile_completed
-        FROM health_profiles
-        WHERE user_id = ?
-        """,
-        (session["user_id"],)
-    ).fetchone()
-
-    conn.close()
-
-    if profile and profile["profile_completed"] == 1:
-        return redirect(url_for("dashboard"))
-
+    # The assessment can also be reopened by existing users
+    # so they can update their profile or choose different screenings.
     return render_template("index.html")
 
 
