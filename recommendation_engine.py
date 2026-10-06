@@ -63,13 +63,21 @@ def _food_is_blocked(recipe, preference, allergies, dislikes):
         if allergy in selected_allergies and any(word in ingredients for word in words):
             return True
 
-    # The current product scope is vegetarian. The library itself is
-    # vegetarian, so meat/fish/chicken recipes cannot enter the pool.
-    non_vegetarian = ["chicken", "fish", "mutton", "meat", "prawn", "prawns", "egg"]
-    if any(word in ingredients for word in non_vegetarian):
+    preference_lower = str(preference or "Vegetarian").strip().lower()
+    recipe_diet = str(recipe.get("diet_type", "Vegetarian")).strip().lower()
+
+    # Dietary preference is a hard filter before health scoring.
+    if preference_lower == "vegetarian" and recipe_diet != "vegetarian":
         return True
 
-    if "vegan" in str(preference or "").lower():
+    if preference_lower == "vegan":
+        if recipe_diet != "vegetarian":
+            return True
+    elif preference_lower == "eggetarian":
+        if recipe_diet not in {"vegetarian", "eggetarian"}:
+            return True
+
+    if "vegan" in preference_lower:
         if any(word in ingredients for word in [
             "milk", "paneer", "curd", "yogurt", "yoghurt",
             "cheese", "ghee", "butter", "cream"
@@ -161,13 +169,11 @@ def build_personalized_meal_plan(profile, predictions, recommendation_date=None)
             and not _food_is_blocked(recipe, preference, allergies, dislikes)
         ]
 
+        # Never bypass allergy or dietary restrictions. If no safe recipe
+        # exists for a meal slot, leave that slot empty rather than showing
+        # a potentially unsuitable fallback.
         if not candidates:
-            # A generic fallback is still passed through the same library
-            # restrictions in normal operation.
-            candidates = [
-                recipe for recipe in RECIPE_LIBRARY
-                if recipe.get("meal_type") == slot
-            ]
+            continue
 
         scored = [
             (recipe, _recipe_score(recipe, flags))
