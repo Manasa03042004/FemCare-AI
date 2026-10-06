@@ -13,7 +13,7 @@ class HealthConnectManager(context: Context) {
     private val appContext = context.applicationContext
     private val client = HealthConnectClient.getOrCreate(appContext)
 
-    val requiredPermissions = setOf(HealthPermission.getReadPermission(StepsRecord::class))
+    val requiredPermissions = setOf(HealthPermission.getReadPermission(StepsRecord::class), HealthPermission.PERMISSION_READ_HEALTH_DATA_IN_BACKGROUND)
 
     fun isAvailable(): Boolean {
         val status = HealthConnectClient.getSdkStatus(appContext, HealthConnectClient.DEFAULT_PROVIDER_PACKAGE_NAME)
