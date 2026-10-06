@@ -99,7 +99,8 @@ def init_db():
         ("screening_thyroid", "INTEGER", "1"),
         ("diet_preference", "TEXT", "'Vegetarian'"),
         ("allergies", "TEXT", "''"),
-        ("food_dislikes", "TEXT", "''")
+        ("food_dislikes", "TEXT", "''"),
+        ("sattvic_enabled", "INTEGER", "0")
     ]:
         if column_name not in existing_columns:
             cursor.execute(
@@ -626,6 +627,8 @@ def predict():
             ""
         ).strip()
 
+        sattvic_enabled = 1 if request.form.get("sattvic_enabled") == "1" else 0
+
         # Server-side validation mirrors the progressive UI.
         # Only the selected screening needs its disease-specific data.
         if screening_diabetes:
@@ -891,6 +894,14 @@ def predict():
         allergies,
         food_dislikes
     ))
+
+    # Save the optional Sattvic wellness pathway separately so
+    # existing health-profile rows remain compatible.
+    conn.execute("""
+        UPDATE health_profiles
+        SET sattvic_enabled=?
+        WHERE user_id=?
+    """, (sattvic_enabled, session["user_id"]))
 
     # -----------------------------------------------------
     # SAVE PREDICTIONS
@@ -1213,8 +1224,65 @@ def dashboard():
         stress_progress=stress_progress,
 
         wellness_progress=wellness_progress,
-        wellness_plan=wellness_plan
+        wellness_plan=wellness_plan,
+        sattvic_enabled=int(profile["sattvic_enabled"] or 0)
     )
+
+
+# =========================================================
+# SATTVIC WELLNESS
+# =========================================================
+
+@app.route("/sattvic")
+@login_required
+def sattvic():
+    conn = get_db()
+    profile = conn.execute("""
+        SELECT sattvic_enabled, weight
+        FROM health_profiles
+        WHERE user_id=?
+    """, (session["user_id"],)).fetchone()
+    conn.close()
+
+    enabled = bool(profile and profile["sattvic_enabled"])
+
+    return render_template(
+        "sattvic.html",
+        enabled=enabled,
+        current_weight=(profile["weight"] if profile else None)
+    )
+
+
+@app.route("/sattvic/start", methods=["POST"])
+@login_required
+def start_sattvic():
+    conn = get_db()
+    conn.execute("""
+        UPDATE health_profiles
+        SET sattvic_enabled=1
+        WHERE user_id=?
+    """, (session["user_id"],))
+    conn.commit()
+    conn.close()
+
+    flash("🌿 Sattvic Wellness has been activated for your profile.")
+    return redirect(url_for("sattvic"))
+
+
+@app.route("/sattvic/stop", methods=["POST"])
+@login_required
+def stop_sattvic():
+    conn = get_db()
+    conn.execute("""
+        UPDATE health_profiles
+        SET sattvic_enabled=0
+        WHERE user_id=?
+    """, (session["user_id"],))
+    conn.commit()
+    conn.close()
+
+    flash("Sattvic Wellness has been paused. You can restart it anytime.")
+    return redirect(url_for("sattvic"))
 
 
 # =========================================================
