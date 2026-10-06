@@ -987,32 +987,47 @@
         </div>
 
         <div class="field" style="grid-column:1 / -1;">
-            <label>Food Allergies</label>
-            <span class="help">Select any known food allergies. These are user-provided preferences and are not medically verified.</span>
+            <label>🚫 Food Allergies & Safety</label>
+            <span class="help">
+                Select any known food allergies. FemCare AI will use this information when preparing your personalized nutrition plan.
+                Allergy information is provided by you and is not medically verified.
+            </span>
 
             <div class="yes-no" style="flex-wrap:wrap;">
 
                 <input type="checkbox" name="allergies" value="nuts" id="allergyNuts">
-                <label class="choice" for="allergyNuts">Nuts</label>
+                <label class="choice" for="allergyNuts">🥜 Nuts</label>
 
                 <input type="checkbox" name="allergies" value="peanuts" id="allergyPeanuts">
-                <label class="choice" for="allergyPeanuts">Peanuts</label>
+                <label class="choice" for="allergyPeanuts">🥜 Peanuts</label>
 
                 <input type="checkbox" name="allergies" value="dairy" id="allergyDairy">
-                <label class="choice" for="allergyDairy">Dairy</label>
+                <label class="choice" for="allergyDairy">🥛 Dairy</label>
 
                 <input type="checkbox" name="allergies" value="gluten" id="allergyGluten">
-                <label class="choice" for="allergyGluten">Gluten</label>
+                <label class="choice" for="allergyGluten">🌾 Gluten</label>
 
                 <input type="checkbox" name="allergies" value="soy" id="allergySoy">
-                <label class="choice" for="allergySoy">Soy</label>
+                <label class="choice" for="allergySoy">🫘 Soy</label>
 
                 <input type="checkbox" name="allergies" value="sesame" id="allergySesame">
-                <label class="choice" for="allergySesame">Sesame</label>
+                <label class="choice" for="allergySesame">🌱 Sesame</label>
 
                 <input type="checkbox" name="allergies" value="seeds" id="allergySeeds">
-                <label class="choice" for="allergySeeds">Seeds</label>
+                <label class="choice" for="allergySeeds">🌻 Seeds</label>
 
+                <input type="checkbox" name="allergies" value="none" id="allergyNone">
+                <label class="choice" for="allergyNone">✓ No known allergies</label>
+
+            </div>
+
+            <div style="margin-top:10px;">
+                <input
+                    type="text"
+                    name="allergy_other"
+                    class="input"
+                    placeholder="Other allergy (optional), e.g. chickpeas"
+                >
             </div>
         </div>
 
@@ -2001,6 +2016,25 @@
 
 
 </form>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const allergyBoxes = document.querySelectorAll('input[name="allergies"]');
+    const noneBox = document.getElementById("allergyNone");
+
+    allergyBoxes.forEach(function (box) {
+        box.addEventListener("change", function () {
+            if (this === noneBox && this.checked) {
+                allergyBoxes.forEach(function (other) {
+                    if (other !== noneBox) other.checked = false;
+                });
+            } else if (this !== noneBox && this.checked) {
+                noneBox.checked = false;
+            }
+        });
+    });
+});
+</script>
+
 
 
 
