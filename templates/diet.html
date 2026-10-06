@@ -1245,7 +1245,7 @@
 <section class="progress-card" style="margin-top:24px;">
     <div class="progress-header">
         <h2>🌿 Your Food Preferences</h2>
-        <span>{{ diet_preference }}</span>
+        <span>{{ diet_preference }} • {{ recipe_count }} recipes</span>
     </div>
     <p style="margin-top:10px;color:#817681;font-size:10px;line-height:1.6;">
         Your meal suggestions are shown with your selected dietary preference and food information in mind.
@@ -1270,7 +1270,7 @@
 
 
     <p>
-        Delicious, simple and nourishing choices for your day.
+        {{ recipe_count }} vegetarian recipes • dynamically selected for your profile.
     </p>
 
 </div>
@@ -1296,6 +1296,9 @@
 
     <h3>{{ meal.label }}</h3>
     <div class="dish-name">{{ meal.name }}</div>
+    <div style="margin-top:5px;color:#8f858f;font-size:8px;">
+        ✨ {{ meal.why }}
+    </div>
 
     <ul class="ingredients">
         {% for ingredient in meal.ingredients %}
@@ -1416,9 +1419,10 @@
         <span>{{ diet_preference }}</span>
     </div>
     <p style="margin-top:9px;color:#756a7c;font-size:9px;line-height:1.7;">
-        FemCare AI selects from its meal library using your saved dietary preference,
-        food restrictions, dislikes and health-risk profile. These are wellness-support
-        suggestions, not medical prescriptions.
+        FemCare AI selects from a {{ recipe_count }}-recipe vegetarian library.
+        Allergies and dislikes are filtered first, then the remaining recipes are
+        scored against your wellness profile. Recommendations can rotate across days.
+        These are wellness-support suggestions, not medical prescriptions.
     </p>
     {% if allergies %}
     <div style="margin-top:10px;padding:9px 11px;border-radius:11px;background:#fff5f5;border:1px solid #f2dddd;color:#875f67;font-size:9px;">
