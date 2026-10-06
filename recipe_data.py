@@ -236,8 +236,6 @@ RECIPE_LIBRARY = [
         ["little millet","lentils","carrot","beans","spinach"],
         ["protein","fiber","pcos","diabetes","anemia"],370,16,9,4.3,
         ["Cook millet and lentils.","Steam or saute vegetables.","Combine and season lightly."]),
-]
-
 
     # ---------------- NON-VEGETARIAN ----------------
     _recipe("chicken_spinach_bowl","Chicken Spinach Protein Bowl","lunch",
@@ -300,6 +298,6 @@ RECIPE_LIBRARY = [
         ["protein","light","balanced"],230,15,5,2.1,
         ["Prepare a light vegetable soup.","Add beaten egg gradually while stirring.","Cook until egg is fully set and serve hot."],
         "Eggetarian"),
-
+]
 
 RECIPE_BY_SLUG = {recipe["slug"]: recipe for recipe in RECIPE_LIBRARY}
