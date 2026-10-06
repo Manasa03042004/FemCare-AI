@@ -8,7 +8,8 @@ from sklearn.model_selection import train_test_split
 import sqlite3
 from functools import wraps
 from datetime import date, datetime, timedelta
-from werkzeug.security import generate_password_hash, check_password_hash, secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from recommendation_engine import build_wellness_plan, build_personalized_meal_plan
 from recipe_data import RECIPE_BY_SLUG
 
