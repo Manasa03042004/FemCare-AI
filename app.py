@@ -2474,6 +2474,18 @@ def weekly_report():
             else 0
         )
 
+        # SATTVIC DAILY LOG
+        sattvic_row = conn.execute("""
+            SELECT sunlight_completed, morning_water_completed,
+                   breakfast_completed, snack_completed, lunch_completed,
+                   evening_completed, dinner_completed, movement_completed
+            FROM sattvic_daily_logs
+            WHERE user_id=? AND log_date=?
+        """, (user_id, day_string)).fetchone()
+
+        sattvic_done = sattvic_completion(sattvic_row)
+        sattvic_percent = round((sattvic_done / 8) * 100)
+
         # TOTALS
         water_total += water
         steps_total += steps
@@ -2538,10 +2550,21 @@ def weekly_report():
             "yoga": yoga,
             "exercise": exercise,
             "stress_minutes": stress_minutes,
+            "sattvic_done": sattvic_done,
+            "sattvic_percent": sattvic_percent,
             "daily_score": daily_score
         })
 
     conn.close()
+
+    # -----------------------------------------------------
+    # SATTVIC WEEKLY SUMMARY
+    # -----------------------------------------------------
+    number_of_days = len(days)
+    sattvic_total = sum(row["sattvic_done"] for row in daily_rows)
+    sattvic_target = number_of_days * 8
+    sattvic_score = round((sattvic_total / sattvic_target) * 100) if sattvic_target else 0
+    sattvic_active_days = sum(1 for row in daily_rows if row["sattvic_done"] > 0)
 
     # -----------------------------------------------------
     # WEEKLY SUMMARY
@@ -2716,6 +2739,10 @@ def weekly_report():
         yoga_total=yoga_total,
         exercise_total=exercise_total,
         stress_minutes_total=stress_minutes_total,
+        sattvic_total=sattvic_total,
+        sattvic_target=sattvic_target,
+        sattvic_score=sattvic_score,
+        sattvic_active_days=sattvic_active_days,
 
         avg_water=avg_water,
         avg_steps=avg_steps,
