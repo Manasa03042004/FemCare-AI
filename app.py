@@ -8,6 +8,7 @@ import sqlite3
 from functools import wraps
 from datetime import date, datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
+from recommendation_engine import build_wellness_plan
 
 app = Flask(__name__)
 app.secret_key = "femcare_ai_secret_key"
@@ -985,16 +986,18 @@ def dashboard():
     # -----------------------------------------------------
 
     prediction = conn.execute("""
-        SELECT
-            diabetes_percentage,
-            pcos_percentage,
-            anemia_percentage,
-            thyroid_percentage
+        SELECT *
         FROM health_predictions
         WHERE user_id=?
     """, (user_id,)).fetchone()
 
-    if prediction is None:
+    profile = conn.execute("""
+        SELECT *
+        FROM health_profiles
+        WHERE user_id=?
+    """, (user_id,)).fetchone()
+
+    if prediction is None or profile is None:
 
         conn.close()
 
@@ -1130,6 +1133,12 @@ def dashboard():
         ) / 5
     )
 
+    wellness_plan = build_wellness_plan(
+        profile,
+        prediction,
+        build_personalized_meal_plan(profile, prediction)
+    )
+
     conn.close()
 
     # -----------------------------------------------------
@@ -1202,7 +1211,8 @@ def dashboard():
         stress_done=stress_done,
         stress_progress=stress_progress,
 
-        wellness_progress=wellness_progress
+        wellness_progress=wellness_progress,
+        wellness_plan=wellness_plan
     )
 
 
