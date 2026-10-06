@@ -572,17 +572,19 @@ def predict():
         # The BMI value displayed in About You is the same server-side
         # value used by the prediction model and saved in health_profiles.
 
-        # Disease-specific fields are only required when
-        # the user selected that health screening.
-        pregnancies = int(request.form.get("pregnancies", 0))
-        glucose = int(request.form.get("glucose", 0))
-        blood_pressure = int(request.form.get("blood_pressure", 0))
-        # Skin thickness is no longer collected from the user.
-        # Keep the legacy model feature at 0 for compatibility with
-        # the currently trained diabetes model.
+        # Diabetes now uses simple Yes/No wellness questions.
+        diabetes_high_glucose = int(request.form.get("diabetes_high_glucose", 0))
+        diabetes_high_bp = int(request.form.get("diabetes_high_bp", 0))
+        diabetes_high_insulin = int(request.form.get("diabetes_high_insulin", 0))
+        diabetes_pregnancy_history = int(request.form.get("diabetes_pregnancy_history", 0))
+
+        # Legacy database columns are retained for compatibility.
+        pregnancies = diabetes_pregnancy_history
+        glucose = 0
+        blood_pressure = 0
         skin_thickness = 0
-        insulin = int(request.form.get("insulin", 0))
-        diabetes_pedigree = float(request.form.get("diabetes_pedigree", 0))
+        insulin = 0
+        diabetes_pedigree = 0.0
 
         hair_growth = int(request.form.get("hair_growth", 0))
         skin_darkening = int(request.form.get("skin_darkening", 0))
@@ -627,14 +629,14 @@ def predict():
         # Server-side validation mirrors the progressive UI.
         # Only the selected screening needs its disease-specific data.
         if screening_diabetes:
-            if (
-                pregnancies < 0 or
-                glucose <= 0 or
-                blood_pressure <= 0 or
-                insulin < 0 or
-                diabetes_pedigree < 0
+            for flag in (
+                diabetes_high_glucose,
+                diabetes_high_bp,
+                diabetes_high_insulin,
+                diabetes_pregnancy_history
             ):
-                raise ValueError("Invalid diabetes screening values")
+                if flag not in (0, 1):
+                    raise ValueError("Invalid diabetes screening values")
 
         if screening_anemia:
             if hemoglobin <= 0:
@@ -663,14 +665,12 @@ def predict():
 
     if screening_diabetes:
         diabetes_input = np.array([[
-            pregnancies,
-            glucose,
-            blood_pressure,
-            skin_thickness,
-            insulin,
-            bmi,
-            diabetes_pedigree,
-            age
+            diabetes_high_glucose,
+            diabetes_high_bp,
+            diabetes_high_insulin,
+            diabetes_pregnancy_history,
+            int(bmi >= 25),
+            int(age >= 45)
         ]])
 
         diabetes_prediction = diabetes_model.predict(diabetes_input)
