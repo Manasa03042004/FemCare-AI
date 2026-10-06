@@ -1083,6 +1083,156 @@ def dashboard():
 
 
 # =========================================================
+# PERSONALIZED NUTRITION ENGINE
+# =========================================================
+
+def _food_is_blocked(ingredients, preference, allergies, dislikes):
+    ingredient_text = " ".join(ingredients).lower()
+    allergy_text = str(allergies or "").lower()
+    dislike_items = [x.strip().lower() for x in str(dislikes or "").split(",") if x.strip()]
+
+    allergy_groups = {
+        "nuts": ["almond", "walnut", "cashew", "pistachio", "nut"],
+        "peanuts": ["peanut", "groundnut"],
+        "dairy": ["milk", "paneer", "curd", "yogurt", "cheese", "ghee", "butter"],
+        "gluten": ["wheat", "bread", "atta", "maida", "barley", "rye", "oats"],
+        "soy": ["soy", "tofu", "soya"],
+        "sesame": ["sesame", "til"],
+        "seeds": ["seed", "chia", "flax", "sunflower", "pumpkin"]
+    }
+
+    for allergy, words in allergy_groups.items():
+        if allergy in allergy_text and any(word in ingredient_text for word in words):
+            return True
+
+    pref = str(preference or "").lower()
+    if "vegan" in pref and any(word in ingredient_text for word in [
+        "milk", "paneer", "curd", "yogurt", "cheese", "ghee", "butter", "egg"
+    ]):
+        return True
+
+    if pref in ["vegetarian", "vegan", "eggetarian"] and any(
+        word in ingredient_text for word in ["chicken", "fish", "meat", "mutton"]
+    ):
+        return True
+
+    if pref == "vegetarian" and "egg" in ingredient_text:
+        return True
+
+    if pref == "eggetarian" and any(
+        word in ingredient_text for word in ["chicken", "fish", "meat", "mutton"]
+    ):
+        return True
+
+    for item in dislike_items:
+        if item in ingredient_text:
+            return True
+
+    for part in allergy_text.split(","):
+        part = part.strip()
+        if part.startswith("other:"):
+            custom = part.replace("other:", "", 1).strip()
+            if custom and custom in ingredient_text:
+                return True
+
+    return False
+
+
+def build_personalized_meal_plan(profile, predictions):
+    preference = profile["diet_preference"] if profile and profile["diet_preference"] else "Vegetarian"
+    allergies = profile["allergies"] if profile else ""
+    dislikes = profile["food_dislikes"] if profile else ""
+
+    risk_flags = {
+        "diabetes": bool(predictions and ((predictions["diabetes_prediction"] or 0) == 1 or (predictions["diabetes_percentage"] or 0) >= 50)),
+        "pcos": bool(predictions and ((predictions["pcos_prediction"] or 0) == 1 or (predictions["pcos_percentage"] or 0) >= 50)),
+        "anemia": bool(predictions and ((predictions["anemia_prediction"] or 0) == 1 or (predictions["anemia_percentage"] or 0) >= 50)),
+        "thyroid": bool(predictions and ((predictions["thyroid_prediction"] or 0) == 1 or (predictions["thyroid_percentage"] or 0) >= 50))
+    }
+
+    focus = []
+    if risk_flags["anemia"]:
+        focus.append(("🩸", "Iron Support", "Iron-rich foods such as spinach, lentils and beetroot."))
+    if risk_flags["pcos"]:
+        focus.append(("🌸", "PCOS-Friendly Balance", "Protein, vegetables and high-fibre carbohydrates."))
+    if risk_flags["diabetes"]:
+        focus.append(("🩺", "Blood-Sugar Friendly", "Fibre-rich meals with limited added sugar."))
+    if risk_flags["thyroid"]:
+        focus.append(("🦋", "Balanced Thyroid Support", "Balanced meals with protein, vegetables and whole foods."))
+    if not focus:
+        focus.append(("🥗", "Balanced Wellness", "Vegetables, protein, whole grains and regular hydration."))
+
+    plans = {
+        "breakfast": [
+            {"diseases":["anemia"],"name":"Spinach Moong Chilla","recipe":"spinach_moong_chilla","ingredients":["spinach","moong dal","lemon","spices"]},
+            {"diseases":["pcos","diabetes"],"name":"Moong Dal Chilla","recipe":"moong_chilla","ingredients":["moong dal","vegetables","spices"]},
+            {"diseases":["thyroid"],"name":"Vegetable Moong Chilla","recipe":"moong_chilla","ingredients":["moong dal","vegetables","spices"]},
+            {"diseases":[],"name":"Vegetable Oats Upma","recipe":"oats_upma","ingredients":["oats","mixed vegetables","spices"]}
+        ],
+        "snack": [
+            {"diseases":["anemia"],"name":"Beetroot Fruit Bowl","recipe":"beetroot_salad","ingredients":["beetroot","apple","lemon"]},
+            {"diseases":["pcos","diabetes"],"name":"Apple & Roasted Chickpeas","recipe":"fruit_chickpea_bowl","ingredients":["apple","roasted chickpeas","cinnamon"]},
+            {"diseases":["thyroid"],"name":"Fresh Fruit Bowl","recipe":"fruit_bowl","ingredients":["apple","papaya","banana"]},
+            {"diseases":[],"name":"Seasonal Fruit Bowl","recipe":"fruit_bowl","ingredients":["seasonal fruit","water"]}
+        ],
+        "lunch": [
+            {"diseases":["anemia"],"name":"Spinach Dal Brown Rice","recipe":"spinach_dal_rice","ingredients":["spinach","dal","brown rice","lemon"]},
+            {"diseases":["pcos","diabetes"],"name":"Protein Vegetable Brown Rice Bowl","recipe":"protein_rice_bowl","ingredients":["brown rice","dal","vegetables","beans"]},
+            {"diseases":["thyroid"],"name":"Balanced Brown Rice Vegetable Meal","recipe":"brown_rice","ingredients":["brown rice","vegetables","dal"]},
+            {"diseases":[],"name":"Brown Rice Vegetable Meal","recipe":"brown_rice","ingredients":["brown rice","vegetables","dal"]}
+        ],
+        "evening": [
+            {"diseases":["anemia"],"name":"Spinach Sprouts Salad","recipe":"spinach_sprouts_salad","ingredients":["spinach","sprouts","tomato","lemon"]},
+            {"diseases":["pcos","diabetes"],"name":"Chickpea Sprouts Salad","recipe":"chickpea_sprouts_salad","ingredients":["chickpeas","sprouts","tomato","cucumber"]},
+            {"diseases":["thyroid"],"name":"Vegetable Sprouts Salad","recipe":"sprouts_salad","ingredients":["sprouts","tomato","onion"]},
+            {"diseases":[],"name":"Sprouts Salad","recipe":"sprouts_salad","ingredients":["sprouts","tomato","onion"]}
+        ],
+        "dinner": [
+            {"diseases":["anemia"],"name":"Lentil Vegetable Bowl","recipe":"lentil_vegetable_bowl","ingredients":["lentils","spinach","carrot","lemon"]},
+            {"diseases":["pcos","diabetes"],"name":"Chickpea Vegetable Salad","recipe":"chickpea_salad","ingredients":["chickpeas","cucumber","tomato","leafy greens"]},
+            {"diseases":["thyroid"],"name":"Vegetable Moong Bowl","recipe":"moong_vegetable_bowl","ingredients":["moong dal","vegetables","brown rice"]},
+            {"diseases":[],"name":"Paneer Vegetable Salad","recipe":"paneer_salad","ingredients":["paneer","cucumber","tomato","spices"]}
+        ]
+    }
+
+    labels = {
+        "breakfast":("Breakfast","MORNING","🍳"),
+        "snack":("Mid-Morning","MID-MORNING","🍎"),
+        "lunch":("Lunch","AFTERNOON","🍚"),
+        "evening":("Evening Snack","EVENING","🥗"),
+        "dinner":("Dinner","NIGHT","🥘")
+    }
+
+    selected = []
+    for slot, candidates in plans.items():
+        candidates = sorted(
+            candidates,
+            key=lambda item: 0 if any(d in item["diseases"] and risk_flags[d] for d in item["diseases"]) else 1
+        )
+        chosen = next(
+            (item for item in candidates if not _food_is_blocked(item["ingredients"], preference, allergies, dislikes)),
+            None
+        )
+        if chosen is None:
+            chosen = {
+                "diseases":[],"name":"Vegetable Wellness Bowl",
+                "recipe":"vegetable_wellness_bowl",
+                "ingredients":["mixed vegetables","lentils","brown rice"]
+            }
+        label,time,icon=labels[slot]
+        selected.append({**chosen,"slot":slot,"label":label,"time":time,"icon":icon})
+
+    return {
+        "meals":selected,
+        "focus":focus,
+        "preference":preference,
+        "allergies":allergies,
+        "dislikes":dislikes,
+        "risk_flags":risk_flags
+    }
+
+
+# =========================================================
 # DIET
 # =========================================================
 
@@ -1093,99 +1243,49 @@ def diet():
     user_id = session["user_id"]
     today = today_string()
 
-    # FOUR meals
-    meal_names = [
-        "breakfast",
-        "lunch",
-        "evening",
-        "dinner"
-    ]
-
+    meal_names = ["breakfast", "snack", "lunch", "evening", "dinner"]
     conn = get_db()
 
-    # -----------------------------------------------------
-    # SAVE
-    # -----------------------------------------------------
-
     if request.method == "POST":
-
         for meal in meal_names:
-
-            completed = (
-                1
-                if request.form.get(f"meal_{meal}") == "1"
-                else 0
-            )
-
+            completed = 1 if request.form.get(f"meal_{meal}") == "1" else 0
             conn.execute("""
                 INSERT INTO activity_logs
-                (
-                    user_id,
-                    log_date,
-                    activity_name,
-                    completed
-                )
+                (user_id, log_date, activity_name, completed)
                 VALUES (?, ?, ?, ?)
-
                 ON CONFLICT(user_id, log_date, activity_name)
-                DO UPDATE SET
-                    completed=excluded.completed
-            """, (
-                user_id,
-                today,
-                f"meal_{meal}",
-                completed
-            ))
+                DO UPDATE SET completed=excluded.completed
+            """, (user_id, today, f"meal_{meal}", completed))
 
         conn.commit()
-
-        flash("Today's meal progress has been saved.")
-
+        flash("Today's personalized meal progress has been saved.")
         conn.close()
-
         return redirect(url_for("diet"))
-
-    # -----------------------------------------------------
-    # LOAD SAVED DATA
-    # -----------------------------------------------------
 
     rows = conn.execute("""
         SELECT activity_name, completed
         FROM activity_logs
-        WHERE user_id=?
-        AND log_date=?
-        AND activity_name LIKE 'meal_%'
+        WHERE user_id=? AND log_date=? AND activity_name LIKE 'meal_%'
     """, (user_id, today)).fetchall()
 
     profile = conn.execute("""
-        SELECT diet_preference, allergies, food_dislikes
-        FROM health_profiles
-        WHERE user_id=?
+        SELECT * FROM health_profiles WHERE user_id=?
+    """, (user_id,)).fetchone()
+
+    predictions = conn.execute("""
+        SELECT * FROM health_predictions WHERE user_id=?
     """, (user_id,)).fetchone()
 
     conn.close()
 
-    meal_status = {
-        row["activity_name"]: row["completed"]
-        for row in rows
-    }
+    meal_status = {row["activity_name"]: row["completed"] for row in rows}
+    meal_plan = build_personalized_meal_plan(profile, predictions)
 
     meals_done = sum(
-        1
-        for meal in meal_names
-        if meal_status.get(
-            f"meal_{meal}",
-            0
-        ) == 1
+        1 for meal in meal_names
+        if meal_status.get(f"meal_{meal}", 0) == 1
     )
-
-    meal_progress = min(
-        100,
-        int(
-            (meals_done / len(meal_names))
-            * 100
-        )
-    )
+    meal_progress = min(100, int((meals_done / len(meal_names)) * 100))
 
     return render_template(
         "diet.html",
@@ -1193,21 +1293,12 @@ def diet():
         meals_done=meals_done,
         meal_total=len(meal_names),
         meal_progress=meal_progress,
-        diet_preference=(
-            profile["diet_preference"]
-            if profile and profile["diet_preference"]
-            else "Vegetarian"
-        ),
-        allergies=(
-            profile["allergies"]
-            if profile and profile["allergies"]
-            else ""
-        ),
-        food_dislikes=(
-            profile["food_dislikes"]
-            if profile and profile["food_dislikes"]
-            else ""
-        )
+        diet_preference=meal_plan["preference"],
+        allergies=meal_plan["allergies"],
+        food_dislikes=meal_plan["dislikes"],
+        personalized_meals=meal_plan["meals"],
+        nutrition_focus=meal_plan["focus"],
+        risk_flags=meal_plan["risk_flags"]
     )
 
 
