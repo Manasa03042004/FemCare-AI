@@ -50,6 +50,7 @@ def init_db():
             bmi REAL,
             diabetes_pedigree REAL,
             age INTEGER,
+            height_cm REAL,
             weight INTEGER,
             cycle_length INTEGER,
             hair_growth INTEGER,
@@ -63,6 +64,10 @@ def init_db():
             thyroid_fatigue INTEGER,
             hair_loss INTEGER,
             mood_swings INTEGER,
+            screening_diabetes INTEGER DEFAULT 1,
+            screening_pcos INTEGER DEFAULT 1,
+            screening_anemia INTEGER DEFAULT 1,
+            screening_thyroid INTEGER DEFAULT 1,
             diet_preference TEXT DEFAULT 'Vegetarian',
             allergies TEXT DEFAULT '',
             food_dislikes TEXT DEFAULT '',
@@ -82,6 +87,11 @@ def init_db():
     }
 
     for column_name, column_type, default_value in [
+        ("height_cm", "REAL", "NULL"),
+        ("screening_diabetes", "INTEGER", "1"),
+        ("screening_pcos", "INTEGER", "1"),
+        ("screening_anemia", "INTEGER", "1"),
+        ("screening_thyroid", "INTEGER", "1"),
         ("diet_preference", "TEXT", "'Vegetarian'"),
         ("allergies", "TEXT", "''"),
         ("food_dislikes", "TEXT", "''")
@@ -493,32 +503,60 @@ def health_assessment():
 @login_required
 def predict():
 
+    # -----------------------------------------------------
+    # BASIC PROFILE + SCREENING CHOICES
+    # -----------------------------------------------------
+
+    screening_diabetes = request.form.get("screening_diabetes") == "1"
+    screening_pcos = request.form.get("screening_pcos") == "1"
+    screening_anemia = request.form.get("screening_anemia") == "1"
+    screening_thyroid = request.form.get("screening_thyroid") == "1"
+
     try:
-
-        pregnancies = int(request.form["pregnancies"])
-        glucose = int(request.form["glucose"])
-        blood_pressure = int(request.form["blood_pressure"])
-        skin_thickness = int(request.form["skin_thickness"])
-        insulin = int(request.form["insulin"])
-        bmi = float(request.form["bmi"])
-        diabetes_pedigree = float(request.form["diabetes_pedigree"])
         age = int(request.form["age"])
-
+        height_cm = float(request.form["height_cm"])
         weight = int(request.form["weight"])
         cycle_length = int(request.form["cycle_length"])
-        hair_growth = int(request.form["hair_growth"])
-        skin_darkening = int(request.form["skin_darkening"])
-        weight_gain = int(request.form["weight_gain"])
 
-        hemoglobin = float(request.form["hemoglobin"])
-        fatigue = int(request.form["fatigue"])
-        dizziness = int(request.form["dizziness"])
-        pale_skin = int(request.form["pale_skin"])
+        if age < 13 or age > 100:
+            raise ValueError("Invalid age")
 
-        thyroid_weight = int(request.form["thyroid_weight"])
-        thyroid_fatigue = int(request.form["thyroid_fatigue"])
-        hair_loss = int(request.form["hair_loss"])
-        mood_swings = int(request.form["mood_swings"])
+        if height_cm < 100 or height_cm > 250:
+            raise ValueError("Invalid height")
+
+        if weight < 25 or weight > 300:
+            raise ValueError("Invalid weight")
+
+        if cycle_length < 15 or cycle_length > 90:
+            raise ValueError("Invalid cycle length")
+
+        bmi = round(
+            weight / ((height_cm / 100) ** 2),
+            1
+        )
+
+        # Disease-specific fields are only required when
+        # the user selected that health screening.
+        pregnancies = int(request.form.get("pregnancies", 0))
+        glucose = int(request.form.get("glucose", 0))
+        blood_pressure = int(request.form.get("blood_pressure", 0))
+        skin_thickness = int(request.form.get("skin_thickness", 0))
+        insulin = int(request.form.get("insulin", 0))
+        diabetes_pedigree = float(request.form.get("diabetes_pedigree", 0))
+
+        hair_growth = int(request.form.get("hair_growth", 0))
+        skin_darkening = int(request.form.get("skin_darkening", 0))
+        weight_gain = int(request.form.get("weight_gain", 0))
+
+        hemoglobin = float(request.form.get("hemoglobin", 0))
+        fatigue = int(request.form.get("fatigue", 0))
+        dizziness = int(request.form.get("dizziness", 0))
+        pale_skin = int(request.form.get("pale_skin", 0))
+
+        thyroid_weight = int(request.form.get("thyroid_weight", 0))
+        thyroid_fatigue = int(request.form.get("thyroid_fatigue", 0))
+        hair_loss = int(request.form.get("hair_loss", 0))
+        mood_swings = int(request.form.get("mood_swings", 0))
 
         diet_preference = request.form.get(
             "diet_preference",
@@ -526,6 +564,9 @@ def predict():
         ).strip() or "Vegetarian"
 
         allergy_values = request.form.getlist("allergies")
+        if "none" in allergy_values:
+            allergy_values = []
+
         allergy_other = request.form.get(
             "allergy_other",
             ""
@@ -536,112 +577,115 @@ def predict():
                 f"other: {allergy_other}"
             )
 
-        allergies = ", ".join(
-            allergy_values
-        )
+        allergies = ", ".join(allergy_values)
 
         food_dislikes = request.form.get(
             "food_dislikes",
             ""
         ).strip()
 
-    except (KeyError, ValueError):
+    except (KeyError, ValueError, ZeroDivisionError):
 
-        flash("Please enter valid values in all health assessment fields.")
+        flash("Please enter valid values in the required fields.")
 
         return redirect(url_for("health_assessment"))
 
     # -----------------------------------------------------
-    # DIABETES
+    # RUN ONLY THE SCREENINGS CHOSEN BY THE USER
     # -----------------------------------------------------
 
-    diabetes_input = np.array([[
-        pregnancies,
-        glucose,
-        blood_pressure,
-        skin_thickness,
-        insulin,
-        bmi,
-        diabetes_pedigree,
-        age
-    ]])
+    diabetes_prediction = np.array([0])
+    diabetes_percentage = 0
 
-    diabetes_prediction = diabetes_model.predict(diabetes_input)
+    if screening_diabetes:
+        diabetes_input = np.array([[
+            pregnancies,
+            glucose,
+            blood_pressure,
+            skin_thickness,
+            insulin,
+            bmi,
+            diabetes_pedigree,
+            age
+        ]])
 
-    diabetes_prob = diabetes_model.predict_proba(
-        diabetes_input
-    )[0][1]
+        diabetes_prediction = diabetes_model.predict(diabetes_input)
 
-    diabetes_percentage = safe_percent(
-        diabetes_prob * 100
-    )
+        diabetes_prob = diabetes_model.predict_proba(
+            diabetes_input
+        )[0][1]
 
-    # -----------------------------------------------------
-    # PCOS
-    # -----------------------------------------------------
+        diabetes_percentage = safe_percent(
+            diabetes_prob * 100
+        )
 
-    pcos_input = np.array([[
-        age,
-        weight,
-        cycle_length,
-        hair_growth,
-        skin_darkening,
-        weight_gain
-    ]])
+    pcos_prediction = np.array([0])
+    pcos_percentage = 0
 
-    pcos_prediction = pcos_model.predict(pcos_input)
+    if screening_pcos:
+        pcos_input = np.array([[
+            age,
+            height_cm,
+            weight,
+            cycle_length,
+            hair_growth,
+            skin_darkening,
+            weight_gain
+        ]])
 
-    pcos_prob = pcos_model.predict_proba(
-        pcos_input
-    )[0][1]
+        pcos_prediction = pcos_model.predict(pcos_input)
 
-    pcos_percentage = safe_percent(
-        pcos_prob * 100
-    )
+        pcos_prob = pcos_model.predict_proba(
+            pcos_input
+        )[0][1]
 
-    # -----------------------------------------------------
-    # ANEMIA
-    # -----------------------------------------------------
+        pcos_percentage = safe_percent(
+            pcos_prob * 100
+        )
 
-    anemia_input = np.array([[
-        age,
-        hemoglobin,
-        fatigue,
-        dizziness,
-        pale_skin
-    ]])
+    anemia_prediction = np.array([0])
+    anemia_percentage = 0
 
-    anemia_prediction = anemia_model.predict(anemia_input)
+    if screening_anemia:
+        anemia_input = np.array([[
+            age,
+            hemoglobin,
+            fatigue,
+            dizziness,
+            pale_skin
+        ]])
 
-    anemia_prob = anemia_model.predict_proba(
-        anemia_input
-    )[0][1]
+        anemia_prediction = anemia_model.predict(anemia_input)
 
-    anemia_percentage = safe_percent(
-        anemia_prob * 100
-    )
+        anemia_prob = anemia_model.predict_proba(
+            anemia_input
+        )[0][1]
 
-    # -----------------------------------------------------
-    # THYROID
-    # -----------------------------------------------------
+        anemia_percentage = safe_percent(
+            anemia_prob * 100
+        )
 
-    thyroid_input = np.array([[
-        age,
-        thyroid_weight,
-        thyroid_fatigue,
-        hair_loss,
-        mood_swings
-    ]])
+    thyroid_prediction = np.array([0])
+    thyroid_percentage = 0
 
-    thyroid_prediction = thyroid_model.predict(thyroid_input)
+    if screening_thyroid:
+        thyroid_input = np.array([[
+            age,
+            thyroid_weight,
+            thyroid_fatigue,
+            hair_loss,
+            mood_swings
+        ]])
 
-    thyroid_prob = thyroid_model.predict_proba(
-        thyroid_input
-    )[0][1]
+        thyroid_prediction = thyroid_model.predict(thyroid_input)
 
-    thyroid_percentage = safe_percent(
-        thyroid_prob * 100
-    )
+        thyroid_prob = thyroid_model.predict_proba(
+            thyroid_input
+        )[0][1]
+
+        thyroid_percentage = safe_percent(
+            thyroid_prob * 100
+        )
 
     # -----------------------------------------------------
     # DIET SUGGESTION
@@ -705,6 +749,10 @@ def predict():
             thyroid_fatigue,
             hair_loss,
             mood_swings,
+            screening_diabetes,
+            screening_pcos,
+            screening_anemia,
+            screening_thyroid,
             diet_preference,
             allergies,
             food_dislikes,
@@ -725,6 +773,7 @@ def predict():
             bmi=excluded.bmi,
             diabetes_pedigree=excluded.diabetes_pedigree,
             age=excluded.age,
+            height_cm=excluded.height_cm,
             weight=excluded.weight,
             cycle_length=excluded.cycle_length,
             hair_growth=excluded.hair_growth,
@@ -738,6 +787,10 @@ def predict():
             thyroid_fatigue=excluded.thyroid_fatigue,
             hair_loss=excluded.hair_loss,
             mood_swings=excluded.mood_swings,
+            screening_diabetes=excluded.screening_diabetes,
+            screening_pcos=excluded.screening_pcos,
+            screening_anemia=excluded.screening_anemia,
+            screening_thyroid=excluded.screening_thyroid,
             diet_preference=excluded.diet_preference,
             allergies=excluded.allergies,
             food_dislikes=excluded.food_dislikes,
@@ -752,6 +805,7 @@ def predict():
         bmi,
         diabetes_pedigree,
         age,
+        height_cm,
         weight,
         cycle_length,
         hair_growth,
@@ -765,6 +819,10 @@ def predict():
         thyroid_fatigue,
         hair_loss,
         mood_swings,
+        int(screening_diabetes),
+        int(screening_pcos),
+        int(screening_anemia),
+        int(screening_thyroid),
         diet_preference,
         allergies,
         food_dislikes
@@ -839,6 +897,10 @@ def predict():
         pcos_prediction=int(pcos_prediction[0]),
         anemia_prediction=int(anemia_prediction[0]),
         thyroid_prediction=int(thyroid_prediction[0]),
+        screening_diabetes=screening_diabetes,
+        screening_pcos=screening_pcos,
+        screening_anemia=screening_anemia,
+        screening_thyroid=screening_thyroid,
         diet_suggestion=diet_suggestion
     )
 
