@@ -2901,11 +2901,13 @@ def weekly_report():
     sattvic_active_days = sum(1 for row in daily_rows if row["sattvic_done"] > 0)
 
     # Health Connect coverage for the selected period.
-    health_connect_days = conn.execute("""
+    report_conn = get_db()
+    health_connect_days = report_conn.execute("""
         SELECT COUNT(*)
         FROM health_sync_logs
         WHERE user_id=? AND log_date BETWEEN ? AND ?
     """, (user_id, selected_start.isoformat(), selected_end.isoformat())).fetchone()[0]
+    report_conn.close()
 
     # -----------------------------------------------------
     # WEEKLY SUMMARY
