@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 import os
 import joblib
 import numpy as np
@@ -6,6 +6,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import sqlite3
+import secrets
+import hashlib
 from functools import wraps
 from datetime import date, datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -41,6 +43,42 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL
+        )
+    """)
+
+
+    # -----------------------------------------------------
+    # MOBILE API TOKENS
+    # -----------------------------------------------------
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS api_tokens (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            token_hash TEXT UNIQUE NOT NULL,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            expires_at TEXT NOT NULL,
+            last_used_at TEXT,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    """)
+
+    # -----------------------------------------------------
+    # HEALTH CONNECT SYNC DATA
+    # -----------------------------------------------------
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS health_sync_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            log_date TEXT NOT NULL,
+            steps INTEGER DEFAULT 0,
+            distance_meters REAL DEFAULT 0,
+            active_calories REAL DEFAULT 0,
+            exercise_minutes INTEGER DEFAULT 0,
+            sleep_minutes INTEGER DEFAULT 0,
+            source TEXT DEFAULT 'health_connect',
+            synced_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(user_id, log_date),
+            FOREIGN KEY (user_id) REFERENCES users(id)
         )
     """)
 
@@ -410,6 +448,257 @@ def risk_level(percentage):
 
 def safe_percent(value):
     return max(0, min(100, int(value or 0)))
+
+
+
+
+# =========================================================
+# MOBILE API / HEALTH CONNECT SYNC
+# =========================================================
+
+def _hash_api_token(token):
+    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+def _issue_api_token(user_id):
+    token = secrets.token_urlsafe(48)
+    token_hash = _hash_api_token(token)
+    expires_at = datetime.utcnow() + timedelta(days=90)
+
+    conn = get_db()
+    conn.execute(
+        "INSERT INTO api_tokens (user_id, token_hash, expires_at) VALUES (?, ?, ?)",
+        (user_id, token_hash, expires_at.isoformat())
+    )
+    conn.commit()
+    conn.close()
+    return token, expires_at
+
+
+def _api_user():
+    header = request.headers.get("Authorization", "")
+    if not header.startswith("Bearer "):
+        return None
+
+    raw_token = header.split(" ", 1)[1].strip()
+    if not raw_token:
+        return None
+
+    token_hash = _hash_api_token(raw_token)
+    conn = get_db()
+    row = conn.execute("""
+        SELECT api_tokens.user_id, api_tokens.expires_at
+        FROM api_tokens
+        WHERE token_hash=?
+    """, (token_hash,)).fetchone()
+
+    if not row:
+        conn.close()
+        return None
+
+    try:
+        expires_at = datetime.fromisoformat(row["expires_at"])
+    except (TypeError, ValueError):
+        conn.close()
+        return None
+
+    if expires_at <= datetime.utcnow():
+        conn.close()
+        return None
+
+    conn.execute(
+        "UPDATE api_tokens SET last_used_at=CURRENT_TIMESTAMP WHERE token_hash=?",
+        (token_hash,)
+    )
+    conn.commit()
+    conn.close()
+    return row["user_id"]
+
+
+def _api_auth_required():
+    user_id = _api_user()
+    if user_id is None:
+        return None, (jsonify({
+            "success": False,
+            "error": "Unauthorized. Please login again from the FemCare Android app."
+        }), 401)
+    return user_id, None
+
+
+@app.route("/api/login", methods=["POST"])
+def api_login():
+    data = request.get_json(silent=True) or {}
+    username = str(data.get("username", "")).strip()
+    password = str(data.get("password", ""))
+
+    if not username or not password:
+        return jsonify({
+            "success": False,
+            "error": "Username and password are required."
+        }), 400
+
+    conn = get_db()
+    user = conn.execute("""
+        SELECT id, username, password
+        FROM users
+        WHERE username=?
+    """, (username,)).fetchone()
+    conn.close()
+
+    if not user or not check_password_hash(user["password"], password):
+        return jsonify({
+            "success": False,
+            "error": "Invalid username or password."
+        }), 401
+
+    token, expires_at = _issue_api_token(user["id"])
+
+    return jsonify({
+        "success": True,
+        "user_id": user["id"],
+        "username": user["username"],
+        "token": token,
+        "expires_at": expires_at.isoformat()
+    })
+
+
+@app.route("/api/health-sync", methods=["POST"])
+def api_health_sync():
+    user_id, error = _api_auth_required()
+    if error:
+        return error
+
+    data = request.get_json(silent=True) or {}
+    log_date = str(data.get("date", today_string())).strip()
+
+    try:
+        parsed_date = datetime.strptime(log_date, "%Y-%m-%d").date()
+        log_date = parsed_date.isoformat()
+        steps = max(0, int(data.get("steps", 0)))
+        distance_meters = max(0.0, float(data.get("distance_meters", 0)))
+        active_calories = max(0.0, float(data.get("active_calories", 0)))
+        exercise_minutes = max(0, int(data.get("exercise_minutes", 0)))
+        sleep_minutes = max(0, int(data.get("sleep_minutes", 0)))
+    except (TypeError, ValueError):
+        return jsonify({
+            "success": False,
+            "error": "Invalid sync payload."
+        }), 400
+
+    conn = get_db()
+
+    conn.execute("""
+        INSERT INTO health_sync_logs (
+            user_id, log_date, steps, distance_meters,
+            active_calories, exercise_minutes, sleep_minutes,
+            source, synced_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'health_connect', CURRENT_TIMESTAMP)
+        ON CONFLICT(user_id, log_date)
+        DO UPDATE SET
+            steps=excluded.steps,
+            distance_meters=excluded.distance_meters,
+            active_calories=excluded.active_calories,
+            exercise_minutes=excluded.exercise_minutes,
+            sleep_minutes=excluded.sleep_minutes,
+            source='health_connect',
+            synced_at=CURRENT_TIMESTAMP
+    """, (
+        user_id, log_date, steps, distance_meters,
+        active_calories, exercise_minutes, sleep_minutes
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "date": log_date,
+        "steps": steps,
+        "distance_meters": distance_meters,
+        "active_calories": active_calories,
+        "exercise_minutes": exercise_minutes,
+        "sleep_minutes": sleep_minutes,
+        "source": "health_connect"
+    })
+
+
+@app.route("/api/activity/today", methods=["GET"])
+def api_activity_today():
+    user_id, error = _api_auth_required()
+    if error:
+        return error
+
+    day = today_string()
+    conn = get_db()
+    synced = conn.execute("""
+        SELECT *
+        FROM health_sync_logs
+        WHERE user_id=? AND log_date=?
+    """, (user_id, day)).fetchone()
+
+    manual = conn.execute("""
+        SELECT steps
+        FROM steps_logs
+        WHERE user_id=? AND log_date=?
+    """, (user_id, day)).fetchone()
+    conn.close()
+
+    if synced:
+        payload = dict(synced)
+        payload["source"] = "health_connect"
+    else:
+        payload = {
+            "log_date": day,
+            "steps": int(manual["steps"]) if manual else 0,
+            "distance_meters": 0,
+            "active_calories": 0,
+            "exercise_minutes": 0,
+            "sleep_minutes": 0,
+            "source": "manual"
+        }
+
+    return jsonify({"success": True, "activity": payload})
+
+
+@app.route("/api/activity/weekly", methods=["GET"])
+def api_activity_weekly():
+    user_id, error = _api_auth_required()
+    if error:
+        return error
+
+    end_day = date.today()
+    start_day = end_day - timedelta(days=6)
+
+    conn = get_db()
+    synced_rows = conn.execute("""
+        SELECT *
+        FROM health_sync_logs
+        WHERE user_id=? AND log_date BETWEEN ? AND ?
+        ORDER BY log_date
+    """, (user_id, start_day.isoformat(), end_day.isoformat())).fetchall()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "start_date": start_day.isoformat(),
+        "end_date": end_day.isoformat(),
+        "days": [dict(row) for row in synced_rows]
+    })
+
+
+@app.route("/api/logout", methods=["POST"])
+def api_logout():
+    header = request.headers.get("Authorization", "")
+    if not header.startswith("Bearer "):
+        return jsonify({"success": True})
+
+    token_hash = _hash_api_token(header.split(" ", 1)[1].strip())
+    conn = get_db()
+    conn.execute("DELETE FROM api_tokens WHERE token_hash=?", (token_hash,))
+    conn.commit()
+    conn.close()
+    return jsonify({"success": True})
 
 
 # =========================================================
@@ -1066,13 +1355,42 @@ def dashboard():
     # STEPS
     # -----------------------------------------------------
 
+    synced_steps = conn.execute("""
+        SELECT steps, distance_meters, active_calories,
+               exercise_minutes, sleep_minutes, synced_at
+        FROM health_sync_logs
+        WHERE user_id=? AND log_date=?
+    """, (user_id, today)).fetchone()
+
     steps_data = conn.execute("""
         SELECT steps
         FROM steps_logs
         WHERE user_id=? AND log_date=?
     """, (user_id, today)).fetchone()
 
-    step_count = steps_data["steps"] if steps_data else 0
+    step_count = (
+        int(synced_steps["steps"])
+        if synced_steps
+        else (int(steps_data["steps"]) if steps_data else 0)
+    )
+
+    health_connect_synced = bool(synced_steps)
+    health_connect_distance_km = (
+        round(float(synced_steps["distance_meters"] or 0) / 1000, 2)
+        if synced_steps else 0
+    )
+    health_connect_calories = (
+        round(float(synced_steps["active_calories"] or 0))
+        if synced_steps else 0
+    )
+    health_connect_exercise_minutes = (
+        int(synced_steps["exercise_minutes"] or 0)
+        if synced_steps else 0
+    )
+    health_connect_sleep_minutes = (
+        int(synced_steps["sleep_minutes"] or 0)
+        if synced_steps else 0
+    )
 
     step_progress = min(
         100,
@@ -1233,6 +1551,11 @@ def dashboard():
         step_count=step_count,
         step_goal=8000,
         step_progress=step_progress,
+        health_connect_synced=health_connect_synced,
+        health_connect_distance_km=health_connect_distance_km,
+        health_connect_calories=health_connect_calories,
+        health_connect_exercise_minutes=health_connect_exercise_minutes,
+        health_connect_sleep_minutes=health_connect_sleep_minutes,
 
         # -------------------------------------------------
         # DIET
@@ -2385,6 +2708,16 @@ def weekly_report():
         )
 
         # STEPS
+        synced_steps_row = conn.execute("""
+            SELECT steps
+            FROM health_sync_logs
+            WHERE user_id=?
+            AND log_date=?
+        """, (
+            user_id,
+            day_string
+        )).fetchone()
+
         steps_row = conn.execute("""
             SELECT steps
             FROM steps_logs
@@ -2396,9 +2729,9 @@ def weekly_report():
         )).fetchone()
 
         steps = (
-            steps_row["steps"]
-            if steps_row
-            else 0
+            int(synced_steps_row["steps"])
+            if synced_steps_row
+            else (int(steps_row["steps"]) if steps_row else 0)
         )
 
         # MEALS
@@ -2692,9 +3025,12 @@ def weekly_report():
             SELECT log_date FROM activity_logs WHERE user_id=?
             UNION
             SELECT log_date FROM stress_logs WHERE user_id=?
+            UNION
+            SELECT log_date FROM health_sync_logs WHERE user_id=?
         )
         ORDER BY year
     """, (
+        user_id,
         user_id,
         user_id,
         user_id,
