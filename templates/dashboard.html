@@ -630,6 +630,13 @@
             </a>
 
             <a
+                href="{{ url_for('sattvic') }}"
+                class="nav-link"
+            >
+                🌿 Sattvic
+            </a>
+
+            <a
                 href="{{ url_for('profile') }}"
                 class="nav-link"
             >
@@ -727,6 +734,36 @@
 </section>
 
 
+<section>
+    <div class="section-head">
+        <div class="section-title">🌿 Sattvic Wellness</div>
+        <div class="section-caption">Optional daily wellness pathway</div>
+    </div>
+
+    <div class="bottom-grid">
+        <div class="bottom-card" style="background:#f7fbf4;border-color:#dfead9;">
+            <div class="bottom-left">
+                <div class="bottom-icon">🌿</div>
+                <div>
+                    <div class="bottom-title">
+                        {% if sattvic_enabled %}Your Sattvic Wellness is Active{% else %}Start Sattvic Wellness{% endif %}
+                    </div>
+                    <div class="bottom-subtitle">
+                        {% if sattvic_enabled %}
+                        Track today's meals, hydration, sunlight, movement and routine completion.
+                        {% else %}
+                        Start an optional Sattvic lifestyle routine. You can pause it anytime.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <a href="{{ url_for('sattvic') }}" class="bottom-action">
+                {% if sattvic_enabled %}Track Today →{% else %}Open & Start →{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+
 
 <section>
     <div class="section-head">
@@ -800,40 +837,7 @@
     </div>
 </section>
 
-<section>
-    <div class="section-head">
-        <div class="section-title">🌿 Sattvic Wellness</div>
-        <div class="section-caption">Optional lifestyle pathway</div>
-    </div>
 
-    <div class="bottom-grid">
-        <div class="bottom-card" style="background:#f7fbf4;border-color:#dfead9;">
-            <div class="bottom-left">
-                <div class="bottom-icon">🌿</div>
-                <div>
-                    <div class="bottom-title">
-                        {% if sattvic_enabled %}Sattvic Wellness Active{% else %}Start Sattvic Wellness{% endif %}
-                    </div>
-                    <div class="bottom-subtitle">
-                        {% if sattvic_enabled %}
-                        Your optional daily wellness pathway is active. Continue to your routine.
-                        {% else %}
-                        Build a mindful routine around balanced meals, hydration, movement and daily habits.
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-
-            {% if sattvic_enabled %}
-            <a href="{{ url_for('sattvic') }}" class="bottom-action">Open →</a>
-            {% else %}
-            <form method="POST" action="{{ url_for('start_sattvic') }}">
-                <button type="submit" class="bottom-action" style="border:0;cursor:pointer;">Start →</button>
-            </form>
-            {% endif %}
-        </div>
-    </div>
-</section>
 
 
 <section>
