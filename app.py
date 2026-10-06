@@ -736,6 +736,7 @@ def predict():
             bmi,
             diabetes_pedigree,
             age,
+            height_cm,
             weight,
             cycle_length,
             hair_growth,
@@ -759,7 +760,7 @@ def predict():
             profile_completed
         )
         VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1
         )
 
