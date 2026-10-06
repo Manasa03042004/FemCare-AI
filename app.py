@@ -584,6 +584,31 @@ def predict():
             ""
         ).strip()
 
+        # Server-side validation mirrors the progressive UI.
+        # Only the selected screening needs its disease-specific data.
+        if screening_diabetes:
+            if (
+                pregnancies < 0 or
+                glucose <= 0 or
+                blood_pressure <= 0 or
+                skin_thickness < 0 or
+                insulin < 0 or
+                diabetes_pedigree < 0
+            ):
+                raise ValueError("Invalid diabetes screening values")
+
+        if screening_anemia:
+            if hemoglobin <= 0:
+                raise ValueError("Invalid hemoglobin")
+
+        if screening_thyroid:
+            if thyroid_fatigue not in (0, 1) or hair_loss not in (0, 1) or mood_swings not in (0, 1):
+                raise ValueError("Invalid thyroid screening values")
+
+        if screening_pcos:
+            if hair_growth not in (0, 1) or skin_darkening not in (0, 1) or weight_gain not in (0, 1):
+                raise ValueError("Invalid PCOS screening values")
+
     except (KeyError, ValueError, ZeroDivisionError):
 
         flash("Please enter valid values in the required fields.")
@@ -625,7 +650,6 @@ def predict():
     if screening_pcos:
         pcos_input = np.array([[
             age,
-            height_cm,
             weight,
             cycle_length,
             hair_growth,
