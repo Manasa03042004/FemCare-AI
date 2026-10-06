@@ -513,10 +513,10 @@ def predict():
     screening_thyroid = request.form.get("screening_thyroid") == "1"
 
     try:
-        age = int(request.form["age"])
+        age = int(request.form["basic_age"])
         height_cm = float(request.form["height_cm"])
-        weight = int(request.form["weight"])
-        cycle_length = int(request.form["cycle_length"])
+        weight = int(request.form["basic_weight"])
+        cycle_length = int(request.form["basic_cycle_length"])
 
         if age < 13 or age > 100:
             raise ValueError("Invalid age")
