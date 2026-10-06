@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sattvic Wellness | FemCare AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing:border-box}
+        body{margin:0;background:#fbfaf8;color:#433943;font-family:Poppins,sans-serif}
+        .page{width:min(1040px,calc(100% - 32px));margin:auto}
+        .nav{padding:18px 0;display:flex;justify-content:space-between;align-items:center}
+        .brand{font-weight:700;color:#80658b;text-decoration:none}
+        .back{color:#7d6c78;text-decoration:none;font-size:12px}
+        .hero{margin-top:12px;padding:38px;border-radius:28px;background:linear-gradient(135deg,#f2f8ed,#fff7ef);border:1px solid #e3ebdd}
+        h1,h2{font-family:"Playfair Display",serif}
+        h1{font-size:34px;margin:8px 0;color:#4b3d49}
+        .hero p{max-width:720px;color:#7c707a;line-height:1.7;font-size:13px}
+        .tag{display:inline-block;padding:7px 11px;border-radius:14px;background:#fff;border:1px solid #e0eadb;color:#66825f;font-size:10px;font-weight:600}
+        .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:20px}
+        .card{padding:22px;border-radius:22px;background:white;border:1px solid #eee8e5;box-shadow:0 8px 25px rgba(70,55,45,.05)}
+        .card h2{margin:0;font-size:20px}.card p,.card li{font-size:10px;color:#786e77;line-height:1.7}
+        .day{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #f0ece9}
+        .day:last-child{border-bottom:0}.day strong{font-size:10px;color:#5e514d}.day span{font-size:9px;color:#8a7e86;text-align:right}
+        .btn{display:inline-block;border:0;border-radius:14px;padding:11px 18px;background:#6f9c69;color:#fff;text-decoration:none;font-size:10px;font-weight:600;cursor:pointer}
+        .secondary{background:#fff3ea;color:#8a634f}
+        .notice{margin-top:18px;padding:14px 16px;border-radius:16px;background:#fffaf0;border:1px solid #f0e4cc;color:#7c6b50;font-size:9px;line-height:1.6}
+        form{display:inline}
+        @media(max-width:700px){.grid{grid-template-columns:1fr}.hero{padding:26px}h1{font-size:28px}}
+    </style>
+</head>
+<body>
+<div class="page">
+    <nav class="nav">
+        <a class="brand" href="{{ url_for('dashboard') }}">🌸 FemCare AI</a>
+        <a class="back" href="{{ url_for('dashboard') }}">← Dashboard</a>
+    </nav>
+
+    <section class="hero">
+        <span class="tag">🌿 OPTIONAL WELLNESS PATHWAY</span>
+        <h1>Sattvic Wellness & Weight Management</h1>
+        <p>
+            A structured lifestyle routine focused on balanced vegetarian meals,
+            mindful eating, hydration, regular movement and consistent daily habits.
+            It is a wellness-support program, not a guaranteed weight-loss treatment.
+        </p>
+
+        {% if enabled %}
+            <span class="tag">✓ Active for your profile</span>
+            <form method="POST" action="{{ url_for('stop_sattvic') }}" style="margin-left:8px;">
+                <button class="btn secondary" type="submit">Pause Plan</button>
+            </form>
+        {% else %}
+            <form method="POST" action="{{ url_for('start_sattvic') }}">
+                <button class="btn" type="submit">🌿 Start Sattvic Wellness</button>
+            </form>
+        {% endif %}
+    </section>
+
+    <div class="grid">
+        <div class="card">
+            <h2>🌅 Morning</h2>
+            <p>Begin gently with outdoor time, hydration and a calm start to the day.</p>
+            <ul>
+                <li>☀️ Optional morning outdoor/sunlight time — avoid excessive sun and use appropriate protection.</li>
+                <li>💧 Today's warm-water option can be selected from the weekly rotation.</li>
+                <li>🧘 Short breathing or mindful preparation.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🥗 Daily Meal Structure</h2>
+            <p>Use the recipe engine for preference- and allergy-aware vegetarian meal choices.</p>
+            <ul>
+                <li>🥣 Breakfast: rotating bowls, puddings and nourishing breakfasts.</li>
+                <li>🍎 Mid-morning: fruit or suitable snack.</li>
+                <li>🥗 Lunch: vegetables, soup/salad and a protein source.</li>
+                <li>🍵 Evening: herbal tea options.</li>
+                <li>🌙 Dinner: balanced, protein-focused meal at a comfortable early time.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>💧 7-Day Morning Rotation</h2>
+            {% for day, drink in [
+                ("Monday","Ajwain warm water"),
+                ("Tuesday","Jeera warm water"),
+                ("Wednesday","Fenugreek-infused warm water"),
+                ("Thursday","Coriander-seed warm water"),
+                ("Friday","Lemon water"),
+                ("Saturday","Mint-infused warm water"),
+                ("Sunday","Plain warm water")
+            ] %}
+            <div class="day"><strong>{{ day }}</strong><span>{{ drink }}</span></div>
+            {% endfor %}
+        </div>
+
+        <div class="card">
+            <h2>🌱 Sattvic Principles</h2>
+            <ul>
+                <li>Prefer minimally processed, varied foods.</li>
+                <li>Keep added oil and salt modest rather than eliminating essential nutrients.</li>
+                <li>Include adequate protein and fibre.</li>
+                <li>Choose regular meals and hydration instead of extreme restriction.</li>
+                <li>Use your saved allergies and food preferences when choosing recipes.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>Wellness note:</strong> The Sattvic pathway is a lifestyle feature and does not diagnose,
+        treat or guarantee weight loss. Sunlight is not a weight-loss treatment. Stop outdoor exposure if
+        you feel unwell and follow appropriate sun-safety measures.
+    </div>
+</div>
+</body>
+</html>
