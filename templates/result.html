@@ -745,133 +745,45 @@
 
         <div class="row g-3">
 
-
-            <!-- DIABETES -->
-
+            {% if screening_diabetes %}
             <div class="col-md-6">
-
                 <div class="result-card diabetes">
-
-                    <div class="result-icon">
-
-                        🩸
-
-                    </div>
-
-
-                    <div class="result-name">
-
-                        Diabetes
-
-                    </div>
-
-
-                    <div class="result-text">
-
-                        {{ diabetes_result }}
-
-                    </div>
-
+                    <div class="result-icon">🩸</div>
+                    <div class="result-name">Diabetes</div>
+                    <div class="result-text">{{ diabetes_result }}</div>
                 </div>
-
             </div>
+            {% endif %}
 
-
-
-            <!-- PCOS -->
-
+            {% if screening_pcos %}
             <div class="col-md-6">
-
                 <div class="result-card pcos">
-
-                    <div class="result-icon">
-
-                        🌸
-
-                    </div>
-
-
-                    <div class="result-name">
-
-                        PCOS
-
-                    </div>
-
-
-                    <div class="result-text">
-
-                        {{ pcos_result }}
-
-                    </div>
-
+                    <div class="result-icon">🌸</div>
+                    <div class="result-name">PCOS</div>
+                    <div class="result-text">{{ pcos_result }}</div>
                 </div>
-
             </div>
+            {% endif %}
 
-
-
-            <!-- ANEMIA -->
-
+            {% if screening_anemia %}
             <div class="col-md-6">
-
                 <div class="result-card anemia">
-
-                    <div class="result-icon">
-
-                        💧
-
-                    </div>
-
-
-                    <div class="result-name">
-
-                        Anemia
-
-                    </div>
-
-
-                    <div class="result-text">
-
-                        {{ anemia_result }}
-
-                    </div>
-
+                    <div class="result-icon">💧</div>
+                    <div class="result-name">Anemia</div>
+                    <div class="result-text">{{ anemia_result }}</div>
                 </div>
-
             </div>
+            {% endif %}
 
-
-
-            <!-- THYROID -->
-
+            {% if screening_thyroid %}
             <div class="col-md-6">
-
                 <div class="result-card thyroid">
-
-                    <div class="result-icon">
-
-                        🦋
-
-                    </div>
-
-
-                    <div class="result-name">
-
-                        Thyroid
-
-                    </div>
-
-
-                    <div class="result-text">
-
-                        {{ thyroid_result }}
-
-                    </div>
-
+                    <div class="result-icon">🦋</div>
+                    <div class="result-name">Thyroid</div>
+                    <div class="result-text">{{ thyroid_result }}</div>
                 </div>
-
             </div>
-
+            {% endif %}
 
         </div>
 
@@ -1008,45 +920,28 @@
         data: {
 
             labels: [
-
-                "Diabetes",
-
-                "PCOS",
-
-                "Anemia",
-
-                "Thyroid"
-
+                {% if screening_diabetes %}"Diabetes",{% endif %}
+                {% if screening_pcos %}"PCOS",{% endif %}
+                {% if screening_anemia %}"Anemia",{% endif %}
+                {% if screening_thyroid %}"Thyroid"{% endif %}
             ],
-
 
             datasets: [{
 
                 label: "Risk Percentage",
 
                 data: [
-
-                    diabetesRisk,
-
-                    pcosRisk,
-
-                    anemiaRisk,
-
-                    thyroidRisk
-
+                    {% if screening_diabetes %}diabetesRisk,{% endif %}
+                    {% if screening_pcos %}pcosRisk,{% endif %}
+                    {% if screening_anemia %}anemiaRisk,{% endif %}
+                    {% if screening_thyroid %}thyroidRisk{% endif %}
                 ],
 
-
                 backgroundColor: [
-
-                    "rgba(235, 137, 161, 0.65)",
-
-                    "rgba(174, 133, 205, 0.65)",
-
-                    "rgba(236, 181, 108, 0.65)",
-
-                    "rgba(118, 177, 151, 0.65)"
-
+                    {% if screening_diabetes %}"rgba(235, 137, 161, 0.65)",{% endif %}
+                    {% if screening_pcos %}"rgba(174, 133, 205, 0.65)",{% endif %}
+                    {% if screening_anemia %}"rgba(236, 181, 108, 0.65)",{% endif %}
+                    {% if screening_thyroid %}"rgba(118, 177, 151, 0.65)"{% endif %}
                 ],
 
 
