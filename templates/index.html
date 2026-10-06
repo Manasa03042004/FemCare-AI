@@ -1192,6 +1192,20 @@
         </div>
 
         <div class="field">
+            <label>BMI</label>
+            <span class="help">Automatically calculated from your height and weight.</span>
+            <input
+                type="number"
+                name="bmi"
+                id="basicBMI"
+                class="input"
+                step="0.1"
+                readonly
+                placeholder="Enter height and weight"
+            >
+        </div>
+
+        <div class="field">
             <label>Average Menstrual Cycle</label>
             <span class="help">Average number of days between periods. Example: 28</span>
             <input
@@ -1495,31 +1509,6 @@
 
 
 
-        <!-- Skin Thickness -->
-
-        <div class="field">
-
-            <label>
-                Skin Thickness
-            </label>
-
-            <span class="help">
-                Enter value in mm. Example: 20
-            </span>
-
-            <input
-                type="number"
-                name="skin_thickness"
-                class="input"
-                min="0"
-                placeholder="e.g. 20"
-                required
-            >
-
-        </div>
-
-
-
         <!-- Insulin -->
 
         <div class="field">
@@ -1538,32 +1527,6 @@
                 class="input"
                 min="0"
                 placeholder="e.g. 100"
-                required
-            >
-
-        </div>
-
-
-
-        <!-- BMI -->
-
-        <div class="field">
-
-            <label>
-                BMI
-            </label>
-
-            <span class="help">
-                Body Mass Index. Example: 23.5
-            </span>
-
-            <input
-                type="number"
-                name="bmi"
-                class="input"
-                step="0.1"
-                min="0"
-                placeholder="e.g. 23.5"
                 required
             >
 
@@ -2382,6 +2345,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const basicWeight =
         document.getElementById("basicWeight");
 
+    const basicHeight =
+        document.querySelector('[name="height_cm"]');
+
+    const basicBMI =
+        document.getElementById("basicBMI");
+
     const basicCycle =
         document.querySelector('[name="basic_cycle_length"]');
 
@@ -2390,6 +2359,18 @@ document.addEventListener("DOMContentLoaded", function () {
         "weight",
         "cycle_length"
     ];
+
+    function updateBMI() {
+        const height = parseFloat(basicHeight.value);
+        const weight = parseFloat(basicWeight.value);
+
+        if (height > 0 && weight > 0) {
+            const bmi = weight / Math.pow(height / 100, 2);
+            basicBMI.value = bmi.toFixed(1);
+        } else {
+            basicBMI.value = "";
+        }
+    }
 
     function syncSharedFields(section) {
 
@@ -2478,9 +2459,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Keep the hidden shared model fields synchronized.
-    [basicAge, basicWeight, basicCycle].forEach(function (input) {
+    [basicAge, basicHeight, basicWeight, basicCycle].forEach(function (input) {
 
         input.addEventListener("input", function () {
+
+            updateBMI();
 
             Object.keys(sections).forEach(function (type) {
                 syncSharedFields(sections[type]);
@@ -2489,6 +2472,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     });
+
+    // Calculate BMI immediately and whenever height/weight changes.
+    updateBMI();
 
     // Initial state: all disease sections are hidden.
     Object.keys(sections).forEach(function (type) {
