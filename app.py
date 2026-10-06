@@ -525,8 +525,19 @@ def predict():
             "Vegetarian"
         ).strip() or "Vegetarian"
 
+        allergy_values = request.form.getlist("allergies")
+        allergy_other = request.form.get(
+            "allergy_other",
+            ""
+        ).strip()
+
+        if allergy_other:
+            allergy_values.append(
+                f"other: {allergy_other}"
+            )
+
         allergies = ", ".join(
-            request.form.getlist("allergies")
+            allergy_values
         )
 
         food_dislikes = request.form.get(
