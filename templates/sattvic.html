@@ -26,6 +26,23 @@
         .secondary{background:#fff3ea;color:#8a634f}
         .notice{margin-top:18px;padding:14px 16px;border-radius:16px;background:#fffaf0;border:1px solid #f0e4cc;color:#7c6b50;font-size:9px;line-height:1.6}
         form{display:inline}
+        .routine-card{margin-top:20px}
+        .routine-head{display:flex;justify-content:space-between;align-items:center;gap:16px}
+        .routine-head strong{color:#6f9c69;font-size:12px}
+        .progress{height:10px;background:#edf0eb;border-radius:20px;overflow:hidden;margin:14px 0 20px}
+        .progress div{height:100%;background:#78a66e;border-radius:20px}
+        .routine-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+        .routine-item{display:flex;gap:12px;align-items:flex-start;padding:15px;border:1px solid #eee8e5;border-radius:16px;background:#fff;cursor:pointer}
+        .routine-item input{margin-top:3px;accent-color:#6f9c69;width:18px;height:18px}
+        .routine-item b{display:block;color:#5e514d;font-size:11px}.routine-item small{display:block;margin-top:4px;color:#887d84;font-size:9px;line-height:1.5}
+        .extra-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}
+        .extra-grid label,.notes{display:block;color:#665a62;font-size:10px}
+        input[type=number],input[type=file],textarea{width:100%;margin-top:7px;padding:10px;border:1px solid #e8e1df;border-radius:12px;background:#fff;font:inherit;font-size:10px}
+        textarea{min-height:75px;resize:vertical}.notes{margin-top:12px}.notes b{display:block}
+        .history-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}
+        .history-item{padding:13px;border:1px solid #eee8e5;border-radius:15px;background:#fff}
+        .history-item strong,.history-item span,.history-item small{display:block;font-size:9px;color:#786e77}.history-item span{margin-top:4px}
+        .progress.small{height:7px;margin:9px 0 4px}.history-item img{width:100%;height:100px;object-fit:cover;border-radius:10px;margin-top:8px}
         @media(max-width:700px){.grid{grid-template-columns:1fr}.hero{padding:26px}h1{font-size:28px}}
     </style>
 </head>
@@ -57,55 +74,106 @@
         {% endif %}
     </section>
 
+    <section class="card routine-card">
+        <div class="routine-head">
+            <div>
+                <h2>🌿 Today's Sattvic Routine</h2>
+                <p>Check off what you complete. Your progress is saved for today.</p>
+            </div>
+            <strong>{{ completed }}/{{ total }} • {{ progress }}%</strong>
+        </div>
+        <div class="progress"><div style="width:{{ progress }}%"></div></div>
+
+        <form method="POST" action="{{ url_for('save_sattvic') }}" enctype="multipart/form-data" id="sattvicForm">
+            <div class="routine-grid">
+                <label class="routine-item">
+                    <input type="checkbox" name="sunlight_completed" value="1" {% if log and log['sunlight_completed'] %}checked{% endif %}>
+                    <span><b>☀️ Morning outdoor time</b><small>Optional 5–10 minutes; use sun protection as appropriate.</small></span>
+                </label>
+                <label class="routine-item">
+                    <input type="checkbox" name="morning_water_completed" value="1" {% if log and log['morning_water_completed'] %}checked{% endif %}>
+                    <span><b>💧 Morning drink</b><small>{{ plan.water }}</small></span>
+                </label>
+                <label class="routine-item">
+                    <input type="checkbox" name="breakfast_completed" value="1" {% if log and log['breakfast_completed'] %}checked{% endif %}>
+                    <span><b>🥣 Breakfast</b><small>{{ plan.breakfast }}</small></span>
+                </label>
+                <label class="routine-item">
+                    <input type="checkbox" name="snack_completed" value="1" {% if log and log['snack_completed'] %}checked{% endif %}>
+                    <span><b>🍎 Mid-morning</b><small>{{ plan.snack }}</small></span>
+                </label>
+                <label class="routine-item">
+                    <input type="checkbox" name="lunch_completed" value="1" {% if log and log['lunch_completed'] %}checked{% endif %}>
+                    <span><b>🥗 Lunch</b><small>{{ plan.lunch }}</small></span>
+                </label>
+                <label class="routine-item">
+                    <input type="checkbox" name="evening_completed" value="1" {% if log and log['evening_completed'] %}checked{% endif %}>
+                    <span><b>🍵 Evening</b><small>{{ plan.evening }}</small></span>
+                </label>
+                <label class="routine-item">
+                    <input type="checkbox" name="dinner_completed" value="1" {% if log and log['dinner_completed'] %}checked{% endif %}>
+                    <span><b>🌙 Dinner</b><small>{{ plan.dinner }} • Aim for a comfortable early dinner.</small></span>
+                </label>
+                <label class="routine-item">
+                    <input type="checkbox" name="movement_completed" value="1" {% if log and log['movement_completed'] %}checked{% endif %}>
+                    <span><b>👣 Gentle movement</b><small>Walk, yoga or another comfortable activity.</small></span>
+                </label>
+            </div>
+
+            <div class="extra-grid">
+                <label><b>☀️ Sunlight minutes</b><input type="number" name="sunlight_minutes" min="0" max="120" value="{{ log['sunlight_minutes'] if log else 0 }}"></label>
+                <label><b>📸 Optional progress photo</b><input type="file" name="progress_photo" accept=".jpg,.jpeg,.png,.webp"></label>
+            </div>
+
+            <label class="notes"><b>📝 Today's note</b><textarea name="notes" maxlength="500" placeholder="How did today feel?">{{ log['notes'] if log else '' }}</textarea></label>
+            <button class="btn" type="submit">💾 Save Today's Routine</button>
+        </form>
+    </section>
+
     <div class="grid">
         <div class="card">
-            <h2>🌅 Morning</h2>
-            <p>Begin gently with outdoor time, hydration and a calm start to the day.</p>
+            <h2>🥗 Today's Meal Structure</h2>
+            <p>Use your personalized Diet page for allergy- and preference-aware recipes.</p>
             <ul>
-                <li>☀️ Optional morning outdoor/sunlight time — avoid excessive sun and use appropriate protection.</li>
-                <li>💧 Today's warm-water option can be selected from the weekly rotation.</li>
-                <li>🧘 Short breathing or mindful preparation.</li>
+                <li>🥣 Breakfast: {{ plan.breakfast }}</li>
+                <li>🍎 Mid-morning: {{ plan.snack }}</li>
+                <li>🥗 Lunch: {{ plan.lunch }}</li>
+                <li>🍵 Evening: {{ plan.evening }}</li>
+                <li>🌙 Dinner: {{ plan.dinner }}</li>
             </ul>
-        </div>
-
-        <div class="card">
-            <h2>🥗 Daily Meal Structure</h2>
-            <p>Use the recipe engine for preference- and allergy-aware vegetarian meal choices.</p>
-            <ul>
-                <li>🥣 Breakfast: rotating bowls, puddings and nourishing breakfasts.</li>
-                <li>🍎 Mid-morning: fruit or suitable snack.</li>
-                <li>🥗 Lunch: vegetables, soup/salad and a protein source.</li>
-                <li>🍵 Evening: herbal tea options.</li>
-                <li>🌙 Dinner: balanced, protein-focused meal at a comfortable early time.</li>
-            </ul>
+            <a class="btn" href="{{ url_for('diet') }}">Open Personalized Diet →</a>
         </div>
 
         <div class="card">
             <h2>💧 7-Day Morning Rotation</h2>
             {% for day, drink in [
-                ("Monday","Ajwain warm water"),
-                ("Tuesday","Jeera warm water"),
-                ("Wednesday","Fenugreek-infused warm water"),
-                ("Thursday","Coriander-seed warm water"),
-                ("Friday","Lemon water"),
-                ("Saturday","Mint-infused warm water"),
-                ("Sunday","Plain warm water")
+                ("Monday","Ajwain warm water"), ("Tuesday","Jeera warm water"),
+                ("Wednesday","Fenugreek-infused warm water"), ("Thursday","Coriander-seed warm water"),
+                ("Friday","Lemon water"), ("Saturday","Mint-infused warm water"), ("Sunday","Plain warm water")
             ] %}
             <div class="day"><strong>{{ day }}</strong><span>{{ drink }}</span></div>
             {% endfor %}
         </div>
-
-        <div class="card">
-            <h2>🌱 Sattvic Principles</h2>
-            <ul>
-                <li>Prefer minimally processed, varied foods.</li>
-                <li>Keep added oil and salt modest rather than eliminating essential nutrients.</li>
-                <li>Include adequate protein and fibre.</li>
-                <li>Choose regular meals and hydration instead of extreme restriction.</li>
-                <li>Use your saved allergies and food preferences when choosing recipes.</li>
-            </ul>
-        </div>
     </div>
+
+    <section class="card">
+        <div class="routine-head">
+            <div><h2>📅 Your Last 7 Days</h2><p>Saved completion history for your Sattvic routine.</p></div>
+        </div>
+        <div class="history-grid">
+            {% for item in history %}
+            <div class="history-item">
+                <strong>{{ item.date }}</strong>
+                <span>{{ item.done }}/8 habits</span>
+                <div class="progress small"><div style="width:{{ item.percent }}%"></div></div>
+                <small>{{ item.percent }}% complete</small>
+                {% if item.photo %}<img src="{{ url_for('static', filename=item.photo) }}" alt="Optional progress photo">{% endif %}
+            </div>
+            {% else %}
+            <p>No Sattvic days saved yet. Complete today's routine above to start your history.</p>
+            {% endfor %}
+        </div>
+    </section>
 
     <div class="notice">
         <strong>Wellness note:</strong> The Sattvic pathway is a lifestyle feature and does not diagnose,
