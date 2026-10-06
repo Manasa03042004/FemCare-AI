@@ -1110,6 +1110,8 @@
 
                         <th>🧠 Stress</th>
 
+                        <th>🌿 Sattvic</th>
+
                         <th>🌸 Score</th>
 
                     </tr>
@@ -1294,6 +1296,21 @@
                             </td>
 
 
+                            <!-- SATTVIC -->
+
+                            <td>
+
+                                {% if day.sattvic_done == 8 %}
+                                    <span class="status-pill complete">✓ 8/8</span>
+                                {% elif day.sattvic_done > 0 %}
+                                    <span class="status-pill partial">• {{ day.sattvic_done }}/8</span>
+                                {% else %}
+                                    <span class="status-pill not-done">× 0/8</span>
+                                {% endif %}
+
+                            </td>
+
+
                             <!-- SCORE -->
 
                             <td>
@@ -1320,6 +1337,41 @@
 
     </div>
 
+
+
+    <div class="soft-card">
+
+        <div class="section-heading">
+            <span>🌿</span>
+            Sattvic Wellness
+        </div>
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+                <div class="summary-icon">🌿</div>
+                <div class="summary-label">SATTVIC HABITS</div>
+                <div class="summary-value">{{ sattvic_total }}</div>
+                <div class="summary-unit">/ {{ sattvic_target }} completed</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-icon">📅</div>
+                <div class="summary-label">ACTIVE DAYS</div>
+                <div class="summary-value">{{ sattvic_active_days }}</div>
+                <div class="summary-unit">days with progress</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-icon">📊</div>
+                <div class="summary-label">SATTVIC SCORE</div>
+                <div class="summary-value">{{ sattvic_score }}%</div>
+                <div class="summary-unit">routine completion</div>
+            </div>
+
+        </div>
+
+    </div>
 
 
     <!-- WEEK SUMMARY -->
