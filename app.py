@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+import os
 import joblib
 import numpy as np
 import pandas as pd
@@ -7,12 +8,14 @@ from sklearn.model_selection import train_test_split
 import sqlite3
 from functools import wraps
 from datetime import date, datetime, timedelta
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash, secure_filename
 from recommendation_engine import build_wellness_plan, build_personalized_meal_plan
 from recipe_data import RECIPE_BY_SLUG
 
 app = Flask(__name__)
 app.secret_key = "femcare_ai_secret_key"
+app.config["SATTVIC_UPLOAD_FOLDER"] = os.path.join("static", "uploads", "sattvic")
+os.makedirs(app.config["SATTVIC_UPLOAD_FOLDER"], exist_ok=True)
 
 
 # =========================================================
@@ -107,6 +110,32 @@ def init_db():
                 f"ALTER TABLE health_profiles "
                 f"ADD COLUMN {column_name} {column_type} DEFAULT {default_value}"
             )
+
+    # -----------------------------------------------------
+    # SATTVIC DAILY TRACKING
+    # -----------------------------------------------------
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS sattvic_daily_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            log_date TEXT NOT NULL,
+            sunlight_completed INTEGER DEFAULT 0,
+            sunlight_minutes INTEGER DEFAULT 0,
+            morning_water_completed INTEGER DEFAULT 0,
+            breakfast_completed INTEGER DEFAULT 0,
+            snack_completed INTEGER DEFAULT 0,
+            lunch_completed INTEGER DEFAULT 0,
+            evening_completed INTEGER DEFAULT 0,
+            dinner_completed INTEGER DEFAULT 0,
+            movement_completed INTEGER DEFAULT 0,
+            progress_photo TEXT,
+            notes TEXT DEFAULT "",
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(user_id, log_date),
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    """)
 
     # -----------------------------------------------------
     # HEALTH PREDICTIONS
@@ -1233,57 +1262,173 @@ def dashboard():
 # SATTVIC WELLNESS
 # =========================================================
 
+SATTVIC_WATER = [
+    "Ajwain warm water", "Jeera warm water",
+    "Fenugreek-infused warm water", "Coriander-seed warm water",
+    "Lemon water", "Mint-infused warm water", "Plain warm water"
+]
+SATTVIC_BREAKFASTS = [
+    "Chia seed pudding with fruit", "Overnight oats with banana",
+    "Ragi porridge with fruit", "Moong dal chilla with mint chutney",
+    "Vegetable poha bowl", "Millet breakfast bowl",
+    "Oats and apple cinnamon bowl", "Fruit and chia yogurt bowl",
+    "Vegetable upma with coconut", "Besan chilla with coriander",
+    "Quinoa breakfast bowl", "Warm banana oat bowl"
+]
+SATTVIC_SNACKS = [
+    "Seasonal fruit", "Soaked almonds and fruit", "Walnuts with fruit",
+    "Roasted makhana", "Fresh coconut pieces", "Fruit bowl",
+    "Soaked raisins and fruit", "Dates with a small portion of nuts"
+]
+SATTVIC_LUNCHES = [
+    "Vegetable soup + salad + dal", "Mixed vegetable soup + sprouts salad",
+    "Moong dal + vegetable soup + salad", "Millet bowl + vegetables + dal",
+    "Lentil soup + cucumber-carrot salad", "Vegetable khichdi + salad",
+    "Ragi roti + vegetable soup + dal"
+]
+SATTVIC_EVENINGS = ["Tulsi tea", "Ginger tea", "Mint tea", "Lemon tea", "Cinnamon tea", "Green tea"]
+SATTVIC_DINNERS = [
+    "2 multigrain chapatis + dal + vegetables",
+    "2 ragi chapatis + vegetable soup + dal",
+    "Moong dal khichdi + vegetables",
+    "2 whole-wheat chapatis + mixed vegetables + dal",
+    "Millet roti + lentil soup + vegetables",
+    "2 ragi rotis + sprouts curry + vegetables"
+]
+
+def sattvic_plan_for(day):
+    n = day.toordinal()
+    return {
+        "water": SATTVIC_WATER[day.weekday()],
+        "breakfast": SATTVIC_BREAKFASTS[n % len(SATTVIC_BREAKFASTS)],
+        "snack": SATTVIC_SNACKS[n % len(SATTVIC_SNACKS)],
+        "lunch": SATTVIC_LUNCHES[n % len(SATTVIC_LUNCHES)],
+        "evening": SATTVIC_EVENINGS[n % len(SATTVIC_EVENINGS)],
+        "dinner": SATTVIC_DINNERS[n % len(SATTVIC_DINNERS)]
+    }
+
+def sattvic_completion(row):
+    if not row:
+        return 0
+    fields = [
+        "sunlight_completed", "morning_water_completed", "breakfast_completed",
+        "snack_completed", "lunch_completed", "evening_completed",
+        "dinner_completed", "movement_completed"
+    ]
+    return sum(int(row[field] or 0) for field in fields)
+
 @app.route("/sattvic")
 @login_required
 def sattvic():
+    user_id = session["user_id"]
+    today = date.today()
     conn = get_db()
-    profile = conn.execute("""
-        SELECT sattvic_enabled, weight
-        FROM health_profiles
-        WHERE user_id=?
-    """, (session["user_id"],)).fetchone()
+    profile = conn.execute("SELECT sattvic_enabled FROM health_profiles WHERE user_id=?", (user_id,)).fetchone()
+    log = conn.execute("SELECT * FROM sattvic_daily_logs WHERE user_id=? AND log_date=?", (user_id, today.isoformat())).fetchone()
+    history = conn.execute("SELECT * FROM sattvic_daily_logs WHERE user_id=? ORDER BY log_date DESC LIMIT 7", (user_id,)).fetchall()
     conn.close()
 
-    enabled = bool(profile and profile["sattvic_enabled"])
+    done = sattvic_completion(log)
+    history_data = [{
+        "date": row["log_date"],
+        "done": sattvic_completion(row),
+        "percent": round(sattvic_completion(row) / 8 * 100),
+        "photo": row["progress_photo"]
+    } for row in history]
 
     return render_template(
         "sattvic.html",
-        enabled=enabled,
-        current_weight=(profile["weight"] if profile else None)
+        enabled=bool(profile and profile["sattvic_enabled"]),
+        plan=sattvic_plan_for(today),
+        log=log,
+        progress=round(done / 8 * 100),
+        completed=done,
+        history=history_data
     )
 
+@app.route("/sattvic/save", methods=["POST"])
+@login_required
+def save_sattvic():
+    user_id = session["user_id"]
+    today = date.today().isoformat()
+
+    def checked(name):
+        return 1 if request.form.get(name) == "1" else 0
+
+    try:
+        minutes = max(0, min(120, int(request.form.get("sunlight_minutes", "0") or 0)))
+    except ValueError:
+        minutes = 0
+
+    photo_path = None
+    photo = request.files.get("progress_photo")
+    if photo and photo.filename:
+        ext = photo.filename.rsplit(".", 1)[-1].lower() if "." in photo.filename else ""
+        if ext in {"jpg", "jpeg", "png", "webp"}:
+            filename = secure_filename(
+                f"user_{user_id}_{today}_{datetime.now().strftime('%H%M%S')}.{ext}"
+            )
+            photo.save(os.path.join(app.config["SATTVIC_UPLOAD_FOLDER"], filename))
+            photo_path = f"uploads/sattvic/{filename}"
+
+    conn = get_db()
+    old = conn.execute("SELECT progress_photo FROM sattvic_daily_logs WHERE user_id=? AND log_date=?", (user_id, today)).fetchone()
+    if not photo_path and old:
+        photo_path = old["progress_photo"]
+
+    conn.execute("""
+        INSERT INTO sattvic_daily_logs (
+            user_id, log_date, sunlight_completed, sunlight_minutes,
+            morning_water_completed, breakfast_completed, snack_completed,
+            lunch_completed, evening_completed, dinner_completed,
+            movement_completed, progress_photo, notes
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, log_date) DO UPDATE SET
+            sunlight_completed=excluded.sunlight_completed,
+            sunlight_minutes=excluded.sunlight_minutes,
+            morning_water_completed=excluded.morning_water_completed,
+            breakfast_completed=excluded.breakfast_completed,
+            snack_completed=excluded.snack_completed,
+            lunch_completed=excluded.lunch_completed,
+            evening_completed=excluded.evening_completed,
+            dinner_completed=excluded.dinner_completed,
+            movement_completed=excluded.movement_completed,
+            progress_photo=excluded.progress_photo,
+            notes=excluded.notes,
+            updated_at=CURRENT_TIMESTAMP
+    """, (
+        user_id, today, checked("sunlight_completed"), minutes,
+        checked("morning_water_completed"), checked("breakfast_completed"),
+        checked("snack_completed"), checked("lunch_completed"),
+        checked("evening_completed"), checked("dinner_completed"),
+        checked("movement_completed"), photo_path,
+        request.form.get("notes", "").strip()[:500]
+    ))
+    conn.commit()
+    conn.close()
+    flash("🌿 Today's Sattvic routine has been saved.")
+    return redirect(url_for("sattvic"))
 
 @app.route("/sattvic/start", methods=["POST"])
 @login_required
 def start_sattvic():
     conn = get_db()
-    conn.execute("""
-        UPDATE health_profiles
-        SET sattvic_enabled=1
-        WHERE user_id=?
-    """, (session["user_id"],))
+    conn.execute("UPDATE health_profiles SET sattvic_enabled=1 WHERE user_id=?", (session["user_id"],))
     conn.commit()
     conn.close()
-
-    flash("🌿 Sattvic Wellness has been activated for your profile.")
+    flash("🌿 Sattvic Wellness has been activated.")
     return redirect(url_for("sattvic"))
-
 
 @app.route("/sattvic/stop", methods=["POST"])
 @login_required
 def stop_sattvic():
     conn = get_db()
-    conn.execute("""
-        UPDATE health_profiles
-        SET sattvic_enabled=0
-        WHERE user_id=?
-    """, (session["user_id"],))
+    conn.execute("UPDATE health_profiles SET sattvic_enabled=0 WHERE user_id=?", (session["user_id"],))
     conn.commit()
     conn.close()
-
-    flash("Sattvic Wellness has been paused. You can restart it anytime.")
+    flash("Sattvic Wellness has been paused.")
     return redirect(url_for("sattvic"))
-
 
 # =========================================================
 # PERSONALIZED NUTRITION ENGINE
