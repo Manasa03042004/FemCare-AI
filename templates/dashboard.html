@@ -1045,6 +1045,37 @@
 
 </section>
 
+<section>
+    <div class="section-head">
+        <div class="section-title">📱 Health Connect</div>
+        <div class="section-caption">Automatic activity sync</div>
+    </div>
+
+    <div class="bottom-grid">
+        <div class="bottom-card" style="background:#f6f1ff;border-color:#e5d9f5;">
+            <div class="bottom-left">
+                <div class="bottom-icon">👣</div>
+                <div>
+                    <div class="bottom-title">
+                        {% if health_connect_synced %}Connected activity{% else %}Manual activity{% endif %}
+                    </div>
+                    <div class="bottom-text">
+                        {% if health_connect_synced %}
+                        {{ steps }} steps synced from Android Health Connect{% if health_connect_distance_km %} · {{ health_connect_distance_km }} km{% endif %}.
+                        {% else %}
+                        Connect the FemCare Android companion app to sync steps automatically.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="bottom-text">Calories: {{ health_connect_calories }}</div>
+                <div class="bottom-text">Exercise: {{ health_connect_exercise_minutes }} min</div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 
 <section>
