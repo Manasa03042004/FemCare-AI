@@ -1290,7 +1290,8 @@ def diet():
         food_dislikes=meal_plan["dislikes"],
         personalized_meals=meal_plan["meals"],
         nutrition_focus=meal_plan["focus"],
-        risk_flags=meal_plan["risk_flags"]
+        risk_flags=meal_plan["risk_flags"],
+        recipe_count=meal_plan["recipe_count"]
     )
 
 
