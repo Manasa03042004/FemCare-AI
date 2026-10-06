@@ -516,10 +516,14 @@ def predict():
         if cycle_length < 15 or cycle_length > 90:
             raise ValueError("Invalid cycle length")
 
+        # BMI is calculated from height and weight and stored automatically.
         bmi = round(
             weight / ((height_cm / 100) ** 2),
             1
         )
+
+        # The BMI value displayed in About You is the same server-side
+        # value used by the prediction model and saved in health_profiles.
 
         # Disease-specific fields are only required when
         # the user selected that health screening.
