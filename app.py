@@ -63,10 +63,34 @@ def init_db():
             thyroid_fatigue INTEGER,
             hair_loss INTEGER,
             mood_swings INTEGER,
+            diet_preference TEXT DEFAULT 'Vegetarian',
+            allergies TEXT DEFAULT '',
+            food_dislikes TEXT DEFAULT '',
             profile_completed INTEGER DEFAULT 0,
             FOREIGN KEY (user_id) REFERENCES users(id)
         )
     """)
+
+    # -----------------------------------------------------
+    # HEALTH PROFILE PREFERENCE MIGRATION
+    # -----------------------------------------------------
+    existing_columns = {
+        row["name"]
+        for row in cursor.execute(
+            "PRAGMA table_info(health_profiles)"
+        ).fetchall()
+    }
+
+    for column_name, column_type, default_value in [
+        ("diet_preference", "TEXT", "'Vegetarian'"),
+        ("allergies", "TEXT", "''"),
+        ("food_dislikes", "TEXT", "''")
+    ]:
+        if column_name not in existing_columns:
+            cursor.execute(
+                f"ALTER TABLE health_profiles "
+                f"ADD COLUMN {column_name} {column_type} DEFAULT {default_value}"
+            )
 
     # -----------------------------------------------------
     # HEALTH PREDICTIONS
@@ -496,6 +520,20 @@ def predict():
         hair_loss = int(request.form["hair_loss"])
         mood_swings = int(request.form["mood_swings"])
 
+        diet_preference = request.form.get(
+            "diet_preference",
+            "Vegetarian"
+        ).strip() or "Vegetarian"
+
+        allergies = ", ".join(
+            request.form.getlist("allergies")
+        )
+
+        food_dislikes = request.form.get(
+            "food_dislikes",
+            ""
+        ).strip()
+
     except (KeyError, ValueError):
 
         flash("Please enter valid values in all health assessment fields.")
@@ -656,11 +694,14 @@ def predict():
             thyroid_fatigue,
             hair_loss,
             mood_swings,
+            diet_preference,
+            allergies,
+            food_dislikes,
             profile_completed
         )
         VALUES (
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1
         )
 
         ON CONFLICT(user_id)
@@ -686,6 +727,9 @@ def predict():
             thyroid_fatigue=excluded.thyroid_fatigue,
             hair_loss=excluded.hair_loss,
             mood_swings=excluded.mood_swings,
+            diet_preference=excluded.diet_preference,
+            allergies=excluded.allergies,
+            food_dislikes=excluded.food_dislikes,
             profile_completed=1
     """, (
         session["user_id"],
@@ -709,7 +753,10 @@ def predict():
         thyroid_weight,
         thyroid_fatigue,
         hair_loss,
-        mood_swings
+        mood_swings,
+        diet_preference,
+        allergies,
+        food_dislikes
     ))
 
     # -----------------------------------------------------
@@ -1099,6 +1146,12 @@ def diet():
         AND activity_name LIKE 'meal_%'
     """, (user_id, today)).fetchall()
 
+    profile = conn.execute("""
+        SELECT diet_preference, allergies, food_dislikes
+        FROM health_profiles
+        WHERE user_id=?
+    """, (user_id,)).fetchone()
+
     conn.close()
 
     meal_status = {
@@ -1128,7 +1181,22 @@ def diet():
         meal_status=meal_status,
         meals_done=meals_done,
         meal_total=len(meal_names),
-        meal_progress=meal_progress
+        meal_progress=meal_progress,
+        diet_preference=(
+            profile["diet_preference"]
+            if profile and profile["diet_preference"]
+            else "Vegetarian"
+        ),
+        allergies=(
+            profile["allergies"]
+            if profile and profile["allergies"]
+            else ""
+        ),
+        food_dislikes=(
+            profile["food_dislikes"]
+            if profile and profile["food_dislikes"]
+            else ""
+        )
     )
 
 
