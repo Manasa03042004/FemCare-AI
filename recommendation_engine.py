@@ -108,9 +108,21 @@ def _risk_flags(predictions):
     }
 
 
-def _recipe_score(recipe, flags):
+def _recipe_score(recipe, flags, preference="Vegetarian"):
     tags = set(recipe.get("tags", []))
     score = 0
+    preference_lower = str(preference or "Vegetarian").strip().lower()
+    recipe_diet = str(recipe.get("diet_type", "Vegetarian")).strip().lower()
+
+    # Make the user's dietary preference influence ranking, not only filtering.
+    # Eggetarian users can eat vegetarian food, but egg recipes receive a
+    # meaningful boost so eggs actually appear in their personalized plan.
+    if preference_lower == "eggetarian" and recipe_diet == "eggetarian":
+        score += 8
+    elif preference_lower == "non-vegetarian" and recipe_diet in {"non-vegetarian", "eggetarian"}:
+        score += 6
+    elif preference_lower == "vegan" and recipe_diet == "vegetarian":
+        score += 2
 
     # Personalised health-goal matching.
     tag_map = {
@@ -176,7 +188,7 @@ def build_personalized_meal_plan(profile, predictions, recommendation_date=None)
             continue
 
         scored = [
-            (recipe, _recipe_score(recipe, flags))
+            (recipe, _recipe_score(recipe, flags, preference))
             for recipe in candidates
         ]
 
