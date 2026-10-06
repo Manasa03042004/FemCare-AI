@@ -1311,159 +1311,90 @@ def diet():
 def recipe(dish_name):
 
     recipes = {
-
-        "paneer_salad": {
-            "name": "Paneer Salad",
-            "ingredients": [
-                "Paneer cubes",
-                "Tomato",
-                "Cucumber",
-                "Pepper"
-            ],
-            "steps": [
-                "Cut vegetables",
-                "Add paneer",
-                "Mix well",
-                "Serve fresh"
-            ]
-        },
-
         "oats_upma": {
-            "name": "Oats Upma",
-            "ingredients": [
-                "Oats",
-                "Vegetables",
-                "Salt",
-                "Oil"
-            ],
-            "steps": [
-                "Roast oats",
-                "Cook vegetables",
-                "Add oats",
-                "Cook 5 minutes"
-            ]
+            "name": "Vegetable Oats Upma",
+            "ingredients": ["Oats", "Mixed vegetables", "Salt", "Healthy spices"],
+            "steps": ["Roast oats lightly.", "Cook mixed vegetables.", "Add oats, water and spices.", "Cook until soft and serve warm."]
         },
-
-        "veg_soup": {
-            "name": "Vegetable Soup",
-            "ingredients": [
-                "Carrot",
-                "Beans",
-                "Salt",
-                "Pepper"
-            ],
-            "steps": [
-                "Boil vegetables",
-                "Add salt",
-                "Simmer",
-                "Serve hot"
-            ]
-        },
-
-        "beetroot_salad": {
-            "name": "Beetroot Salad",
-            "ingredients": [
-                "Beetroot",
-                "Lemon",
-                "Salt"
-            ],
-            "steps": [
-                "Boil beetroot",
-                "Cut pieces",
-                "Add lemon",
-                "Serve"
-            ]
-        },
-
-        "dates_milk": {
-            "name": "Dates Milk",
-            "ingredients": [
-                "Dates",
-                "Milk"
-            ],
-            "steps": [
-                "Blend dates",
-                "Add milk",
-                "Serve chilled"
-            ]
-        },
-
-        "boiled_eggs": {
-            "name": "Boiled Eggs",
-            "ingredients": [
-                "Eggs",
-                "Salt"
-            ],
-            "steps": [
-                "Boil eggs 10 minutes",
-                "Peel shell",
-                "Serve warm"
-            ]
-        },
-
-        "brown_rice": {
-            "name": "Brown Rice Meal",
-            "ingredients": [
-                "Brown rice",
-                "Vegetables"
-            ],
-            "steps": [
-                "Cook rice",
-                "Add vegetables",
-                "Serve hot"
-            ]
-        },
-
         "moong_chilla": {
             "name": "Moong Dal Chilla",
-            "ingredients": [
-                "Moong dal",
-                "Salt",
-                "Spices"
-            ],
-            "steps": [
-                "Soak dal",
-                "Grind batter",
-                "Cook on pan"
-            ]
+            "ingredients": ["Moong dal", "Vegetables", "Salt", "Spices"],
+            "steps": ["Soak moong dal and blend into batter.", "Mix vegetables and spices.", "Cook on a lightly oiled pan.", "Serve warm with lemon."]
         },
-
+        "spinach_moong_chilla": {
+            "name": "Spinach Moong Chilla",
+            "ingredients": ["Moong dal", "Spinach", "Lemon", "Spices"],
+            "steps": ["Blend soaked moong dal with spinach.", "Add spices.", "Cook on a hot pan until both sides are done.", "Serve with lemon."]
+        },
+        "fruit_bowl": {
+            "name": "Fresh Fruit Bowl",
+            "ingredients": ["Apple", "Papaya", "Banana"],
+            "steps": ["Wash and cut the fruits.", "Combine in a bowl.", "Serve fresh without added sugar."]
+        },
+        "beetroot_salad": {
+            "name": "Beetroot Fruit Bowl",
+            "ingredients": ["Beetroot", "Apple", "Lemon"],
+            "steps": ["Cook and dice beetroot.", "Add chopped apple.", "Finish with lemon.", "Serve fresh."]
+        },
+        "fruit_chickpea_bowl": {
+            "name": "Apple & Roasted Chickpeas",
+            "ingredients": ["Apple", "Roasted chickpeas", "Cinnamon"],
+            "steps": ["Wash and slice the apple.", "Prepare roasted chickpeas.", "Add a small amount of cinnamon.", "Serve as a snack."]
+        },
+        "brown_rice": {
+            "name": "Brown Rice Vegetable Meal",
+            "ingredients": ["Brown rice", "Vegetables", "Dal"],
+            "steps": ["Cook brown rice.", "Prepare vegetables and dal.", "Combine and serve warm."]
+        },
+        "spinach_dal_rice": {
+            "name": "Spinach Dal Brown Rice",
+            "ingredients": ["Spinach", "Dal", "Brown rice", "Lemon"],
+            "steps": ["Cook brown rice.", "Prepare dal with spinach.", "Serve together.", "Finish with lemon."]
+        },
+        "protein_rice_bowl": {
+            "name": "Protein Vegetable Brown Rice Bowl",
+            "ingredients": ["Brown rice", "Dal", "Vegetables", "Beans"],
+            "steps": ["Cook brown rice.", "Prepare dal and beans.", "Add mixed vegetables.", "Serve as a balanced bowl."]
+        },
         "sprouts_salad": {
             "name": "Sprouts Salad",
-            "ingredients": [
-                "Sprouts",
-                "Tomato",
-                "Onion"
-            ],
-            "steps": [
-                "Mix sprouts",
-                "Add vegetables",
-                "Serve"
-            ]
+            "ingredients": ["Sprouts", "Tomato", "Onion", "Lemon"],
+            "steps": ["Combine sprouts and chopped vegetables.", "Add lemon and mild spices.", "Mix well and serve fresh."]
         },
-
-        "quinoa_bowl": {
-            "name": "Quinoa Bowl",
-            "ingredients": [
-                "Quinoa",
-                "Vegetables"
-            ],
-            "steps": [
-                "Cook quinoa",
-                "Add vegetables"
-            ]
+        "spinach_sprouts_salad": {
+            "name": "Spinach Sprouts Salad",
+            "ingredients": ["Spinach", "Sprouts", "Tomato", "Lemon"],
+            "steps": ["Wash the vegetables.", "Combine spinach, sprouts and tomato.", "Add lemon.", "Serve fresh."]
         },
-
-        "spinach_curry": {
-            "name": "Spinach Curry",
-            "ingredients": [
-                "Spinach",
-                "Spices"
-            ],
-            "steps": [
-                "Cook spinach",
-                "Add spices"
-            ]
+        "chickpea_sprouts_salad": {
+            "name": "Chickpea Sprouts Salad",
+            "ingredients": ["Chickpeas", "Sprouts", "Tomato", "Cucumber"],
+            "steps": ["Combine cooked chickpeas and sprouts.", "Add chopped tomato and cucumber.", "Mix with mild spices.", "Serve fresh."]
+        },
+        "paneer_salad": {
+            "name": "Paneer Vegetable Salad",
+            "ingredients": ["Paneer", "Cucumber", "Tomato", "Pepper"],
+            "steps": ["Cut paneer and vegetables.", "Combine in a bowl.", "Season with pepper.", "Serve fresh."]
+        },
+        "chickpea_salad": {
+            "name": "Chickpea Vegetable Salad",
+            "ingredients": ["Chickpeas", "Cucumber", "Tomato", "Leafy greens"],
+            "steps": ["Combine cooked chickpeas and vegetables.", "Add leafy greens.", "Season lightly.", "Serve fresh."]
+        },
+        "lentil_vegetable_bowl": {
+            "name": "Lentil Vegetable Bowl",
+            "ingredients": ["Lentils", "Spinach", "Carrot", "Lemon"],
+            "steps": ["Cook lentils.", "Add spinach and carrot.", "Simmer until vegetables are tender.", "Finish with lemon."]
+        },
+        "moong_vegetable_bowl": {
+            "name": "Vegetable Moong Bowl",
+            "ingredients": ["Moong dal", "Vegetables", "Brown rice"],
+            "steps": ["Cook moong dal.", "Prepare mixed vegetables.", "Serve with brown rice."]
+        },
+        "vegetable_wellness_bowl": {
+            "name": "Vegetable Wellness Bowl",
+            "ingredients": ["Mixed vegetables", "Lentils", "Brown rice"],
+            "steps": ["Cook brown rice.", "Prepare lentils.", "Add mixed vegetables.", "Serve warm."]
         }
     }
 
