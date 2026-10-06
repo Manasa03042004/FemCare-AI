@@ -641,6 +641,190 @@
         }
 
 
+        /* =========================
+           PROGRESSIVE SCREENING
+        ========================= */
+
+        .screening-box {
+
+            margin-top: 23px;
+
+            padding: 23px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8f1ff,
+                    #fff5f8
+                );
+
+            border: 1px solid #eadff0;
+
+            box-shadow:
+                0 8px 25px
+                rgba(70,55,70,0.045);
+        }
+
+
+        .screening-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 11px;
+
+            margin-top: 15px;
+        }
+
+
+        .screening-choice {
+
+            position: relative;
+
+            display: block;
+
+            cursor: pointer;
+        }
+
+
+        .screening-choice input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+
+        .screening-card {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            min-height: 62px;
+
+            padding: 12px 14px;
+
+            border-radius: 15px;
+
+            background: rgba(255,255,255,0.86);
+
+            border: 1px solid #e8dfea;
+
+            transition: 0.2s ease;
+        }
+
+
+        .screening-card:hover {
+
+            transform: translateY(-1px);
+
+            border-color: #cbb3d5;
+        }
+
+
+        .screening-choice input:checked + .screening-card {
+
+            background: #f4eafb;
+
+            border-color: #b78ac5;
+
+            box-shadow:
+                0 5px 16px
+                rgba(125,78,145,0.10);
+        }
+
+
+        .screening-emoji {
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #fff;
+
+            font-size: 19px;
+
+            flex-shrink: 0;
+        }
+
+
+        .screening-card strong {
+
+            display: block;
+
+            color: #514653;
+
+            font-size: 10px;
+        }
+
+
+        .screening-card span {
+
+            display: block;
+
+            margin-top: 3px;
+
+            color: #998f99;
+
+            font-size: 8px;
+
+            line-height: 1.4;
+        }
+
+
+        .screening-helper {
+
+            margin-top: 11px;
+
+            color: #8f8193;
+
+            font-size: 8px;
+
+            line-height: 1.5;
+        }
+
+
+        .screening-section {
+
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .screening-section.is-hidden {
+
+            display: none;
+        }
+
+
+        .required-note {
+
+            color: #9a6b8c;
+
+            font-size: 8px;
+
+            font-weight: 600;
+        }
+
+
 
         /* =========================
            SUBMIT
@@ -942,6 +1126,170 @@
 
 
 <!-- =====================================================
+     BASIC PROFILE
+===================================================== -->
+
+<section class="section" style="margin-top:23px;">
+
+    <div class="section-header">
+
+        <div class="section-icon" style="background:#f0e9ff;">
+            👤
+        </div>
+
+        <div>
+            <h2>About You</h2>
+            <p>Only the basic information we need to personalize your wellness journey.</p>
+        </div>
+
+    </div>
+
+    <div class="form-grid">
+
+        <div class="field">
+            <label>Age</label>
+            <span class="help">Enter your age in years. Example: 22</span>
+            <input
+                type="number"
+                name="basic_age"
+                class="input"
+                min="13"
+                max="100"
+                placeholder="e.g. 22"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label>Height</label>
+            <span class="help">Enter height in centimetres. Example: 165</span>
+            <input
+                type="number"
+                name="height_cm"
+                class="input"
+                min="100"
+                max="250"
+                step="0.1"
+                placeholder="e.g. 165"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label>Weight</label>
+            <span class="help">Enter your current weight in kg. Example: 60</span>
+            <input
+                type="number"
+                name="basic_weight"
+                id="basicWeight"
+                class="input"
+                min="25"
+                max="300"
+                step="0.1"
+                placeholder="e.g. 60"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label>Average Menstrual Cycle</label>
+            <span class="help">Average number of days between periods. Example: 28</span>
+            <input
+                type="number"
+                name="basic_cycle_length"
+                class="input"
+                min="15"
+                max="90"
+                placeholder="e.g. 28"
+                required
+            >
+        </div>
+
+    </div>
+
+    <div class="screening-helper">
+        🌷 These basic details are enough to start. Disease-specific questions will appear only for the health areas you choose below.
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     HEALTH SCREENING CHOICES
+===================================================== -->
+
+<section class="screening-box">
+
+    <div class="section-header" style="margin-bottom:0;">
+
+        <div class="section-icon" style="background:#fff0f6;">
+            🩺
+        </div>
+
+        <div>
+            <h2>What would you like to check?</h2>
+            <p>Choose only the health areas you want FemCare AI to screen.</p>
+        </div>
+
+    </div>
+
+    <div class="screening-grid">
+
+        <label class="screening-choice">
+            <input type="checkbox" name="screening_pcos" value="1" data-screening="pcos">
+            <span class="screening-card">
+                <span class="screening-emoji">🌸</span>
+                <span>
+                    <strong>PCOS-related risk</strong>
+                    <span>Cycle and common symptom screening</span>
+                </span>
+            </span>
+        </label>
+
+        <label class="screening-choice">
+            <input type="checkbox" name="screening_diabetes" value="1" data-screening="diabetes">
+            <span class="screening-card">
+                <span class="screening-emoji">🩸</span>
+                <span>
+                    <strong>Diabetes risk</strong>
+                    <span>Blood sugar and related measurements</span>
+                </span>
+            </span>
+        </label>
+
+        <label class="screening-choice">
+            <input type="checkbox" name="screening_anemia" value="1" data-screening="anemia">
+            <span class="screening-card">
+                <span class="screening-emoji">❤️</span>
+                <span>
+                    <strong>Anemia risk</strong>
+                    <span>Hemoglobin and common symptoms</span>
+                </span>
+            </span>
+        </label>
+
+        <label class="screening-choice">
+            <input type="checkbox" name="screening_thyroid" value="1" data-screening="thyroid">
+            <span class="screening-card">
+                <span class="screening-emoji">🦋</span>
+                <span>
+                    <strong>Thyroid-related risk</strong>
+                    <span>Weight and common symptom screening</span>
+                </span>
+            </span>
+        </label>
+
+    </div>
+
+    <div class="screening-helper">
+        💡 You can choose one or more. FemCare AI will not ask you for the other disease-specific measurements.
+        <span class="required-note">Select at least one area to continue.</span>
+    </div>
+
+</section>
+
+
+<!-- =====================================================
      FOOD PREFERENCES & ALLERGIES
 ===================================================== -->
 
@@ -1040,7 +1388,7 @@
      DIABETES
 ===================================================== -->
 
-<section class="section diabetes">
+<section class="section diabetes screening-section is-hidden" id="diabetesSection">
 
 
     <div class="section-header">
@@ -1267,7 +1615,6 @@
                 class="input"
                 min="1"
                 placeholder="e.g. 22"
-                required
             >
 
         </div>
@@ -1284,7 +1631,7 @@
      PCOS
 ===================================================== -->
 
-<section class="section pcos">
+<section class="section pcos screening-section is-hidden" id="pcosSection">
 
 
     <div class="section-header">
@@ -1336,7 +1683,6 @@
                 min="1"
                 step="0.1"
                 placeholder="e.g. 60"
-                required
             >
 
         </div>
@@ -1361,7 +1707,6 @@
                 class="input"
                 min="1"
                 placeholder="e.g. 28"
-                required
             >
 
         </div>
@@ -1537,7 +1882,7 @@
      ANEMIA
 ===================================================== -->
 
-<section class="section anemia">
+<section class="section anemia screening-section is-hidden" id="anemiaSection">
 
 
     <div class="section-header">
@@ -1764,7 +2109,7 @@
      THYROID
 ===================================================== -->
 
-<section class="section thyroid">
+<section class="section thyroid screening-section is-hidden" id="thyroidSection">
 
 
     <div class="section-header">
@@ -2018,20 +2363,205 @@
 </form>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const allergyBoxes = document.querySelectorAll('input[name="allergies"]');
-    const noneBox = document.getElementById("allergyNone");
 
-    allergyBoxes.forEach(function (box) {
-        box.addEventListener("change", function () {
-            if (this === noneBox && this.checked) {
-                allergyBoxes.forEach(function (other) {
-                    if (other !== noneBox) other.checked = false;
-                });
-            } else if (this !== noneBox && this.checked) {
-                noneBox.checked = false;
+    const form = document.getElementById("healthForm");
+
+    const screeningInputs =
+        document.querySelectorAll("[data-screening]");
+
+    const sections = {
+        diabetes: document.getElementById("diabetesSection"),
+        pcos: document.getElementById("pcosSection"),
+        anemia: document.getElementById("anemiaSection"),
+        thyroid: document.getElementById("thyroidSection")
+    };
+
+    const basicAge =
+        document.querySelector('[name="basic_age"]');
+
+    const basicWeight =
+        document.getElementById("basicWeight");
+
+    const basicCycle =
+        document.querySelector('[name="basic_cycle_length"]');
+
+    const sharedNames = [
+        "age",
+        "weight",
+        "cycle_length"
+    ];
+
+    function syncSharedFields(section) {
+
+        const age = section.querySelector('[name="age"]');
+        const weight = section.querySelector('[name="weight"]');
+        const cycle = section.querySelector('[name="cycle_length"]');
+
+        if (age) age.value = basicAge.value;
+        if (weight) weight.value = basicWeight.value;
+        if (cycle) cycle.value = basicCycle.value;
+
+        const thyroidWeight =
+            section.querySelector('[name="thyroid_weight"]');
+
+        if (thyroidWeight) {
+            thyroidWeight.value = basicWeight.value;
+        }
+    }
+
+    function setSectionState(type, enabled) {
+
+        const section = sections[type];
+
+        if (!section) return;
+
+        section.classList.toggle("is-hidden", !enabled);
+
+        const controls =
+            section.querySelectorAll("input, select, textarea");
+
+        controls.forEach(function (control) {
+
+            const isShared =
+                sharedNames.includes(control.name);
+
+            if (isShared) {
+                control.disabled = true;
+                control.required = false;
+                return;
+            }
+
+            control.disabled = !enabled;
+
+            if (enabled) {
+                if (control.dataset.originalRequired === "true") {
+                    control.required = true;
+                }
+            } else {
+                control.required = false;
             }
         });
+
+        syncSharedFields(section);
+
+        if (type === "thyroid") {
+            const thyroidWeight =
+                section.querySelector('[name="thyroid_weight"]');
+
+            if (thyroidWeight) {
+                thyroidWeight.disabled = !enabled;
+                thyroidWeight.required = enabled;
+                thyroidWeight.value = basicWeight.value;
+            }
+        }
+    }
+
+    // Remember which disease fields were originally required.
+    document
+        .querySelectorAll(".screening-section input, .screening-section select")
+        .forEach(function (control) {
+            control.dataset.originalRequired =
+                control.required ? "true" : "false";
+        });
+
+    screeningInputs.forEach(function (input) {
+
+        input.addEventListener("change", function () {
+
+            setSectionState(
+                this.dataset.screening,
+                this.checked
+            );
+
+        });
+
     });
+
+    // Keep the hidden shared model fields synchronized.
+    [basicAge, basicWeight, basicCycle].forEach(function (input) {
+
+        input.addEventListener("input", function () {
+
+            Object.keys(sections).forEach(function (type) {
+                syncSharedFields(sections[type]);
+            });
+
+        });
+
+    });
+
+    // Initial state: all disease sections are hidden.
+    Object.keys(sections).forEach(function (type) {
+        setSectionState(type, false);
+    });
+
+    // Allergy "none" logic.
+    const allergyBoxes =
+        document.querySelectorAll('input[name="allergies"]');
+
+    const noneBox =
+        document.getElementById("allergyNone");
+
+    allergyBoxes.forEach(function (box) {
+
+        box.addEventListener("change", function () {
+
+            if (this === noneBox && this.checked) {
+
+                allergyBoxes.forEach(function (other) {
+
+                    if (other !== noneBox) {
+                        other.checked = false;
+                    }
+
+                });
+
+            } else if (this !== noneBox && this.checked) {
+
+                noneBox.checked = false;
+
+            }
+
+        });
+
+    });
+
+    form.addEventListener("submit", function (event) {
+
+        const selected =
+            Array.from(screeningInputs)
+                .some(function (input) {
+                    return input.checked;
+                });
+
+        if (!selected) {
+
+            event.preventDefault();
+
+            alert(
+                "Please select at least one health area to check."
+            );
+
+            document
+                .querySelector(".screening-box")
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            return;
+        }
+
+        Object.keys(sections).forEach(function (type) {
+
+            if (!sections[type].classList.contains("is-hidden")) {
+                syncSharedFields(sections[type]);
+            }
+
+        });
+
+    });
+
 });
 </script>
 
@@ -2057,39 +2587,7 @@ document.addEventListener("DOMContentLoaded", function () {
      COPY WEIGHT TO THYROID
 ===================================================== -->
 
-<script>
 
-    const weightInput =
-        document.getElementById("weight");
-
-    const thyroidWeightInput =
-        document.getElementById("thyroid_weight");
-
-
-    weightInput.addEventListener(
-        "input",
-        function () {
-
-            thyroidWeightInput.value =
-                weightInput.value;
-
-        }
-    );
-
-
-    document
-        .getElementById("healthForm")
-        .addEventListener(
-            "submit",
-            function () {
-
-                thyroidWeightInput.value =
-                    weightInput.value;
-
-            }
-        );
-
-</script>
 
 
 </body>
