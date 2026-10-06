@@ -942,6 +942,86 @@
 
 
 <!-- =====================================================
+     FOOD PREFERENCES & ALLERGIES
+===================================================== -->
+
+<section class="section" style="margin-top:23px;">
+
+    <div class="section-header">
+
+        <div class="section-icon" style="background:#eaf7ee;">
+            🥗
+        </div>
+
+        <div>
+            <h2>Food Preferences & Allergies</h2>
+            <p>Help us make food suggestions more relevant to you.</p>
+        </div>
+
+    </div>
+
+    <div class="form-grid">
+
+        <div class="field">
+            <label>Dietary Preference</label>
+            <span class="help">Choose the type of diet you normally follow.</span>
+
+            <select name="diet_preference" class="input" required>
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Vegan">Vegan</option>
+                <option value="Eggetarian">Eggetarian</option>
+                <option value="Non-vegetarian">Non-vegetarian</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Foods I Avoid</label>
+            <span class="help">Optional: enter foods you dislike or avoid, separated by commas.</span>
+
+            <input
+                type="text"
+                name="food_dislikes"
+                class="input"
+                placeholder="e.g. mushrooms, paneer"
+            >
+        </div>
+
+        <div class="field" style="grid-column:1 / -1;">
+            <label>Food Allergies</label>
+            <span class="help">Select any known food allergies. These are user-provided preferences and are not medically verified.</span>
+
+            <div class="yes-no" style="flex-wrap:wrap;">
+
+                <input type="checkbox" name="allergies" value="nuts" id="allergyNuts">
+                <label class="choice" for="allergyNuts">Nuts</label>
+
+                <input type="checkbox" name="allergies" value="peanuts" id="allergyPeanuts">
+                <label class="choice" for="allergyPeanuts">Peanuts</label>
+
+                <input type="checkbox" name="allergies" value="dairy" id="allergyDairy">
+                <label class="choice" for="allergyDairy">Dairy</label>
+
+                <input type="checkbox" name="allergies" value="gluten" id="allergyGluten">
+                <label class="choice" for="allergyGluten">Gluten</label>
+
+                <input type="checkbox" name="allergies" value="soy" id="allergySoy">
+                <label class="choice" for="allergySoy">Soy</label>
+
+                <input type="checkbox" name="allergies" value="sesame" id="allergySesame">
+                <label class="choice" for="allergySesame">Sesame</label>
+
+                <input type="checkbox" name="allergies" value="seeds" id="allergySeeds">
+                <label class="choice" for="allergySeeds">Seeds</label>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
      DIABETES
 ===================================================== -->
 
