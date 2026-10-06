@@ -2900,6 +2900,13 @@ def weekly_report():
     sattvic_score = round((sattvic_total / sattvic_target) * 100) if sattvic_target else 0
     sattvic_active_days = sum(1 for row in daily_rows if row["sattvic_done"] > 0)
 
+    # Health Connect coverage for the selected period.
+    health_connect_days = conn.execute("""
+        SELECT COUNT(*)
+        FROM health_sync_logs
+        WHERE user_id=? AND log_date BETWEEN ? AND ?
+    """, (user_id, selected_start.isoformat(), selected_end.isoformat())).fetchone()[0]
+
     # -----------------------------------------------------
     # WEEKLY SUMMARY
     # -----------------------------------------------------
@@ -3080,6 +3087,7 @@ def weekly_report():
         sattvic_target=sattvic_target,
         sattvic_score=sattvic_score,
         sattvic_active_days=sattvic_active_days,
+        health_connect_days=health_connect_days,
 
         avg_water=avg_water,
         avg_steps=avg_steps,
@@ -3193,5 +3201,7 @@ if __name__ == "__main__":
     init_db()
 
     app.run(
+        host="0.0.0.0",
+        port=5000,
         debug=True
     )
