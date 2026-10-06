@@ -1421,7 +1421,7 @@
 
 
             <p>
-                A few basic health measurements.
+                Simple Yes/No risk questions — no medical measurements required.
             </p>
 
         </div>
@@ -1434,157 +1434,64 @@
     <div class="form-grid">
 
 
-        <!-- Pregnancies -->
+        <!-- High Blood Sugar -->
 
         <div class="field">
-
-            <label>
-                Number of Pregnancies
-            </label>
-
-            <span class="help">
-                Example: 0, 1, 2
-            </span>
-
-            <input
-                type="number"
-                name="pregnancies"
-                class="input"
-                min="0"
-                placeholder="e.g. 0"
-                required
-            >
-
+            <label>High Blood Sugar History</label>
+            <span class="help">Have you ever been told that your blood sugar was higher than normal?</span>
+            <div class="yes-no">
+                <input type="radio" name="diabetes_high_glucose" value="0" id="diabetesGlucoseNo" required>
+                <label class="choice" for="diabetesGlucoseNo">No</label>
+                <input type="radio" name="diabetes_high_glucose" value="1" id="diabetesGlucoseYes">
+                <label class="choice" for="diabetesGlucoseYes">Yes</label>
+            </div>
         </div>
 
-
-
-        <!-- Glucose -->
+        <!-- High Blood Pressure -->
 
         <div class="field">
-
-            <label>
-                Glucose Level
-            </label>
-
-            <span class="help">
-                Enter glucose in mg/dL. Example: 110
-            </span>
-
-            <input
-                type="number"
-                name="glucose"
-                class="input"
-                min="0"
-                placeholder="e.g. 110"
-                required
-            >
-
+            <label>High Blood Pressure History</label>
+            <span class="help">Have you ever been told that you have high blood pressure?</span>
+            <div class="yes-no">
+                <input type="radio" name="diabetes_high_bp" value="0" id="diabetesBpNo" required>
+                <label class="choice" for="diabetesBpNo">No</label>
+                <input type="radio" name="diabetes_high_bp" value="1" id="diabetesBpYes">
+                <label class="choice" for="diabetesBpYes">Yes</label>
+            </div>
         </div>
 
-
-
-        <!-- Blood Pressure -->
+        <!-- High Insulin -->
 
         <div class="field">
-
-            <label>
-                Blood Pressure
-            </label>
-
-            <span class="help">
-                Enter the assessment value. Example: 80 mmHg
-            </span>
-
-            <input
-                type="number"
-                name="blood_pressure"
-                class="input"
-                min="0"
-                placeholder="e.g. 80"
-                required
-            >
-
+            <label>High Insulin History</label>
+            <span class="help">Have you ever been told that your insulin level was high?</span>
+            <div class="yes-no">
+                <input type="radio" name="diabetes_high_insulin" value="0" id="diabetesInsulinNo" required>
+                <label class="choice" for="diabetesInsulinNo">No</label>
+                <input type="radio" name="diabetes_high_insulin" value="1" id="diabetesInsulinYes">
+                <label class="choice" for="diabetesInsulinYes">Yes</label>
+            </div>
         </div>
 
-
-
-        <!-- Insulin -->
+        <!-- Pregnancy History -->
 
         <div class="field">
-
-            <label>
-                Insulin Level
-            </label>
-
-            <span class="help">
-                Enter insulin value. Example: 100 µIU/mL
-            </span>
-
-            <input
-                type="number"
-                name="insulin"
-                class="input"
-                min="0"
-                placeholder="e.g. 100"
-                required
-            >
-
+            <label>Pregnancy History</label>
+            <span class="help">Have you had one or more pregnancies?</span>
+            <div class="yes-no">
+                <input type="radio" name="diabetes_pregnancy_history" value="0" id="diabetesPregnancyNo" required>
+                <label class="choice" for="diabetesPregnancyNo">No</label>
+                <input type="radio" name="diabetes_pregnancy_history" value="1" id="diabetesPregnancyYes">
+                <label class="choice" for="diabetesPregnancyYes">Yes</label>
+            </div>
         </div>
 
-
-
-        <!-- Diabetes Pedigree -->
-
-        <div class="field">
-
-            <label>
-                Diabetes Pedigree Function
-            </label>
-
-            <span class="help">
-                Enter decimal value. Example: 0.47
-            </span>
-
-            <input
-                type="number"
-                name="diabetes_pedigree"
-                class="input"
-                step="0.01"
-                min="0"
-                placeholder="e.g. 0.47"
-                required
-            >
-
+        <div class="field" style="grid-column:1 / -1;">
+            <label>Automatic risk factors</label>
+            <span class="help">BMI is calculated automatically from your height and weight above, and age is already available to the model. You do not need to enter either again.</span>
         </div>
-
-
-
-        <!-- Age -->
-
-        <div class="field">
-
-            <label>
-                Age
-            </label>
-
-            <span class="help">
-                Enter your age in years. Example: 22
-            </span>
-
-            <input
-                type="number"
-                name="age"
-                class="input"
-                min="1"
-                placeholder="e.g. 22"
-            >
-
-        </div>
-
 
     </div>
-
 
 </section>
 

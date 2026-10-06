@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import joblib
 import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 import sqlite3
 from functools import wraps
 from datetime import date, datetime, timedelta
@@ -305,7 +308,49 @@ def login_required(route_function):
 # MACHINE LEARNING MODELS
 # =========================================================
 
-diabetes_model = joblib.load("diabetes_model.pkl")
+def load_diabetes_model():
+    """
+    Load the diabetes model. If the repository still contains the old
+    8-feature model, automatically retrain the new 6-feature binary-risk
+    model from diabetes.csv so the app and questionnaire stay compatible.
+    """
+    model = joblib.load("diabetes_model.pkl")
+
+    if getattr(model, "n_features_in_", None) == 6:
+        return model
+
+    data = pd.read_csv("diabetes.csv")
+
+    X = pd.DataFrame({
+        "high_glucose": (data["Glucose"] >= 126).astype(int),
+        "high_blood_pressure": (data["BloodPressure"] >= 80).astype(int),
+        "high_insulin": (data["Insulin"] >= 166).astype(int),
+        "pregnancy_history": (data["Pregnancies"] > 0).astype(int),
+        "bmi_risk": (data["BMI"] >= 25).astype(int),
+        "age_risk": (data["Age"] >= 45).astype(int)
+    })
+
+    y = data["Outcome"]
+
+    X_train, _, y_train, _ = train_test_split(
+        X, y, test_size=0.20, random_state=42, stratify=y
+    )
+
+    model = RandomForestClassifier(
+        n_estimators=300,
+        max_depth=6,
+        random_state=42,
+        class_weight="balanced"
+    )
+    model.fit(X_train, y_train)
+    joblib.dump(model, "diabetes_model.pkl")
+
+    print("Diabetes model upgraded to the new 6-feature Yes/No risk model.")
+
+    return model
+
+
+diabetes_model = load_diabetes_model()
 pcos_model = joblib.load("pcos_model.pkl")
 anemia_model = joblib.load("anemia_model.pkl")
 thyroid_model = joblib.load("thyroid_model.pkl")
