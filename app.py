@@ -526,7 +526,10 @@ def predict():
         pregnancies = int(request.form.get("pregnancies", 0))
         glucose = int(request.form.get("glucose", 0))
         blood_pressure = int(request.form.get("blood_pressure", 0))
-        skin_thickness = int(request.form.get("skin_thickness", 0))
+        # Skin thickness is no longer collected from the user.
+        # Keep the legacy model feature at 0 for compatibility with
+        # the currently trained diabetes model.
+        skin_thickness = 0
         insulin = int(request.form.get("insulin", 0))
         diabetes_pedigree = float(request.form.get("diabetes_pedigree", 0))
 
@@ -577,7 +580,6 @@ def predict():
                 pregnancies < 0 or
                 glucose <= 0 or
                 blood_pressure <= 0 or
-                skin_thickness < 0 or
                 insulin < 0 or
                 diabetes_pedigree < 0
             ):
