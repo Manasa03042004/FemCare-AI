@@ -730,6 +730,79 @@
 
 <section>
     <div class="section-head">
+        <div class="section-title">✨ Your Personalized Wellness Plan</div>
+        <div class="section-caption">Based on your profile and health-risk screening</div>
+    </div>
+
+    <div class="bottom-grid">
+        <div class="bottom-card">
+            <div class="bottom-left">
+                <div class="bottom-icon">🥗</div>
+                <div>
+                    <div class="bottom-title">Nutrition</div>
+                    {% for item in wellness_plan.nutrition %}
+                    <div class="bottom-subtitle">{{ item }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <a href="{{ url_for('diet') }}" class="bottom-action">View →</a>
+        </div>
+
+        <div class="bottom-card">
+            <div class="bottom-left">
+                <div class="bottom-icon">👣</div>
+                <div>
+                    <div class="bottom-title">Movement</div>
+                    {% for item in wellness_plan.movement %}
+                    <div class="bottom-subtitle">{{ item }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <a href="{{ url_for('activity') }}" class="bottom-action">Track →</a>
+        </div>
+
+        <div class="bottom-card">
+            <div class="bottom-left">
+                <div class="bottom-icon">🧠</div>
+                <div>
+                    <div class="bottom-title">Mind & Stress</div>
+                    {% for item in wellness_plan.stress %}
+                    <div class="bottom-subtitle">{{ item }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <a href="{{ url_for('stress') }}" class="bottom-action">Relax →</a>
+        </div>
+
+        <div class="bottom-card">
+            <div class="bottom-left">
+                <div class="bottom-icon">💧</div>
+                <div>
+                    <div class="bottom-title">Hydration</div>
+                    <div class="bottom-subtitle">{{ wellness_plan.hydration }}</div>
+                </div>
+            </div>
+            <a href="{{ url_for('activity') }}" class="bottom-action">Track →</a>
+        </div>
+
+        {% if wellness_plan.cycle_note %}
+        <div class="bottom-card">
+            <div class="bottom-left">
+                <div class="bottom-icon">🌷</div>
+                <div>
+                    <div class="bottom-title">Cycle Tracking</div>
+                    <div class="bottom-subtitle">{{ wellness_plan.cycle_note }}</div>
+                </div>
+            </div>
+            <a href="{{ url_for('menstrual') }}" class="bottom-action">Track →</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+
+<section>
+    <div class="section-head">
         <div class="section-title">🌸 Today's Wellness Plan</div>
         <div class="section-caption">Simple actions for today</div>
     </div>
