@@ -1095,7 +1095,7 @@ def _food_is_blocked(ingredients, preference, allergies, dislikes):
         "nuts": ["almond", "walnut", "cashew", "pistachio", "nut"],
         "peanuts": ["peanut", "groundnut"],
         "dairy": ["milk", "paneer", "curd", "yogurt", "cheese", "ghee", "butter"],
-        "gluten": ["wheat", "bread", "atta", "maida", "barley", "rye", "oats"],
+        "gluten": ["wheat", "bread", "atta", "maida", "barley", "rye"],
         "soy": ["soy", "tofu", "soya"],
         "sesame": ["sesame", "til"],
         "seeds": ["seed", "chia", "flax", "sunflower", "pumpkin"]
