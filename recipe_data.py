@@ -6,7 +6,7 @@ this library using dietary preference, allergies, dislikes and wellness goals.
 Nutrition values are approximate and are for general wellness guidance only.
 """
 
-def _recipe(slug, name, meal_type, ingredients, tags, calories, protein, fiber, iron, steps):
+def _recipe(slug, name, meal_type, ingredients, tags, calories, protein, fiber, iron, steps, diet_type="Vegetarian"):
     return {
         "slug": slug,
         "name": name,
@@ -18,6 +18,7 @@ def _recipe(slug, name, meal_type, ingredients, tags, calories, protein, fiber, 
         "fiber": fiber,
         "iron": iron,
         "steps": steps,
+        "diet_type": diet_type,
     }
 
 
@@ -236,6 +237,69 @@ RECIPE_LIBRARY = [
         ["protein","fiber","pcos","diabetes","anemia"],370,16,9,4.3,
         ["Cook millet and lentils.","Steam or saute vegetables.","Combine and season lightly."]),
 ]
+
+
+    # ---------------- NON-VEGETARIAN ----------------
+    _recipe("chicken_spinach_bowl","Chicken Spinach Protein Bowl","lunch",
+        ["chicken","spinach","brown rice","carrot","lemon"],
+        ["protein","high_fiber","pcos","diabetes","anemia"],460,34,8,4.0,
+        ["Cook chicken thoroughly until no longer pink.","Prepare spinach and vegetables.","Serve with a moderate portion of brown rice and lemon."],
+        "Non-vegetarian"),
+    _recipe("grilled_chicken_salad","Grilled Chicken Salad","lunch",
+        ["chicken","lettuce","cucumber","tomato","lemon"],
+        ["protein","high_fiber","pcos","diabetes"],320,32,5,2.2,
+        ["Cook chicken thoroughly on a hot pan.","Combine with washed vegetables.","Dress with lemon and mild herbs."],
+        "Non-vegetarian"),
+    _recipe("fish_vegetable_bowl","Fish Vegetable Brown Rice Bowl","lunch",
+        ["fish","brown rice","spinach","carrot","lemon"],
+        ["protein","balanced","pcos"],430,30,6,2.5,
+        ["Cook fish thoroughly using a simple method.","Prepare vegetables and brown rice.","Serve with lemon."],
+        "Non-vegetarian"),
+    _recipe("chicken_lentil_soup","Chicken Lentil Soup","dinner",
+        ["chicken","lentils","carrot","spinach","cumin"],
+        ["protein","iron_rich","anemia","pcos"],360,31,8,4.4,
+        ["Cook chicken thoroughly.","Simmer lentils with vegetables.","Add cooked chicken and serve hot."],
+        "Non-vegetarian"),
+    _recipe("chicken_vegetable_soup","Chicken Vegetable Soup","dinner",
+        ["chicken","carrot","beans","spinach","tomato"],
+        ["protein","light","balanced"],300,30,5,2.4,
+        ["Cook chicken thoroughly.","Simmer vegetables until tender.","Add cooked chicken and season lightly."],
+        "Non-vegetarian"),
+    _recipe("fish_spinach_plate","Fish & Spinach Plate","dinner",
+        ["fish","spinach","cucumber","tomato","lemon"],
+        ["protein","iron_rich","light"],290,29,4,2.6,
+        ["Cook fish thoroughly.","Prepare spinach and fresh vegetables.","Serve together with lemon."],
+        "Non-vegetarian"),
+    _recipe("chicken_sprouts_salad","Chicken Sprouts Salad","evening",
+        ["chicken","moong sprouts","cucumber","tomato","lemon"],
+        ["protein","high_fiber","pcos","diabetes"],260,27,6,2.4,
+        ["Cook chicken thoroughly and cool slightly.","Combine with cooked/steamed sprouts and vegetables.","Finish with lemon."],
+        "Non-vegetarian"),
+    _recipe("chicken_vegetable_wrap","Chicken Vegetable Whole Wheat Wrap","breakfast",
+        ["chicken","whole wheat flour","spinach","carrot","cucumber"],
+        ["protein","high_fiber","balanced"],390,28,7,3.0,
+        ["Cook chicken thoroughly and slice.","Prepare a whole wheat wrap with vegetables.","Fill, roll and serve warm."],
+        "Non-vegetarian"),
+    _recipe("egg_vegetable_chilla","Egg Vegetable Chilla","breakfast",
+        ["egg","carrot","spinach","onion","coriander"],
+        ["protein","balanced","pcos","anemia"],250,16,3,2.2,
+        ["Whisk eggs with chopped vegetables.","Cook on a lightly heated pan until fully set.","Serve warm."],
+        "Eggetarian"),
+    _recipe("egg_spinach_bowl","Egg Spinach Breakfast Bowl","breakfast",
+        ["egg","spinach","tomato","cucumber","lemon"],
+        ["protein","iron_rich","anemia","balanced"],240,17,3,2.5,
+        ["Cook eggs until fully set.","Combine with washed vegetables and spinach.","Serve with lemon."],
+        "Eggetarian"),
+    _recipe("egg_chickpea_salad","Egg Chickpea Salad","snack",
+        ["egg","chickpeas","cucumber","tomato","lemon"],
+        ["protein","fiber","pcos"],260,16,6,2.7,
+        ["Cook egg until fully set and chop.","Combine with cooked chickpeas and vegetables.","Add lemon and mild seasoning."],
+        "Eggetarian"),
+    _recipe("egg_vegetable_soup","Egg Vegetable Soup","dinner",
+        ["egg","spinach","carrot","beans","tomato"],
+        ["protein","light","balanced"],230,15,5,2.1,
+        ["Prepare a light vegetable soup.","Add beaten egg gradually while stirring.","Cook until egg is fully set and serve hot."],
+        "Eggetarian"),
 
 
 RECIPE_BY_SLUG = {recipe["slug"]: recipe for recipe in RECIPE_LIBRARY}
