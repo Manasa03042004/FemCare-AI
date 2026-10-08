@@ -9,7 +9,7 @@ import androidx.work.Constraints
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.femcare.ai.databinding.ActivityMainBinding
-import androidx.health.connect.client.permission.PermissionController
+import androidx.health.connect.client.PermissionController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
