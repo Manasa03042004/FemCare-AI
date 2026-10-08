@@ -2,7 +2,7 @@
 
 This companion app connects FemCare AI to Android Health Connect.
 
-It logs into the existing Flask app, requests Health Connect step permission, reads today's aggregated steps, sends them to the Flask API, and periodically syncs in the background with WorkManager.
+It logs into the existing Flask app, requests Health Connect step + background-read permission, reads today's aggregated steps, sends them to the Flask API, and automatically syncs in the background with WorkManager. The website reads the synced value from the Flask database; the user does not need to keep the website open for syncing.
 
 Open the android folder in Android Studio.
 
