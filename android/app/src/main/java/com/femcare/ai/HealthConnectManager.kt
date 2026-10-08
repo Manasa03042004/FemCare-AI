@@ -14,8 +14,14 @@ class HealthConnectManager(context: Context) {
     private val appContext = context.applicationContext
     private val client = HealthConnectClient.getOrCreate(appContext)
 
+    companion object {
+        const val BACKGROUND_READ_PERMISSION =
+            "android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND"
+    }
+
     val requiredPermissions = setOf(
-        HealthPermission.getReadPermission(StepsRecord::class)
+        HealthPermission.getReadPermission(StepsRecord::class),
+        BACKGROUND_READ_PERMISSION
     )
 
     fun isAvailable(): Boolean {
