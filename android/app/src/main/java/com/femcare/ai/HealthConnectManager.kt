@@ -20,8 +20,7 @@ class HealthConnectManager(context: Context) {
     }
 
     val requiredPermissions = setOf(
-        HealthPermission.getReadPermission(StepsRecord::class),
-        BACKGROUND_READ_PERMISSION
+        HealthPermission.getReadPermission(StepsRecord::class)
     )
 
     fun isAvailable(): Boolean {
@@ -36,6 +35,12 @@ class HealthConnectManager(context: Context) {
         return client.permissionController
             .getGrantedPermissions()
             .containsAll(requiredPermissions)
+    }
+
+    suspend fun hasBackgroundReadPermission(): Boolean {
+        return client.permissionController
+            .getGrantedPermissions()
+            .contains(BACKGROUND_READ_PERMISSION)
     }
 
     suspend fun todaySteps(): Long {
