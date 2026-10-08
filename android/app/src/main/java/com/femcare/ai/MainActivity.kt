@@ -1,7 +1,7 @@
 package com.femcare.ai
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -19,9 +19,12 @@ class MainActivity : ComponentActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var health: HealthConnectManager
 
-    private val permissionLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        syncIfReady()
-    }
+    private val permissionLauncher =
+        registerForActivityResult(
+            PermissionController.createRequestPermissionResultContract()
+        ) {
+            syncIfReady()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +44,23 @@ class MainActivity : ComponentActivity() {
             binding.statusText.text = "Enter your FemCare username and password."
             return
         }
+
         binding.statusText.text = "Logging in..."
+
         lifecycleScope.launch {
             try {
-                val result = withContext(Dispatchers.IO) { ApiClient.login(username, password) }
+                val result = withContext(Dispatchers.IO) {
+                    ApiClient.login(username, password)
+                }
+
                 getSharedPreferences("femcare", MODE_PRIVATE).edit()
-                    .putString("api_token", result.token).putString("username", result.username).apply()
+                    .putString("api_token", result.token)
+                    .putString("username", result.username)
+                    .apply()
+
                 binding.passwordInput.text?.clear()
-                binding.statusText.text = "Logged in as " + result.username + ". Connect Health Connect."
+                binding.statusText.text =
+                    "Logged in as " + result.username + ". Connect Health Connect."
                 scheduleBackgroundSync()
             } catch (e: Exception) {
                 binding.statusText.text = e.message ?: "Login failed."
@@ -61,6 +73,7 @@ class MainActivity : ComponentActivity() {
             binding.statusText.text = "Health Connect is not available on this device."
             return
         }
+
         lifecycleScope.launch {
             try {
                 if (health.hasPermissions()) {
@@ -69,11 +82,11 @@ class MainActivity : ComponentActivity() {
                     syncIfReady()
                     return@launch
                 }
-                val intent = PermissionController.createRequestPermissionResultContract()
-                    .createIntent(this@MainActivity, health.requiredPermissions)
-                permissionLauncher.launch(intent)
+
+                permissionLauncher.launch(health.requiredPermissions)
             } catch (e: Exception) {
-                binding.statusText.text = e.message ?: "Could not open Health Connect permissions."
+                binding.statusText.text =
+                    e.message ?: "Could not open Health Connect permissions."
             }
         }
     }
@@ -83,22 +96,34 @@ class MainActivity : ComponentActivity() {
             try {
                 val prefs = getSharedPreferences("femcare", MODE_PRIVATE)
                 val token = prefs.getString("api_token", null)
+
                 if (token.isNullOrBlank()) {
                     binding.statusText.text = "Login first."
                     return@launch
                 }
+
                 if (!health.isAvailable()) {
                     binding.statusText.text = "Health Connect is unavailable."
                     return@launch
                 }
+
                 if (!health.hasPermissions()) {
                     binding.statusText.text = "Connect Health Connect first."
                     return@launch
                 }
+
                 binding.statusText.text = "Reading today's steps..."
                 val steps = health.todaySteps()
-                withContext(Dispatchers.IO) { ApiClient.syncSteps(token, steps) }
-                prefs.edit().putLong("last_steps", steps).putString("last_sync", java.time.Instant.now().toString()).apply()
+
+                withContext(Dispatchers.IO) {
+                    ApiClient.syncSteps(token, steps)
+                }
+
+                prefs.edit()
+                    .putLong("last_steps", steps)
+                    .putString("last_sync", java.time.Instant.now().toString())
+                    .apply()
+
                 binding.stepsText.text = steps.toString() + " steps"
                 binding.syncText.text = "Synced to FemCare AI just now."
                 binding.statusText.text = "Health data synced successfully."
@@ -109,10 +134,21 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun scheduleBackgroundSync() {
-        val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-        val request = PeriodicWorkRequestBuilder<SyncWorker>(15, TimeUnit.MINUTES).setConstraints(constraints).build()
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val request = PeriodicWorkRequestBuilder<SyncWorker>(
+            15,
+            TimeUnit.MINUTES
+        )
+            .setConstraints(constraints)
+            .build()
+
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "femcare_health_sync", ExistingPeriodicWorkPolicy.UPDATE, request
+            "femcare_health_sync",
+            ExistingPeriodicWorkPolicy.UPDATE,
+            request
         )
     }
 
@@ -121,8 +157,14 @@ class MainActivity : ComponentActivity() {
         val username = prefs.getString("username", null)
         val steps = prefs.getLong("last_steps", 0)
         val lastSync = prefs.getString("last_sync", null)
-        if (!username.isNullOrBlank()) binding.statusText.text = "Logged in as " + username
+
+        if (!username.isNullOrBlank()) {
+            binding.statusText.text = "Logged in as " + username
+        }
+
         binding.stepsText.text = steps.toString() + " steps"
-        binding.syncText.text = if (lastSync.isNullOrBlank()) "Not synced yet" else "Last sync: " + lastSync
+        binding.syncText.text =
+            if (lastSync.isNullOrBlank()) "Not synced yet"
+            else "Last sync: " + lastSync
     }
 }
