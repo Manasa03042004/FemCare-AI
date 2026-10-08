@@ -19,10 +19,18 @@ class MainActivity : ComponentActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var health: HealthConnectManager
 
-    private val permissionLauncher =
+    private val stepPermissionLauncher =
         registerForActivityResult(
             PermissionController.createRequestPermissionResultContract()
         ) {
+            requestBackgroundPermission()
+        }
+
+    private val backgroundPermissionLauncher =
+        registerForActivityResult(
+            PermissionController.createRequestPermissionResultContract()
+        ) {
+            scheduleBackgroundSync()
             syncIfReady()
         }
 
@@ -77,17 +85,36 @@ class MainActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             try {
-                if (health.hasPermissions()) {
-                    binding.statusText.text = "Health Connect is already connected."
-                    scheduleBackgroundSync()
-                    syncIfReady()
+                if (!health.hasPermissions()) {
+                    binding.statusText.text = "Requesting step access from Health Connect..."
+                    stepPermissionLauncher.launch(health.requiredPermissions)
                     return@launch
                 }
 
-                permissionLauncher.launch(health.requiredPermissions)
+                requestBackgroundPermission()
             } catch (e: Exception) {
                 binding.statusText.text =
                     e.message ?: "Could not open Health Connect permissions."
+            }
+        }
+    }
+
+    private fun requestBackgroundPermission() {
+        lifecycleScope.launch {
+            try {
+                if (!health.hasBackgroundReadPermission()) {
+                    binding.statusText.text =
+                        "Allow background access so FemCare can sync steps automatically."
+                    backgroundPermissionLauncher.launch(
+                        setOf(HealthConnectManager.BACKGROUND_READ_PERMISSION)
+                    )
+                } else {
+                    scheduleBackgroundSync()
+                    syncIfReady()
+                }
+            } catch (e: Exception) {
+                binding.statusText.text =
+                    e.message ?: "Could not request background Health Connect access."
             }
         }
     }
