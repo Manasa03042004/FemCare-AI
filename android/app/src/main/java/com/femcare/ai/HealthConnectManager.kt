@@ -21,7 +21,7 @@ class HealthConnectManager(context: Context) {
     fun isAvailable(): Boolean {
         val status = HealthConnectClient.getSdkStatus(
             appContext,
-            HealthConnectClient.DEFAULT_PROVIDER_PACKAGE_NAME
+            "com.google.android.apps.healthdata"
         )
         return status == HealthConnectClient.SDK_AVAILABLE
     }
