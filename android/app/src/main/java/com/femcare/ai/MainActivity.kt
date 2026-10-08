@@ -60,8 +60,9 @@ class MainActivity : ComponentActivity() {
 
                 binding.passwordInput.text?.clear()
                 binding.statusText.text =
-                    "Logged in as " + result.username + ". Connect Health Connect."
+                    "Logged in as " + result.username + ". Connecting Health Connect..."
                 scheduleBackgroundSync()
+                connectHealth()
             } catch (e: Exception) {
                 binding.statusText.text = e.message ?: "Login failed."
             }
@@ -159,10 +160,12 @@ class MainActivity : ComponentActivity() {
         val lastSync = prefs.getString("last_sync", null)
 
         if (!username.isNullOrBlank()) {
-            binding.statusText.text = "Logged in as " + username
+            binding.statusText.text = "Logged in as " + username + ". Automatic sync is enabled."
+            scheduleBackgroundSync()
+            syncIfReady()
         }
 
-        binding.stepsText.text = steps.toString() + " steps"
+        binding.stepsText.text = steps.toString()
         binding.syncText.text =
             if (lastSync.isNullOrBlank()) "Not synced yet"
             else "Last sync: " + lastSync
