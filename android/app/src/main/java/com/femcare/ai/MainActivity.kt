@@ -26,14 +26,6 @@ class MainActivity : ComponentActivity() {
             requestBackgroundPermission()
         }
 
-    private val backgroundPermissionLauncher =
-        registerForActivityResult(
-            PermissionController.createRequestPermissionResultContract()
-        ) {
-            scheduleBackgroundSync()
-            syncIfReady()
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -68,9 +60,7 @@ class MainActivity : ComponentActivity() {
 
                 binding.passwordInput.text?.clear()
                 binding.statusText.text =
-                    "Logged in as " + result.username + ". Connecting Health Connect..."
-                scheduleBackgroundSync()
-                connectHealth()
+                    "Logged in as " + result.username + ". Now connect Health Connect."
             } catch (e: Exception) {
                 binding.statusText.text = e.message ?: "Login failed."
             }
@@ -79,44 +69,33 @@ class MainActivity : ComponentActivity() {
 
     private fun connectHealth() {
         if (!health.isAvailable()) {
-            binding.statusText.text = "Health Connect is not available on this device."
+            binding.statusText.text =
+                "Health Connect is not available on this device."
             return
         }
 
         lifecycleScope.launch {
             try {
                 if (!health.hasPermissions()) {
-                    binding.statusText.text = "Requesting step access from Health Connect..."
-                    stepPermissionLauncher.launch(health.requiredPermissions)
-                    return@launch
-                }
-
-                requestBackgroundPermission()
-            } catch (e: Exception) {
-                binding.statusText.text =
-                    e.message ?: "Could not open Health Connect permissions."
-            }
-        }
-    }
-
-    private fun requestBackgroundPermission() {
-        lifecycleScope.launch {
-            try {
-                if (!health.hasBackgroundReadPermission()) {
                     binding.statusText.text =
-                        "Allow background access so FemCare can sync steps automatically."
-                    backgroundPermissionLauncher.launch(
-                        setOf(HealthConnectManager.BACKGROUND_READ_PERMISSION)
-                    )
+                        "Requesting step access from Health Connect..."
+                    stepPermissionLauncher.launch(health.requiredPermissions)
                 } else {
+                    binding.statusText.text =
+                        "Step access already granted. Syncing..."
                     scheduleBackgroundSync()
                     syncIfReady()
                 }
             } catch (e: Exception) {
                 binding.statusText.text =
-                    e.message ?: "Could not request background Health Connect access."
+                    e.message ?: "Could not request Health Connect permission."
             }
         }
+    }
+
+    private fun requestBackgroundPermission() {
+        scheduleBackgroundSync()
+        syncIfReady()
     }
 
     private fun syncIfReady() {
@@ -187,7 +166,8 @@ class MainActivity : ComponentActivity() {
         val lastSync = prefs.getString("last_sync", null)
 
         if (!username.isNullOrBlank()) {
-            binding.statusText.text = "Logged in as " + username + ". Automatic sync is enabled."
+            binding.statusText.text =
+                "Logged in as " + username + ". Automatic sync is enabled."
             scheduleBackgroundSync()
             syncIfReady()
         }
